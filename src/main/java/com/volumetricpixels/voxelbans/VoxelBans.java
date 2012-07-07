@@ -14,16 +14,25 @@ public class VoxelBans extends CommonPlugin {
         ChatStyle.RED, "You don't have permission to do that!"
     };
     
+    private String apiKey = null;
+    private VBConfiguration config = null;
+    
     public VoxelBans() {
         this.punishments = new VBPunishmentHandler(this);
     }
     
     public void onEnable() {
         perms.update();
+        this.config = new VBConfiguration(this);
+        this.apiKey = config.getNode("Server-Key").getString();
     }
     
     public void onDisable() {
         getEngine().getEventManager().callEvent(new VoxelBansDisableEvent(this));
+    }
+
+    public String getServerKey() {
+        return apiKey;
     }
     
 }

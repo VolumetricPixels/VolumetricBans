@@ -29,7 +29,7 @@ public class VBPunishmentHandler {
         if (isGlobalBanned(name)) {
             // TODO: Global unban
         } else if (isLocalBanned(name)) {
-            // TODO: Local unban (temporarily banned players are also classes as locally banned)
+            // TODO: Local unban (temporarily banned players are also classed as locally banned)
         }
     }
     
