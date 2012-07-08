@@ -69,11 +69,14 @@ public class VBCommandHandler implements CommandExecutor {
         
         if (ban) {
             if (args.length() < 1) {
-                source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason} - {} = Optional!");
+                source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason='Banned!'} - {BLAH=Default} = Optional!");
             } else {
                 String arguments = null;
                 for (int i = 1; args.getString(i) != null; i++) {
-                    arguments += args.getString(i) + " ";
+                    arguments += args.getString(i);
+                    if (!arguments.endsWith(" ")) {
+                        arguments += " ";
+                    }
                 }
                 List<String> flags = new ArrayList<String>();
                 for (String s : arguments.split(" ")) {
