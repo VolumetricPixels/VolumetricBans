@@ -18,6 +18,7 @@ public class VBPermissions {
     
     private final List<String> canGlobalBan = new ArrayList<String>();
     private final List<String> canLocalBan = new ArrayList<String>();
+    private final List<String> canViewBans = new ArrayList<String>();
     private final List<String> canTempBan = new ArrayList<String>();
     private final List<String> canUnban = new ArrayList<String>();
     private final List<String> canMute = new ArrayList<String>();
@@ -51,6 +52,10 @@ public class VBPermissions {
     public boolean isAdmin(String player) {
         return admins.contains(player);
     }
+
+    public boolean canViewBans(String player) {
+        return canViewBans.contains(player);
+    }
     
     public void update(Player p) {
         if (p.hasPermission("voxelbans.bans.global") && !canGlobalBan.contains(p.getName())) {
@@ -73,6 +78,9 @@ public class VBPermissions {
         }
         if (p.hasPermission("voxelbans.admin") && !admins.contains(p.getName())) {
             admins.add(p.getName());
+        }
+        if (p.hasPermission("voxelbans.bans.view") && !canViewBans.contains(p.getName())) {
+            canViewBans.add(p.getName());
         }
     }
     

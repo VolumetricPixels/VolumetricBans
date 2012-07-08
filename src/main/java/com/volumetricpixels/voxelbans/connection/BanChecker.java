@@ -7,10 +7,10 @@ import com.volumetricpixels.voxelbans.VoxelBans;
  */
 public class BanChecker {
     
-    private VoxelBans plugin;
+    //private VoxelBans plugin;
     
     BanChecker(VoxelBans plugin) {
-        this.plugin = plugin;
+        //this.plugin = plugin;
     }
     
     public boolean isGlobalBanned(String name) {

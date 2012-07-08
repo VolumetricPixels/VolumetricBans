@@ -17,6 +17,7 @@ import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.event.ban.PlayerGlobalBanEvent;
 import com.volumetricpixels.voxelbans.event.ban.PlayerLocalBanEvent;
 import com.volumetricpixels.voxelbans.event.ban.PlayerTempBanEvent;
+import com.volumetricpixels.voxelbans.punishments.Ban;
 
 public class VBCommandHandler implements CommandExecutor {
     
@@ -29,12 +30,15 @@ public class VBCommandHandler implements CommandExecutor {
     @Override
     public boolean processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
         String name = cmd.getPreferredName();
+        
         boolean vb = name.equalsIgnoreCase("vbans");
         boolean ban = name.equalsIgnoreCase("ban");
         boolean kick = name.equalsIgnoreCase("kick");
         boolean mute = name.equalsIgnoreCase("mute");
         boolean lookup = name.equalsIgnoreCase("lookup");
         boolean unban = name.equalsIgnoreCase("unban");
+        boolean banlist = name.equalsIgnoreCase("banlist");
+        boolean banreason = name.equalsIgnoreCase("banreason");
         
         if (vb) {
             if (args.length() != 1) {
@@ -54,7 +58,7 @@ public class VBCommandHandler implements CommandExecutor {
                     message.add("-G = Global Ban\n");
                 }
                 if (plugin.perms.canTempBan(source.getName()) || !(source instanceof Player)) {
-                    message.add("-T=TimeValueInMinutes = Temportary Ban For The Specified Time\n");
+                    message.add("-T=TimeValueInMinutes = Temporary Ban For The Specified Time\n");
                 }
                 source.sendMessage(message, ChatStyle.RED, "If you think flags are unlisted here that should be, contact the admin!");
             } else {
@@ -181,6 +185,25 @@ public class VBCommandHandler implements CommandExecutor {
                     } else {
                         source.sendMessage(ChatStyle.RED, "That player is not online!");
                     }
+                } else {
+                    Player p = Spout.getEngine().getPlayer(args.getString(0), false);
+                    if (p != null) {
+                        List<Object> kickMessage = new ArrayList<Object>();
+                        int i = 0;
+                        for (String s : args.getRawArgs()) {
+                            if (i > 1) {
+                                kickMessage.add(s + " ");
+                            }
+                            i++;
+                        }
+                        if (plugin.perms.canKick(source.getName())) {
+                            plugin.punishments.kickPlayer(p, kickMessage);
+                        } else {
+                            source.sendMessage(plugin.noPermsMessage);
+                        }
+                    } else {
+                        source.sendMessage(ChatStyle.RED, "That player is not online!");
+                    }
                 }
             }
             return true;
@@ -193,6 +216,35 @@ public class VBCommandHandler implements CommandExecutor {
         
         if (lookup) {
             // TODO: Lookups (Requires Backend / Web Stuff)
+            return true;
+        }
+        
+        if (banlist) {
+            if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
+                List<Object> message = new ArrayList<Object>();
+                message.add(ChatStyle.CYAN);
+                message.add("Banned Players:\n");
+                message.add(ChatStyle.BLUE);
+                for (Ban b : plugin.bans.getBans()) {
+                    message.add(b.getPlayer() + " - " + b.getReason() + "\n");
+                }
+                source.sendMessage(message);
+            } else {
+                source.sendMessage(plugin.noPermsMessage);
+            }
+            return true;
+        }
+        
+        if (banreason) {
+            if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
+                if (args.length() > 0) {
+                    source.sendMessage(plugin.bans.getBanReason(args.getString(0)));
+                } else {
+                    source.sendMessage(ChatStyle.RED, "Usage: /BanReason PlayerName");
+                }
+            } else {
+                source.sendMessage(plugin.noPermsMessage);
+            }
             return true;
         }
         
