@@ -131,21 +131,21 @@ public class VBCommandHandler implements CommandExecutor {
                 EventManager em = plugin.getEngine().getEventManager();
                 if (global) {
                     if (plugin.perms.canGlobalBan(source.getName()) || !(source instanceof Player)) {
-                        plugin.punishments.globalBanPlayer(p2Ban, reason);
+                        plugin.punishments.globalBanPlayer(p2Ban.getName(), reason, source.getName());
                         em.callEvent(new PlayerGlobalBanEvent(p2Ban, reason));
                     } else {
                         source.sendMessage(plugin.noPermsMessage);
                     }
                 } else if (temporary) {
                     if (plugin.perms.canTempBan(source.getName()) || !(source instanceof Player)) {
-                        plugin.punishments.tempBanPlayer(p2Ban, reason, time);
+                        plugin.punishments.tempBanPlayer(p2Ban.getName(), reason, source.getName(), time);
                         em.callEvent(new PlayerTempBanEvent(p2Ban, time, reason));
                     } else {
                         source.sendMessage(plugin.noPermsMessage);
                     }
                 } else {
                     if (plugin.perms.canLocalBan(source.getName()) || !(source instanceof Player)) {
-                        plugin.punishments.localBanPlayer(p2Ban, reason);
+                        plugin.punishments.localBanPlayer(p2Ban.getName(), reason, source.getName());
                         em.callEvent(new PlayerLocalBanEvent(p2Ban, reason));
                     } else {
                         source.sendMessage(plugin.noPermsMessage);
@@ -159,7 +159,11 @@ public class VBCommandHandler implements CommandExecutor {
             if (args.length() == 1) {
                 if (plugin.perms.canUnban(source.getName()) || !(source instanceof Player)) {
                     plugin.punishments.unbanPlayer(args.getString(0));
+                } else {
+                    source.sendMessage(plugin.noPermsMessage);
                 }
+            } else {
+                source.sendMessage(ChatStyle.RED, "Usage: /unban PlayerName");
             }
             return true;
         }
@@ -183,12 +187,12 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (mute) {
-            // TODO: Mutes
+            // TODO: Mute Command (Currently Only Permanent Mutes Are Done)
             return true;
         }
         
         if (lookup) {
-            // TODO: Lookups
+            // TODO: Lookups (Requires Backend / Web Stuff)
             return true;
         }
         

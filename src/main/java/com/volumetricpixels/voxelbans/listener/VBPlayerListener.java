@@ -17,6 +17,11 @@ public class VBPlayerListener implements Listener {
     
     @EventHandler(order = Order.MONITOR)
     public void onJoin(PlayerJoinEvent e) {
+        String name = e.getPlayer().getName();
+        if (plugin.bans.isBanned(name)) {
+            e.getPlayer().kick(plugin.bans.getBanReason(name));
+            return;
+        }
         plugin.perms.update(e.getPlayer());
     }
     

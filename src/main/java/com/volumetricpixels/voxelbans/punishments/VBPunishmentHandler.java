@@ -1,28 +1,35 @@
-package com.volumetricpixels.voxelbans;
+package com.volumetricpixels.voxelbans.punishments;
 
+import org.spout.api.Spout;
 import org.spout.api.player.Player;
+
+import com.volumetricpixels.voxelbans.VoxelBans;
+import com.volumetricpixels.voxelbans.files.VBBanFile;
 
 public class VBPunishmentHandler {
     
     private final VoxelBans plugin;
+    private final VBBanFile bans;
     
     public VBPunishmentHandler(VoxelBans voxelBans) {
         this.plugin = voxelBans;
+        this.bans = plugin.bans;
     }
 
-    public void globalBanPlayer(Player p, String reason) {
-        String name = p.getName();
-        // TODO: Banning
+    public void globalBanPlayer(String name, String reason, String admin) {
+        bans.banPlayer(name, reason, admin, true);
+        // TODO: Global
     }
     
-    public void localBanPlayer(Player p, String reason) {
-        String name = p.getName();
-        // TODO: Banning
+    public void localBanPlayer(String name, String reason, String admin) {
+        bans.banPlayer(name, reason, admin, false);
+        if (Spout.getEngine().getPlayer(name, false) != null) {
+            kickPlayer(Spout.getEngine().getPlayer(name, false), reason);
+        }
     }
     
-    public void tempBanPlayer(Player p, String reason, long timeMinutes) {
-        String name = p.getName();
-        // TODO: Banning
+    public void tempBanPlayer(String name, String reason, String admin, long timeMinutes) {
+        bans.banPlayer(name, reason, admin, timeMinutes);
     }
     
     public void unbanPlayer(String name) {
@@ -38,7 +45,7 @@ public class VBPunishmentHandler {
     }
     
     public boolean isGlobalBanned(String player) {
-        // TODO: Checking
+        // TODO: Check
         return false;
     }
     

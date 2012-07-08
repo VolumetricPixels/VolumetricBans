@@ -1,10 +1,12 @@
-package com.volumetricpixels.voxelbans;
+package com.volumetricpixels.voxelbans.files;
 
 import java.io.File;
 
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.util.config.ConfigurationHolderConfiguration;
 import org.spout.api.util.config.yaml.YamlConfiguration;
+
+import com.volumetricpixels.voxelbans.VoxelBans;
 
 public class VBConfiguration extends ConfigurationHolderConfiguration {
     
