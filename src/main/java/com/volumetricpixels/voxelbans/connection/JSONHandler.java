@@ -22,10 +22,12 @@ public class JSONHandler {
     private final VoxelBans plugin;
     private final String apiKey;
     private String apiServerHostName;
+    private String actionCategory;
     
-    public JSONHandler(VoxelBans vb) {
+    public JSONHandler(VoxelBans vb, String actionCategory) {
         this.plugin = vb;
         this.apiKey = plugin.getServerKey();
+        this.actionCategory = actionCategory;
     }
     
     public JSONObject getData(String jsonText) {
@@ -55,13 +57,19 @@ public class JSONHandler {
         return out;
     }
     
+    public JSONObject handleJsonObject(Map<String, String> items) {
+        String urlReq = parseUrl(items);
+        String jText = apiRequest(urlReq);
+        return getData(jText);
+    }
+    
     public String apiRequest(String data) {
         return apiRequest(data, apiServerHostName);
     }
     
     public String apiRequest(String data, String apiServer) {
         try {
-            URL u = new URL(apiServer + "/api/" + apiKey);
+            URL u = new URL(apiServer + "/api/" + actionCategory + "/" + apiKey);
             URLConnection uc = u.openConnection();
             uc.setConnectTimeout(5500);
             uc.setReadTimeout(5500);

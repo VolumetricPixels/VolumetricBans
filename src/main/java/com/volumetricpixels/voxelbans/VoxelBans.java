@@ -6,7 +6,6 @@ import org.spout.api.event.EventManager;
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginManager;
 
-import com.volumetricpixels.voxelbans.connection.JSONHandler;
 import com.volumetricpixels.voxelbans.event.VoxelBansDisableEvent;
 import com.volumetricpixels.voxelbans.event.VoxelBansEnableEvent;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
@@ -20,7 +19,6 @@ public class VoxelBans extends CommonPlugin {
     public final VBPunishmentHandler punishments;
     public final VBBanFile bans;
     public final VBMuteFile mutes;
-    public final JSONHandler jh;
     
     public final Object[] noPermsMessage = {
         ChatStyle.RED, "You don't have permission to do that!"
@@ -37,7 +35,6 @@ public class VoxelBans extends CommonPlugin {
         this.punishments = new VBPunishmentHandler(this);
         this.bans = new VBBanFile(this);
         this.mutes = new VBMuteFile(this);
-        this.jh = new JSONHandler(this);
     }
     
     public void onEnable() {
