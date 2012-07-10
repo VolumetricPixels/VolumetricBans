@@ -14,14 +14,18 @@ import org.spout.api.util.config.yaml.YamlConfiguration;
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.punishments.Ban;
 
+/**
+ * Bans File only handles Local Bans
+ * Globals handled elsewhere
+ */
 public class VBBanFile {
     
     private final VoxelBans plugin;
     private boolean initialized = false;
     private File dataFolder;
     
-    // Sections: 0 = Player Banned, 1 = Reason, 2 = Admin, 3 = Global (true/false), 4 = Time (only if temp)
-    private final List<Ban> bans = new ArrayList<Ban>();
+    // Sections: 0 = Player Banned, 1 = Reason, 2 = Admin, 4 = Time (only if temp)
+    private final List<Ban> localbans = new ArrayList<Ban>();
     private File banFile;
     private YamlConfiguration conf;
     
@@ -67,7 +71,7 @@ public class VBBanFile {
             } else {
                 b = new Ban(sections[0], sections[1], sections[2], false);
             }
-            bans.add(b);
+            localbans.add(b);
         }
         
         exceptions.addAll(exceptionYaml.getNode("Ignored-Players").getStringList());
@@ -77,7 +81,7 @@ public class VBBanFile {
     }
     
     public boolean isBanned(String name) {
-        for (Ban b : bans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 return true;
             }
@@ -86,7 +90,7 @@ public class VBBanFile {
     }
     
     public String getBanReason(String name) {
-        for (Ban b : bans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 return b.getReason();
             }
@@ -95,7 +99,7 @@ public class VBBanFile {
     }
     
     public String getAdmin(String banned) {
-        for (Ban b : bans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(banned)) {
                 return b.getAdmin();
             }
@@ -104,23 +108,23 @@ public class VBBanFile {
     }
     
     public List<Ban> getBans() {
-        return bans;
+        return localbans;
     }
     
     public void banPlayer(String name, String reason, String admin, long time) {
         Ban ban = new Ban(name, reason, admin, time);
-        bans.add(ban);
+        localbans.add(ban);
         updateConfig(false);
     }
     
-    public void banPlayer(String name, String reason, String admin, boolean global) {
-        Ban ban = new Ban(name, reason, admin, global);
-        bans.add(ban);
+    public void banPlayer(String name, String reason, String admin) {
+        Ban ban = new Ban(name, reason, admin, false);
+        localbans.add(ban);
         updateConfig(false);
     }
     
     public void banPlayer(String name, String admin) {
-        banPlayer(name, "Banned!", admin, false);
+        banPlayer(name, "Banned!", admin);
     }
     
     public void banPlayer(String name) {
@@ -128,9 +132,9 @@ public class VBBanFile {
     }
     
     public boolean unbanPlayer(String name) {
-        for (Ban b : bans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
-                bans.remove(b);
+                localbans.remove(b);
                 updateConfig(true);
                 return true;
             }
@@ -141,7 +145,7 @@ public class VBBanFile {
     private void updateConfig(boolean unban) {
         if (unban) {
             List<String> toBeInConf = new ArrayList<String>();
-            for (Ban b : bans) {
+            for (Ban b : localbans) {
                 String value = "";
                 value = b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin() + ":" + String.valueOf(b.isGlobal()) + ":" + b.getTime();
                 toBeInConf.add(value);
@@ -149,7 +153,7 @@ public class VBBanFile {
             conf.getNode("Bans").setValue(toBeInConf);
         } else {
             List<String> inConf = conf.getNode("Bans").getStringList();
-            for (Ban b : bans) {
+            for (Ban b : localbans) {
                 boolean found = false;
                 for (String s : inConf) {
                     if (b.getPlayer().equalsIgnoreCase(s.split(":")[0])) {

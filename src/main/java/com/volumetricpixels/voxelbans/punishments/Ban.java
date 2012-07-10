@@ -1,5 +1,13 @@
 package com.volumetricpixels.voxelbans.punishments;
 
+import java.io.File;
+
+import org.spout.api.Spout;
+import org.spout.api.scheduler.TaskPriority;
+import org.spout.api.util.config.yaml.YamlConfiguration;
+
+import com.volumetricpixels.voxelbans.VoxelBans;
+
 public class Ban {
     
     private final String playerName;
@@ -22,6 +30,9 @@ public class Ban {
         this.admin = admin;
         this.time = time;
         this.global = false;
+        
+        Spout.getEngine().getScheduler().scheduleAsyncRepeatingTask(Spout.getEngine().getPluginManager().getPlugin("VoxelBans"),
+            new TempBanTimer(this, time), 0, 60000, TaskPriority.HIGHEST);
     }
     
     public String getPlayer() {
@@ -46,6 +57,52 @@ public class Ban {
     
     public long getTime() {
         return time;
+    }
+    
+    private void deleteBan() {
+        VoxelBans vb = (VoxelBans) Spout.getEngine().getPluginManager().getPlugin("VoxelBans");
+        vb.bans.unbanPlayer(getPlayer());
+    }
+    
+    private static class TempBanTimer implements Runnable {
+        
+        private final Ban b;
+        private final long timeFor;
+        private final YamlConfiguration yc;
+        private long minutes;
+        
+        private TempBanTimer(Ban b, long timeFor) {
+            this.b = b;
+            this.timeFor = timeFor;
+            this.minutes = timeFor;
+            
+            File timerFile = new File(Spout.getEngine().getPluginManager().getPlugin("VoxelBans").getDataFolder(),
+                "doNotTouch" + File.separator + "banTimer.yml");
+            if (!timerFile.exists()) {
+                try {
+                    timerFile.createNewFile();
+                } catch (Exception ignore) {}
+            }
+            yc = new YamlConfiguration(timerFile);
+            try {
+                yc.load();
+                yc.getNode(b.getPlayer()).setValue(minutes);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void run() {
+            minutes++;
+            if (minutes > timeFor) {
+                b.deleteBan();
+                yc.getNode(b.getPlayer()).remove();
+            } else {
+                yc.getNode(b.getPlayer()).setValue(minutes);
+            }
+        }
+        
     }
     
 }

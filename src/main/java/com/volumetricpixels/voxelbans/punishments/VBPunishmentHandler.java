@@ -5,24 +5,26 @@ import org.spout.api.player.Player;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
+import com.volumetricpixels.voxelbans.files.VBMuteFile;
 
 public class VBPunishmentHandler {
     
     private final VoxelBans plugin;
     private final VBBanFile bans;
+    private final VBMuteFile mutes;
     
     public VBPunishmentHandler(VoxelBans voxelBans) {
         this.plugin = voxelBans;
         this.bans = plugin.bans;
+        this.mutes = plugin.mutes;
     }
 
     public void globalBanPlayer(String name, String reason, String admin) {
-        bans.banPlayer(name, reason, admin, true);
-        // TODO: Global
+        // TODO: Global Ban
     }
     
     public void localBanPlayer(String name, String reason, String admin) {
-        bans.banPlayer(name, reason, admin, false);
+        bans.banPlayer(name, reason, admin);
         if (Spout.getEngine().getPlayer(name, false) != null) {
             kickPlayer(Spout.getEngine().getPlayer(name, false), reason);
         }
@@ -35,13 +37,26 @@ public class VBPunishmentHandler {
     public void unbanPlayer(String name) {
         if (isGlobalBanned(name)) {
             // TODO: Global unban
-        } else if (isLocalBanned(name)) {
-            // TODO: Local unban (temporarily banned players are also classed as locally banned)
+        }
+        if (isLocalBanned(name)) {
+            bans.unbanPlayer(name);
         }
     }
     
     public void kickPlayer(Player p, Object... reason) {
         p.kick(reason);
+    }
+    
+    public void mutePlayer(String player, long time) {
+        mutes.mutePlayer(player, time);
+    }
+    
+    public void unmutePlayer(String player) {
+        mutes.unmutePlayer(player);
+    }
+    
+    public boolean isMuted(String player) {
+        return mutes.isMuted(player);
     }
     
     public boolean isGlobalBanned(String player) {
@@ -50,8 +65,7 @@ public class VBPunishmentHandler {
     }
     
     public boolean isLocalBanned(String player) {
-        // TODO: Checking
-        return false;
+        return bans.isBanned(player);
     }
     
     public boolean isTempBanned(String player) {

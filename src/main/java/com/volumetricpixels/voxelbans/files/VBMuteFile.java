@@ -32,14 +32,24 @@ public class VBMuteFile {
         initialized = true;
     }
     
-    public void mutePlayer(String player) {
-        muted.add(player);
+    public void mutePlayer(String player, long time) {
+        muted.add(player + "=" + time);
         updateConfig(false);
     }
     
     public void unmutePlayer(String player) {
-        muted.remove(player);
+        for (String s : muted) {
+            if (s.startsWith(player + "=")) {
+                String[] split = s.split("=");
+                muted.remove(player + "=" + split[1]);
+                return;
+            }
+        }
         updateConfig(true);
+    }
+    
+    public boolean isMuted(String player) {
+        return muted.contains(player);
     }
     
     private void updateConfig(boolean unmute) {
