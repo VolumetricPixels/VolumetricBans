@@ -4,6 +4,7 @@ import org.spout.api.Spout;
 import org.spout.api.player.Player;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
+import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
 import com.volumetricpixels.voxelbans.files.VBMuteFile;
 
@@ -12,15 +13,20 @@ public class VBPunishmentHandler {
     private final VoxelBans plugin;
     private final VBBanFile bans;
     private final VBMuteFile mutes;
+    private BanSynchronizer bs;
     
     public VBPunishmentHandler(VoxelBans voxelBans) {
         this.plugin = voxelBans;
         this.bans = plugin.bans;
         this.mutes = plugin.mutes;
     }
+    
+    public void pluginEnabled() {
+        this.bs = plugin.bs;
+    }
 
     public void globalBanPlayer(String name, String reason, String admin) {
-        // TODO: Global Ban
+        plugin.gbts.addToTempList(new Ban(name, reason, admin, true));
     }
     
     public void localBanPlayer(String name, String reason, String admin) {
@@ -36,10 +42,11 @@ public class VBPunishmentHandler {
     
     public void unbanPlayer(String name) {
         if (isGlobalBanned(name)) {
-            // TODO: Global unban
+            bs.removeBan(name);
         }
         if (isLocalBanned(name)) {
             bans.unbanPlayer(name);
+            bs.removeBan(name);
         }
     }
     
@@ -60,18 +67,22 @@ public class VBPunishmentHandler {
     }
     
     public boolean isGlobalBanned(String player) {
-        // TODO: Check
+        for (Ban b : plugin.mainDataRetriever.getGlobalBans()) {
+            if (b.getPlayer().equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
         return false;
     }
     
     public boolean isLocalBanned(String player) {
-        return bans.isBanned(player);
-    }
-    
-    public boolean isTempBanned(String player) {
-        if (isLocalBanned(player)) {
-            // TODO: Temp checking
+        if (bans.isBanned(player)) {
             return true;
+        }
+        for (Ban b : plugin.mainDataRetriever.getLocalBans()) {
+            if (player.equalsIgnoreCase(b.getPlayer())) {
+                return true;
+            }
         }
         return false;
     }

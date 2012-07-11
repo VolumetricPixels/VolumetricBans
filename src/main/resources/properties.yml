@@ -1,11 +1,10 @@
 name: VoxelBans
-version: 0.0.1-DEV
+version: 0.0.1-BETA
 main: com.volumetricpixels.voxelbans.VoxelBans
 
 author: VolumetricPixels
 description: >
             A Global Banning System for SpoutEngine.
-            Currently only supports local bans. Backend TODO.
             
 platform: SERVER
 load: STARTUP

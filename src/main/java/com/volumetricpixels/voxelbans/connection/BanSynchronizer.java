@@ -21,11 +21,13 @@ public class BanSynchronizer implements Runnable {
     private VoxelBans plugin;
     private VBBanFile bans;
     private GlobalBanTempSaver gbts;
+    private DataRetriever dr;
     
     public BanSynchronizer(VoxelBans plugin) {
         this.plugin = plugin;
         this.bans = this.plugin.bans;
-        this.gbts = new GlobalBanTempSaver(plugin);
+        this.gbts = this.plugin.gbts;
+        this.dr = new DataRetriever(plugin);
     }
     
     @Override
@@ -48,18 +50,18 @@ public class BanSynchronizer implements Runnable {
                 submitBan(b, false);
                 try {
                     gbts.remove(this, b);
-                } catch (IllegalAccessException neverHappens) {} // Exception only occurs if param 2 in remove is null
+                } catch (IllegalAccessException neverHappens) {} // Exception only occurs if param 1 in remove is null
             }
         }
     }
     
     @SuppressWarnings("unused")
     private boolean isBannedAtAll(String player) {
-        return getAllBans().contains(player);
+        return dr.getAllBans().contains(player);
     }
     
     private boolean isGloballyBanned(String player) {
-        for (Ban b : getGlobalBans()) {
+        for (Ban b : dr.getGlobalBans()) {
             if (b.getPlayer().equalsIgnoreCase(player)) {
                 return true;
             }
@@ -68,12 +70,27 @@ public class BanSynchronizer implements Runnable {
     }
     
     private boolean isLocallyBanned(String player) {
-        for (Ban b : getLocalBans()) {
+        for (Ban b : dr.getLocalBans()) {
             if (b.getPlayer().equalsIgnoreCase(player)) {
                 return true;
             }
         }
         return false;
+    }
+    
+    public void removeBan(String player) {
+        try {
+            JSONHandler jH = new JSONHandler(plugin, "bans");
+            Map<String, String> urlItems = new HashMap<String, String>();
+            urlItems.put("action", "unban");
+            urlItems.put("player", player);
+            JSONObject jO = jH.handleJsonObject(urlItems);
+            if (!jO.getString("result").equalsIgnoreCase("OK")) {
+                System.err.println("[VoxelBans] JSON unban response was not OK! Possible invalid server API Key!");
+            } else {
+                
+            }
+        } catch (Exception e) {}
     }
     
     private void submitBan(Ban b, boolean temp) {
@@ -91,10 +108,10 @@ public class BanSynchronizer implements Runnable {
                 urlItems.put("admin", admin);
                 urlItems.put("time", String.valueOf(time));
                 JSONObject jO = jH.handleJsonObject(urlItems);
-                if (jO.getString("Response").equalsIgnoreCase("OK")) {
+                if (jO.getString("result").equalsIgnoreCase("OK")) {
                     gbts.remove(this, b);
                 } else {
-                    System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key or servers are down!");
+                    System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key!");
                 }
             } catch (Exception ignore) {}
         } else {
@@ -107,54 +124,13 @@ public class BanSynchronizer implements Runnable {
                 urlItems.put("admin", admin);
                 urlItems.put("global", String.valueOf(b.isGlobal()));
                 JSONObject jO = jH.handleJsonObject(urlItems);
-                if (jO.getString("Response").equalsIgnoreCase("OK")) {
+                if (jO.getString("response").equalsIgnoreCase("OK")) {
                     gbts.remove(this, b);
                 } else {
-                    System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key or servers are down!");
+                    System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key!");
                 }
             } catch (Exception ignore) {}
         }
-    }
-    
-    private List<Ban> getGlobalBans() {
-        List<Ban> result = new ArrayList<Ban>();
-        try {
-            JSONHandler jH = new JSONHandler(plugin, "data");
-            Map<String, String> urlItems = new HashMap<String, String>();
-            urlItems.put("action", "getGlobalBans");
-            JSONObject jO = jH.handleJsonObject(urlItems);
-            JSONArray jA = jO.getJSONArray("globalBans");
-            for (int i = 0; i <= jA.length(); i++) {
-                String s = String.valueOf(jA.get(i));
-                String[] sArray = s.split(":");
-                result.add(new Ban(sArray[0], sArray[1], sArray[2], true));
-            }
-        } catch (Exception e) {}
-        return result;
-    }
-    
-    private List<Ban> getLocalBans() {
-        List<Ban> result = new ArrayList<Ban>();
-        try {
-            JSONHandler jH = new JSONHandler(plugin, "data");
-            Map<String, String> urlItems = new HashMap<String, String>();
-            urlItems.put("action", "getLocalBans");
-            JSONObject jO = jH.handleJsonObject(urlItems);
-            JSONArray jA = jO.getJSONArray("localBans");
-            for (int i = 0; i <= jA.length(); i++) {
-                String s = String.valueOf(jA.get(i));
-                String[] sArray = s.split(":");
-                result.add(new Ban(sArray[0], sArray[1], sArray[2], true));
-            }
-        } catch (Exception e) {}
-        return result;
-    }
-    
-    private List<Ban> getAllBans() {
-        List<Ban> result = new ArrayList<Ban>();
-        result.addAll(getLocalBans());
-        result.addAll(getGlobalBans());
-        return result;
     }
     
 }
