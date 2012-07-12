@@ -12,10 +12,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
+import com.volumetricpixels.voxelbans.org.json.JSONException;
+import com.volumetricpixels.voxelbans.org.json.JSONObject;
 
 public class JSONHandler {
     

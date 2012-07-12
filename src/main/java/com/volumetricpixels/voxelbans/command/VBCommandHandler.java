@@ -69,7 +69,7 @@ public class VBCommandHandler implements CommandExecutor {
         
         if (ban) {
             if (args.length() < 1) {
-                source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason='Banned!'} - {BLAH=Default} = Optional!");
+                source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason='Banned!'} - {ParamName=Default} = Optional!");
             } else {
                 String arguments = null;
                 for (int i = 1; args.getString(i) != null; i++) {
@@ -213,12 +213,25 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (mute) {
-            // TODO: Mute Command (Currently Only Permanent Mutes Are Done)
+            // Handle perms at the start for mutes because the permission is always the same
+            if (!(plugin.perms.canMute(source.getName())) && source instanceof Player) {
+                source.sendMessage(plugin.noPermsMessage);
+                return true;
+            }
+            if (args.length() == 0) {
+                source.sendMessage(ChatStyle.RED, "Usage: /mute PlayerName {minutes=ConfigDefault} - Any params in {} are optional!");
+            } else {
+                if (args.length() == 1) {
+                    
+                } else if (args.length() == 2) {
+                    
+                }
+            }
             return true;
         }
         
         if (lookup) {
-            // TODO: Lookups (Requires Backend / Web Stuff)
+            // TODO: Lookups (Requires Web Stuff)
             return true;
         }
         

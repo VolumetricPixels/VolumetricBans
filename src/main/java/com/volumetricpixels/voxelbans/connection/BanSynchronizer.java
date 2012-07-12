@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.files.GlobalBanTempSaver;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
+import com.volumetricpixels.voxelbans.org.json.JSONArray;
+import com.volumetricpixels.voxelbans.org.json.JSONObject;
 import com.volumetricpixels.voxelbans.punishments.Ban;
 
 /**

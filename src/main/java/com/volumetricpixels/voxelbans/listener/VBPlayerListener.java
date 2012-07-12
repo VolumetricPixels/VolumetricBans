@@ -1,9 +1,11 @@
 package com.volumetricpixels.voxelbans.listener;
 
+import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerJoinEvent;
+import org.spout.api.player.Player;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
 
@@ -15,11 +17,16 @@ public class VBPlayerListener implements Listener {
         this.plugin = plugin;
     }
     
-    @EventHandler(order = Order.MONITOR)
+    @EventHandler(order = Order.LATEST)
     public void onJoin(PlayerJoinEvent e) {
-        String name = e.getPlayer().getName();
+        Player p = e.getPlayer();
+        String name = p.getName();
+        if (plugin.pdr.isBannedFromVBServers(name)) {
+            p.kick(ChatStyle.CYAN, "[VoxelBans] ", ChatStyle.RED, "You are permanently banned from VB servers! See voxelbans.net!");
+            return;
+        }
         if (plugin.bans.isBanned(name)) {
-            e.getPlayer().kick(plugin.bans.getBanReason(name));
+            p.kick(plugin.bans.getBanReason(name));
             return;
         }
         plugin.perms.update(e.getPlayer());

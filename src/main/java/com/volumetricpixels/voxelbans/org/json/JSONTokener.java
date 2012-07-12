@@ -1,4 +1,4 @@
-package org.json;
+package com.volumetricpixels.voxelbans.org.json;
 
 import java.io.BufferedReader;
 import java.io.IOException;

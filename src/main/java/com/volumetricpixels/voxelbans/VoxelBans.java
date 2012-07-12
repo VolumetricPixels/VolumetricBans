@@ -8,6 +8,7 @@ import org.spout.api.plugin.PluginManager;
 
 import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.connection.DataRetriever;
+import com.volumetricpixels.voxelbans.connection.PlayerDataRetriever;
 import com.volumetricpixels.voxelbans.event.VoxelBansDisableEvent;
 import com.volumetricpixels.voxelbans.event.VoxelBansEnableEvent;
 import com.volumetricpixels.voxelbans.files.GlobalBanTempSaver;
@@ -37,6 +38,7 @@ public class VoxelBans extends CommonPlugin {
     public BanSynchronizer bs;
     public DataRetriever mainDataRetriever;
     public GlobalBanTempSaver gbts;
+    public PlayerDataRetriever pdr;
     
     public VoxelBans() {
         this.bans = new VBBanFile(this);
@@ -54,6 +56,7 @@ public class VoxelBans extends CommonPlugin {
         this.mainDataRetriever = new DataRetriever(this);
         this.gbts = new GlobalBanTempSaver(this);
         this.bs = new BanSynchronizer(this);
+        this.pdr = new PlayerDataRetriever(this);
         
         punishments.pluginEnabled();
         

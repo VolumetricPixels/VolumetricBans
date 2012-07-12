@@ -1,4 +1,4 @@
-package org.json;
+package com.volumetricpixels.voxelbans.org.json;
 
 /**
  * The <code>JSONString</code> interface allows a <code>toJSONString()</code> 

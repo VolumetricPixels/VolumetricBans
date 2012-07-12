@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
+import com.volumetricpixels.voxelbans.org.json.JSONArray;
+import com.volumetricpixels.voxelbans.org.json.JSONObject;
 import com.volumetricpixels.voxelbans.punishments.Ban;
 
 /**
@@ -38,9 +38,7 @@ public class DataRetriever {
             Map<String, String> urlItems = new HashMap<String, String>();
             urlItems.put("action", "checkServerDisabled");
             JSONObject jO = jH.handleJsonObject(urlItems);
-            if (jO.getBoolean("result") == true) {
-                result = true;
-            }
+            result = jO.getBoolean("result");
         } catch (Exception e) {}
         return result;
     }
