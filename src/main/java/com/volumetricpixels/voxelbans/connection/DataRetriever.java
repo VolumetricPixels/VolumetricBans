@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.org.json.JSONArray;
 import com.volumetricpixels.voxelbans.org.json.JSONObject;
@@ -36,7 +35,7 @@ public class DataRetriever {
         try {
             JSONHandler jH = new JSONHandler(plugin, "data");
             Map<String, String> urlItems = new HashMap<String, String>();
-            urlItems.put("action", "checkServerDisabled");
+            urlItems.put("action", "isServerDisabled");
             JSONObject jO = jH.handleJsonObject(urlItems);
             result = jO.getBoolean("result");
         } catch (Exception e) {}
@@ -77,6 +76,11 @@ public class DataRetriever {
             return result;
         } catch (Exception e) {}
         return null;
+    }
+
+    public boolean isVBServerOnline() {
+        // TODO: Check
+        return true;
     }
     
 }

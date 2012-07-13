@@ -19,6 +19,10 @@ import com.volumetricpixels.voxelbans.event.ban.PlayerLocalBanEvent;
 import com.volumetricpixels.voxelbans.event.ban.PlayerTempBanEvent;
 import com.volumetricpixels.voxelbans.punishments.Ban;
 
+/**
+ * Deals with Commands for VoxelBans
+ * @author DziNeIT
+ */
 public class VBCommandHandler implements CommandExecutor {
     
     private VoxelBans plugin;
@@ -41,6 +45,7 @@ public class VBCommandHandler implements CommandExecutor {
         boolean banreason = name.equalsIgnoreCase("banreason");
         
         if (vb) {
+            // /vBans command
             if (args.length() != 1) {
                 sendVbansHelp(source);
                 return true;
@@ -68,6 +73,7 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (ban) {
+            // /ban command
             if (args.length() < 1) {
                 source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason='Banned!'} - {ParamName=Default} = Optional!");
             } else {
@@ -163,6 +169,7 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (unban) {
+            // /unban command
             if (args.length() == 1) {
                 if (plugin.perms.canUnban(source.getName()) || !(source instanceof Player)) {
                     plugin.punishments.unbanPlayer(args.getString(0));
@@ -176,6 +183,7 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (kick) {
+            // /kick command
             if (args.length() > 0) {
                 if (args.length() == 1) {
                     Player p = Spout.getEngine().getPlayer(args.getString(0), false);
@@ -213,6 +221,7 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (mute) {
+            // /mute command
             // Handle perms at the start for mutes because the permission is always the same
             if (!(plugin.perms.canMute(source.getName())) && source instanceof Player) {
                 source.sendMessage(plugin.noPermsMessage);
@@ -231,11 +240,14 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (lookup) {
+            // /lookup command
             // TODO: Lookups (Requires Web Stuff)
             return true;
         }
         
         if (banlist) {
+            // /banlist command
+            // TODO: Pages
             if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
                 List<Object> message = new ArrayList<Object>();
                 message.add(ChatStyle.CYAN);
@@ -252,6 +264,7 @@ public class VBCommandHandler implements CommandExecutor {
         }
         
         if (banreason) {
+            // /banreason command
             if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
                 if (args.length() > 0) {
                     source.sendMessage(plugin.bans.getBanReason(args.getString(0)));
@@ -268,6 +281,7 @@ public class VBCommandHandler implements CommandExecutor {
     }
     
     private void sendVbansHelp(CommandSource s) {
+        // Sends a CommandSource help for /vBans
         List<Object> message = new ArrayList<Object>();
         message.add(ChatStyle.BRIGHT_GREEN);
         message.add("VoxelBans v" + plugin.getDescription().getVersion() + "\n");
@@ -287,7 +301,7 @@ public class VBCommandHandler implements CommandExecutor {
     }
     
     private boolean serverOnline() {
-        return false;
+        return plugin.mainDataRetriever.isVBServerOnline();
     }
     
 }

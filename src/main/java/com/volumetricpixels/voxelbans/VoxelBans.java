@@ -1,5 +1,8 @@
 package com.volumetricpixels.voxelbans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.spout.api.Engine;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.event.EventManager;
@@ -15,8 +18,15 @@ import com.volumetricpixels.voxelbans.files.GlobalBanTempSaver;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
 import com.volumetricpixels.voxelbans.files.VBConfiguration;
 import com.volumetricpixels.voxelbans.files.VBMuteFile;
+import com.volumetricpixels.voxelbans.integration.VBLogNRollback;
+import com.volumetricpixels.voxelbans.integration.VBPluginIntegration;
+import com.volumetricpixels.voxelbans.integration.VBStopDemHax;
 import com.volumetricpixels.voxelbans.punishments.VBPunishmentHandler;
 
+/**
+ * VoxelBans for Spout Engine
+ * @author DziNeIT
+ */
 public class VoxelBans extends CommonPlugin {
     
     public final VBPermissions perms = VBPermissions.perms;
@@ -34,7 +44,9 @@ public class VoxelBans extends CommonPlugin {
     
     private String apiKey = "VoxelBansAPIKeyToDoGet";
     private VBConfiguration config = null;
+    private List<VBPluginIntegration> integrations = new ArrayList<VBPluginIntegration>();
     
+    // Web stuff and global ban temporary storing
     public BanSynchronizer bs;
     public DataRetriever mainDataRetriever;
     public GlobalBanTempSaver gbts;
@@ -53,13 +65,24 @@ public class VoxelBans extends CommonPlugin {
         this.em = e.getEventManager();
         this.pm = e.getPluginManager();
         
+        // Integrations: VoxelBans' way of using other plugins and enhancing them!
+        setupIntegration(); // VBPluginIntegration extends Listener so all things to do with one plugin go in one class
+        for (VBPluginIntegration pi : integrations) {
+            if (pi.integrationEnabled()) {
+                em.registerEvents(pi, this);
+            }
+        }
+        
+        // Init web stuff
         this.mainDataRetriever = new DataRetriever(this);
         this.gbts = new GlobalBanTempSaver(this);
         this.bs = new BanSynchronizer(this);
         this.pdr = new PlayerDataRetriever(this);
         
+        // Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin
         punishments.pluginEnabled();
         
+        // Check API Key validity
         if (!apiKeyValid()) {
             System.out.println("[VoxelBans] You have not added an API Key to the config, or the entered key is invalid!");
             System.out.println("[VoxelBans] If you have an API Key, add it to the config!");
@@ -69,6 +92,7 @@ public class VoxelBans extends CommonPlugin {
             return;
         }
         
+        // Check for server validity (E.G. It is disabled)
         if (!isServerValid()) {
             System.err.println("[VoxelBans] An error occurred with your server:");
             if (isServerDisabled()) {
@@ -82,12 +106,14 @@ public class VoxelBans extends CommonPlugin {
             pm.disablePlugin(this);
         }
 
-        em.callEvent(new VoxelBansEnableEvent(this));
+        // Call our enable event and update / init everything remaining to do
         perms.update();
         bans.init();
+        em.callEvent(new VoxelBansEnableEvent(this));
     }
     
     public void onDisable() {
+        // Call disable event for other plugins
         em.callEvent(new VoxelBansDisableEvent(this));
     }
 
@@ -95,21 +121,37 @@ public class VoxelBans extends CommonPlugin {
         return apiKey;
     }
     
+    public VBConfiguration getConfig() {
+        return config;
+    }
+    
     public boolean apiKeyValid() {
         if (apiKey != null) {
             // Performs a server check; if it is null an exception was thrown, meaning there was probably an invalid API Key
-            // There may be errors with this check, so it may have to be changed later.
+            // There may be errors with this check, so it will probably have to be changed later.
             return mainDataRetriever.getAllBans() != null;
         }
         return false;
     }
     
     public boolean isServerValid() {
+        // Checks all possible server validity errors
         return !isServerDisabled();
     }
     
     public boolean isServerDisabled() {
+        // Checks if the VoxelBans admins disabled the server
         return mainDataRetriever.isServerDisabled();
+    }
+    
+    private void setupIntegration() {
+        // Sets up integration
+        if (pm.getPlugin("StopDemHax") != null) {
+            integrations.add(new VBStopDemHax());
+        }
+        if (pm.getPlugin("LogNRollback") != null) {
+            integrations.add(new VBLogNRollback());
+        }
     }
     
 }

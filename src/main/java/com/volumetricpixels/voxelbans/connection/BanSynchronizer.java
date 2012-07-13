@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.files.GlobalBanTempSaver;
 import com.volumetricpixels.voxelbans.files.VBBanFile;
-import com.volumetricpixels.voxelbans.org.json.JSONArray;
 import com.volumetricpixels.voxelbans.org.json.JSONObject;
 import com.volumetricpixels.voxelbans.punishments.Ban;
 
 /**
  * Deals only with website bans.
+ * Synchronizes bans (adds to website)
+ * @author DziNeIT
  */
 public class BanSynchronizer implements Runnable {
     

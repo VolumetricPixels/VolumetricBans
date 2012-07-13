@@ -6,6 +6,11 @@ import java.util.List;
 import org.spout.api.Spout;
 import org.spout.api.player.Player;
 
+/**
+ * Easy way to deal with Permissions
+ * Stores people with permissions in memory so no often perm checking
+ * @author DziNeIT
+ */
 public class VBPermissions {
     
     public static final VBPermissions perms = new VBPermissions((VoxelBans) Spout.getEngine().getPluginManager().getPlugin("VoxelBans"));
@@ -85,6 +90,7 @@ public class VBPermissions {
     }
     
     void update() {
+        // Updates all players
         for (Player p : plugin.getEngine().getOnlinePlayers()) {
             update(p);
         }

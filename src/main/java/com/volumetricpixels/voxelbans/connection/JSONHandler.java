@@ -12,11 +12,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.org.json.JSONException;
 import com.volumetricpixels.voxelbans.org.json.JSONObject;
 
+/**
+ * Handles JSON sent by the VoxelBans servers (done by Kwiebert)
+ * @author DziNeIT
+ */
 public class JSONHandler {
     
     private final VoxelBans plugin;
