@@ -2,6 +2,7 @@ package com.volumetricpixels.voxelbans.spout;
 
 import org.spout.api.Engine;
 import org.spout.api.chat.style.ChatStyle;
+import org.spout.api.command.Command;
 import org.spout.api.event.EventManager;
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginManager;
@@ -42,6 +43,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     
     private String apiKey = "VoxelBansAPIKeyToDoGet";
     private VBSpoutConfig config = null;
+    private VBSpoutCommandHandler cmdHandler = null;
     
     // Web stuff and global ban temporary storing
     public BanSynchronizer bs;
@@ -69,8 +71,22 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         this.bs = new BanSynchronizer(this);
         this.pdr = new PlayerDataRetriever(this);
         
+        // Init command vars and setup commands
+        // Then set help for commands
+        this.cmdHandler = new VBSpoutCommandHandler(this);
+        Command rootCmd = e.getRootCommand();
+        rootCmd.addSubCommand(e, "vbans").setExecutor(cmdHandler).setHelp("VoxelBans main command!");
+        rootCmd.addSubCommand(e, "ban").setExecutor(cmdHandler).setHelp("Banning command!");
+        rootCmd.addSubCommand(e, "kick").setExecutor(cmdHandler).setHelp("Kicking command!");
+        rootCmd.addSubCommand(e, "mute").setExecutor(cmdHandler).setHelp("Muting command!");
+        rootCmd.addSubCommand(e, "banreason").setExecutor(cmdHandler).setHelp("Gets the ban reason for a player!");
+        rootCmd.addSubCommand(e, "banlist").setExecutor(cmdHandler).setHelp("List bans!");
+        rootCmd.addSubCommand(e, "lookup").setExecutor(cmdHandler).setHelp("Lookup a player!");
+        rootCmd.addSubCommand(e, "unban").setExecutor(cmdHandler).setHelp("Unbanning command!");
+        
         /*
-         * Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin and initialize the utils (SharedUtil.init also calls VBUtils.init)
+         * Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin and initialize the utils 
+         * (SharedUtil.init also calls VBUtils.init)
          */
         SharedUtil.init(this);
         punishments.pluginEnabled();
