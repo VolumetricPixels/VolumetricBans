@@ -6,7 +6,7 @@ import java.util.List;
 import org.spout.api.Spout;
 import org.spout.api.player.Player;
 
-import com.volumetricpixels.voxelbans.interfaces.VBPermissions;
+import com.volumetricpixels.voxelbans.shared.perapi.VBPermissions;
 
 
 /**

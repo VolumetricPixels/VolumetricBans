@@ -7,11 +7,12 @@ import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginManager;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
-import com.volumetricpixels.voxelbans.connection.DataRetriever;
-import com.volumetricpixels.voxelbans.connection.PlayerDataRetriever;
-import com.volumetricpixels.voxelbans.interfaces.GlobalBanStorer;
-import com.volumetricpixels.voxelbans.interfaces.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.SharedUtil;
+import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
+import com.volumetricpixels.voxelbans.shared.connection.DataRetriever;
+import com.volumetricpixels.voxelbans.shared.connection.PlayerDataRetriever;
+import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
 import com.volumetricpixels.voxelbans.spout.event.VoxelBansDisableEvent;
 import com.volumetricpixels.voxelbans.spout.event.VoxelBansEnableEvent;
 import com.volumetricpixels.voxelbans.spout.files.SpoutGlobalBanStorer;
@@ -32,7 +33,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     public final VBSpoutMutes mutes;
     
     public final Object[] noPermsMessage = {
-        ChatStyle.RED, "You don't have permission to do that!"
+            ChatStyle.RED, "You don't have permission to do that!"
     };
     
     private Engine e;
@@ -54,6 +55,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         this.punishments = new VBSpoutPunishments(this);
     }
     
+    @Override
     public void onEnable() {
         this.config = new VBSpoutConfig(this);
         this.apiKey = config.getNode("API-Key").getString(null);
@@ -67,7 +69,10 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         this.bs = new BanSynchronizer(this);
         this.pdr = new PlayerDataRetriever(this);
         
-        // Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin
+        /*
+         * Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin and initialize the utils (SharedUtil.init also calls VBUtils.init)
+         */
+        SharedUtil.init(this);
         punishments.pluginEnabled();
         
         // Check API Key validity
@@ -84,27 +89,30 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         if (!isServerValid()) {
             System.err.println("[VoxelBans] An error occurred with your server:");
             if (isServerDisabled()) {
-                System.out.println("Your server has been disabled by the VoxelBans administration!");
-                System.out.println("To appeal this, view your server page and click 'Appeal Server Removal'");
-                System.out.println("You must be logged in to VoxelBans on the account used to register!");
+                System.out.println("[VoxelBans] Your server has been disabled by the VoxelBans administration!");
+                System.out.println("[VoxelBans] To appeal this, view your server page and click 'Appeal Server Removal'");
+                System.out.println("[VoxelBans] You must be logged in to VoxelBans on the account used to register!");
+                System.out.println("[VoxelBans] Disabling until issues resolved!");
+                pm.disablePlugin(this);
             } else {
-                System.err.println("An error occurred with requesting the VoxelBans server!");
+                System.out.println("[VoxelBans] There was a request error to the VoxelBans servers! Continuing!");
+                return;
             }
-            System.out.println("[VoxelBans] Disabling until issues resolved!");
-            pm.disablePlugin(this);
         }
-
+        
         // Call our enable event and update / init everything remaining to do
         perms.update();
         bans.init();
         em.callEvent(new VoxelBansEnableEvent(this));
     }
     
+    @Override
     public void onDisable() {
         // Call disable event for other plugins
         em.callEvent(new VoxelBansDisableEvent(this));
     }
-
+    
+    @Override
     public String getServerKey() {
         return apiKey;
     }
@@ -113,6 +121,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         return config;
     }
     
+    @Override
     public VBLocalBans bans() {
         return bans;
     }
@@ -135,7 +144,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         // Checks if the VoxelBans admins disabled the server
         return mainDataRetriever.isServerDisabled();
     }
-
+    
     @Override
     public GlobalBanStorer gbts() {
         return gbts;

@@ -1,0 +1,2 @@
+The perapi package is for interfaces that each API-Using (E.G. voxelbans.spout) package must implement. It is here so all API-Using packages
+can share certain files.

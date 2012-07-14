@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.connection;
+package com.volumetricpixels.voxelbans.shared.connection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

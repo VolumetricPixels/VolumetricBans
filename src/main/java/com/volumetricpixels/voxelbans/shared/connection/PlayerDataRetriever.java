@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.connection;
+package com.volumetricpixels.voxelbans.shared.connection;
 
 import java.util.ArrayList;
 import java.util.HashMap;

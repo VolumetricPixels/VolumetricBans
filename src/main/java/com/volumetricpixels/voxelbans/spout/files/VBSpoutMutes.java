@@ -4,10 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.spout.api.Spout;
+import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.voxelbans.interfaces.VBMutes;
+import com.volumetricpixels.voxelbans.shared.perapi.VBMutes;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
+import com.volumetricpixels.voxelbans.spout.punishments.VBSpoutPunishTimers.VBSpoutMuteTimer;
 
 public class VBSpoutMutes implements VBMutes {
     
@@ -30,11 +33,21 @@ public class VBSpoutMutes implements VBMutes {
         this.muteFile = new File(plugin.getDataFolder(), "mutes.yml");
         this.muteConfig = new YamlConfiguration(muteFile);
         
+        for (String s : muteConfig.getNode("Muted").getStringList()) {
+            String[] sArray = s.split("=");
+            VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(sArray[0], Long.parseLong(sArray[1]));
+            int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+            vbsmt.setTaskId(id);
+        }
+        
         initialized = true;
     }
     
     public void mutePlayer(String player, long time) {
         muted.add(player + "=" + time);
+        VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(player, time);
+        int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+        vbsmt.setTaskId(id);
         updateConfig(false);
     }
     

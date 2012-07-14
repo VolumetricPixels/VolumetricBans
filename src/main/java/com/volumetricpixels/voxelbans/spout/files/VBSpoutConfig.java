@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.voxelbans.interfaces.VBConfig;
+import com.volumetricpixels.voxelbans.shared.perapi.VBConfig;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 
 public class VBSpoutConfig extends YamlConfiguration implements VBConfig {

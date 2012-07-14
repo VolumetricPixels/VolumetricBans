@@ -7,13 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.spout.api.Spout;
 import org.spout.api.exception.ConfigurationException;
+import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.ConfigurationNode;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.voxelbans.interfaces.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
+import com.volumetricpixels.voxelbans.spout.punishments.VBSpoutPunishTimers;
+import com.volumetricpixels.voxelbans.spout.punishments.VBSpoutPunishTimers.VBSpoutBanTimer;
 
 /**
  * Bans File only handles Local Bans
@@ -22,6 +26,7 @@ import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
 public class VBSpoutLocalBans implements VBLocalBans {
     
     private final VoxelBansSpout plugin;
+    public final VBSpoutPunishTimers vbspt = new VBSpoutPunishTimers();
     private boolean initialized = false;
     private File dataFolder;
     
@@ -52,6 +57,15 @@ public class VBSpoutLocalBans implements VBLocalBans {
         
         this.exceptionFile = new File(dataFolder, "exceptions.yml");
         this.exceptionYaml = new YamlConfiguration(exceptionFile);
+        
+        for (String s : conf.getNode("Bans").getStringList()) {
+            String[] sArray = s.split(":");
+            if (sArray[4] != null) {
+                VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(sArray[0], Long.parseLong(sArray[4]));
+                int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+                vbsbt.setTaskId(id);
+            }
+        }
         
         try {
             conf.load();
@@ -115,6 +129,9 @@ public class VBSpoutLocalBans implements VBLocalBans {
     public void banPlayer(String name, String reason, String admin, long time) {
         SpoutBan spoutBan = new SpoutBan(name, reason, admin, time);
         localbans.add(spoutBan);
+        VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(name, time);
+        int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+        vbsbt.setTaskId(id);
         updateConfig(false);
     }
     

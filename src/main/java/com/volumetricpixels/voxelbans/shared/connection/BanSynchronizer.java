@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.connection;
+package com.volumetricpixels.voxelbans.shared.connection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,9 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.interfaces.Ban;
-import com.volumetricpixels.voxelbans.interfaces.GlobalBanStorer;
-import com.volumetricpixels.voxelbans.interfaces.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
 
 /**
  * Deals only with website bans.

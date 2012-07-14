@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
-import com.volumetricpixels.voxelbans.interfaces.Ban;
-import com.volumetricpixels.voxelbans.interfaces.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
 

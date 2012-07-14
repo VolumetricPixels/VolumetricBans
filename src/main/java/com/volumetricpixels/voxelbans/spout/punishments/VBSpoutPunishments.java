@@ -3,9 +3,9 @@ package com.volumetricpixels.voxelbans.spout.punishments;
 import org.spout.api.Spout;
 
 import com.volumetricpixels.voxelbans.VBUtils;
-import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
-import com.volumetricpixels.voxelbans.interfaces.Ban;
-import com.volumetricpixels.voxelbans.interfaces.VBPunishments;
+import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.VBPunishments;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 import com.volumetricpixels.voxelbans.spout.files.VBSpoutLocalBans;
 import com.volumetricpixels.voxelbans.spout.files.VBSpoutMutes;

@@ -6,7 +6,7 @@ import org.spout.api.Spout;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.voxelbans.interfaces.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 
 public class SpoutBan implements Ban {

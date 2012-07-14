@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.connection;
+package com.volumetricpixels.voxelbans.shared.connection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import com.volumetricpixels.voxelbans.VBUtils;
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.interfaces.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
 
 /**
  * Retrieves data from the server;

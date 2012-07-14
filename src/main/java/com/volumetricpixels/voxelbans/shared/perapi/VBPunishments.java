@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.interfaces;
+package com.volumetricpixels.voxelbans.shared.perapi;
 
 public interface VBPunishments {
     

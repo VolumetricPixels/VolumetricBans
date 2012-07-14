@@ -1,14 +1,18 @@
 package com.volumetricpixels.voxelbans;
 
-import com.volumetricpixels.voxelbans.interfaces.Ban;
+import com.volumetricpixels.voxelbans.shared.perapi.Ban;
 import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
 
-public class VBUtils {
+/**
+ * General utilities for VoxelBans. Extended by SharedUtil
+ * @author DziNeIT
+ */
+public abstract class VBUtils {
     
     private static VoxelBans vb;
     
-    public static final void init(VoxelBans v) {
+    public static void init(VoxelBans v) {
         vb = v;
     }
     

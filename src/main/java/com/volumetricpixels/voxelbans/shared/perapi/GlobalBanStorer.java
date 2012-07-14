@@ -1,8 +1,8 @@
-package com.volumetricpixels.voxelbans.interfaces;
+package com.volumetricpixels.voxelbans.shared.perapi;
 
 import java.util.List;
 
-import com.volumetricpixels.voxelbans.connection.BanSynchronizer;
+import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
 
 public interface GlobalBanStorer {
     
