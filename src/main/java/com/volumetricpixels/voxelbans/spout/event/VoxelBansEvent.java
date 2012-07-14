@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.spout.event.ban;
+package com.volumetricpixels.voxelbans.spout.event;
 
 import org.spout.api.event.Event;
 
