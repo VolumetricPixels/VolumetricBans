@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.volumetricpixels.voxelbans.VBUtils;
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.org.json.JSONArray;
-import com.volumetricpixels.voxelbans.org.json.JSONObject;
-import com.volumetricpixels.voxelbans.punishments.Ban;
+import com.volumetricpixels.voxelbans.interfaces.Ban;
 
 /**
  * Retrieves data from the server;
@@ -53,7 +55,7 @@ public class DataRetriever {
             for (int i = 0; i <= jA.length(); i++) {
                 String s = String.valueOf(jA.get(i));
                 String[] sArray = s.split(":");
-                result.add(new Ban(sArray[0], sArray[1], sArray[2], true));
+                result.add(VBUtils.newBan(sArray[0], sArray[1], sArray[2], true));
             }
             return result;
         } catch (Exception e) {}
@@ -71,7 +73,7 @@ public class DataRetriever {
             for (int i = 0; i <= jA.length(); i++) {
                 String s = String.valueOf(jA.get(i));
                 String[] sArray = s.split(":");
-                result.add(new Ban(sArray[0], sArray[1], sArray[2], true));
+                result.add(VBUtils.newBan(sArray[0], sArray[1], sArray[2], false));
             }
             return result;
         } catch (Exception e) {}

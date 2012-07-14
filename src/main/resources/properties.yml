@@ -1,6 +1,6 @@
 name: VoxelBans
 version: 0.0.1-BETA
-main: com.volumetricpixels.voxelbans.VoxelBans
+main: com.volumetricpixels.voxelbans.spout.VoxelBansSpout
 
 author: VolumetricPixels
 description: >

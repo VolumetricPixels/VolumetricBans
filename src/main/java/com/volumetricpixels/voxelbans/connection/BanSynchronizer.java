@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.files.GlobalBanTempSaver;
-import com.volumetricpixels.voxelbans.files.VBBanFile;
-import com.volumetricpixels.voxelbans.org.json.JSONObject;
-import com.volumetricpixels.voxelbans.punishments.Ban;
+import com.volumetricpixels.voxelbans.interfaces.Ban;
+import com.volumetricpixels.voxelbans.interfaces.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.interfaces.VBLocalBans;
 
 /**
  * Deals only with website bans.
@@ -19,14 +20,14 @@ import com.volumetricpixels.voxelbans.punishments.Ban;
 public class BanSynchronizer implements Runnable {
     
     private VoxelBans plugin;
-    private VBBanFile bans;
-    private GlobalBanTempSaver gbts;
+    private VBLocalBans bans;
+    private GlobalBanStorer gbts;
     private DataRetriever dr;
     
     public BanSynchronizer(VoxelBans plugin) {
         this.plugin = plugin;
-        this.bans = this.plugin.bans;
-        this.gbts = this.plugin.gbts;
+        this.bans = this.plugin.bans();
+        this.gbts = this.plugin.gbts();
         this.dr = new DataRetriever(plugin);
     }
     

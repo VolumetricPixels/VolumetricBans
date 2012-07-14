@@ -12,9 +12,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.org.json.JSONException;
-import com.volumetricpixels.voxelbans.org.json.JSONObject;
 
 /**
  * Handles JSON sent by the VoxelBans servers (done by Kwiebert)
@@ -27,8 +28,8 @@ public class JSONHandler {
     private String apiServerHostName;
     private String actionCategory;
     
-    public JSONHandler(VoxelBans vb, String actionCategory) {
-        this.plugin = vb;
+    public JSONHandler(VoxelBans plugin2, String actionCategory) {
+        this.plugin = plugin2;
         this.apiKey = plugin.getServerKey();
         this.actionCategory = actionCategory;
     }
