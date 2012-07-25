@@ -10,4 +10,16 @@ public interface VBLocalBans {
 
     public Collection<? extends Ban> getBans();
     
+    public String getAdmin(String bannedName);
+    
+    public void banPlayer(String name, String reason, String admin, long time);
+    
+    public void banPlayer(String name, String reason, String admin);
+    
+    public void banPlayer(String name, String admin);
+    
+    public void banPlayer(String name);
+    
+    public boolean unbanPlayer(String name);
+    
 }

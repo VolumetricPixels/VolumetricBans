@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.shared;
+package com.volumetricpixels.voxelbans.shared.util;
 
 /**
  * All the APIs that could eventually be supported in VoxelBans

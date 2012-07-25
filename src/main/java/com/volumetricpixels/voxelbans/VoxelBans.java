@@ -1,7 +1,12 @@
 package com.volumetricpixels.voxelbans;
 
+import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
+import com.volumetricpixels.voxelbans.shared.connection.DataRetriever;
 import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.shared.perapi.VBConfig;
 import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.perapi.VBMutes;
+import com.volumetricpixels.voxelbans.shared.util.API;
 
 /**
  * Although this is a PerAPI thing, it does not go in the perapi package
@@ -13,10 +18,20 @@ import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
  */
 public interface VoxelBans {
     
+    public BanSynchronizer getBanSynchronizer();
+    
     public String getServerKey();
     
-    public VBLocalBans bans();
+    public VBLocalBans getLocalBanHandler();
     
-    public GlobalBanStorer gbts();
+    public VBMutes getMuteHandler();
+    
+    public GlobalBanStorer getGlobalBanStorer();
+    
+    public VBConfig getConfig();
+    
+    public DataRetriever getMainDataRetriever();
+    
+    public API getInUseAPI();
     
 }

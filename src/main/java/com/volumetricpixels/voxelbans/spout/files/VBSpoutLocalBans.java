@@ -150,6 +150,9 @@ public class VBSpoutLocalBans implements VBLocalBans {
     }
     
     public boolean unbanPlayer(String name) {
+        if (!isBanned(name)) {
+            return false;
+        }
         for (SpoutBan b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 localbans.remove(b);

@@ -1,4 +1,4 @@
-package com.volumetricpixels.voxelbans.shared;
+package com.volumetricpixels.voxelbans.shared.util;
 
 import com.volumetricpixels.voxelbans.VBUtils;
 import com.volumetricpixels.voxelbans.VoxelBans;
@@ -8,7 +8,7 @@ import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
  * This class provides utilities for all API-Using packages.
  * @author DziNeIT
  */
-public final class SharedUtil extends VBUtils {
+public class SharedUtil extends VBUtils {
     
     private static API inUseAPI = API.UNKNOWN;
     

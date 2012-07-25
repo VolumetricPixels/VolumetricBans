@@ -26,8 +26,8 @@ public class BanSynchronizer implements Runnable {
     
     public BanSynchronizer(VoxelBans plugin) {
         this.plugin = plugin;
-        this.bans = this.plugin.bans();
-        this.gbts = this.plugin.gbts();
+        this.bans = this.plugin.getLocalBanHandler();
+        this.gbts = this.plugin.getGlobalBanStorer();
         this.dr = new DataRetriever(plugin);
     }
     

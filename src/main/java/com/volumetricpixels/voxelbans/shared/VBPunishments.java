@@ -1,41 +1,36 @@
-package com.volumetricpixels.voxelbans.spout.punishments;
-
-import org.spout.api.Spout;
+package com.volumetricpixels.voxelbans.shared;
 
 import com.volumetricpixels.voxelbans.VBUtils;
+import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.shared.perapi.Ban;
-import com.volumetricpixels.voxelbans.shared.perapi.VBPunishments;
-import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
-import com.volumetricpixels.voxelbans.spout.files.VBSpoutLocalBans;
-import com.volumetricpixels.voxelbans.spout.files.VBSpoutMutes;
+import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.perapi.VBMutes;
+import com.volumetricpixels.voxelbans.spout.SpoutUtils;
 
-public class VBSpoutPunishments implements VBPunishments {
+public class VBPunishments {
     
-    private final VoxelBansSpout plugin;
-    private final VBSpoutLocalBans bans;
-    private final VBSpoutMutes mutes;
+    private final VoxelBans plugin;
+    private final VBLocalBans bans;
+    private final VBMutes mutes;
     private BanSynchronizer bs;
     
-    public VBSpoutPunishments(VoxelBansSpout voxelBansSpout) {
-        this.plugin = voxelBansSpout;
-        this.bans = plugin.bans;
-        this.mutes = plugin.mutes;
+    public VBPunishments(VoxelBans voxelBans) {
+        this.plugin = voxelBans;
+        this.bans = plugin.getLocalBanHandler();
+        this.mutes = plugin.getMuteHandler();
     }
     
     public void pluginEnabled() {
-        this.bs = plugin.bs;
+        this.bs = plugin.getBanSynchronizer();
     }
 
     public void globalBanPlayer(String name, String reason, String admin) {
-        plugin.gbts.addToTempList(VBUtils.newBan(name, reason, admin, true));
+        plugin.getGlobalBanStorer().addToTempList(VBUtils.newBan(name, reason, admin, true));
     }
     
     public void localBanPlayer(String name, String reason, String admin) {
         bans.banPlayer(name, reason, admin);
-        if (Spout.getEngine().getPlayer(name, false) != null) {
-            kickPlayer(name, reason);
-        }
     }
     
     public void tempBanPlayer(String name, String reason, String admin, long timeMinutes) {
@@ -52,8 +47,13 @@ public class VBSpoutPunishments implements VBPunishments {
         }
     }
     
-    public void kickPlayer(String p, Object... reason) {
-        Spout.getEngine().getPlayer(p, true).kick(reason);
+    public void kickPlayer(String player, Object... kickMessage) {
+        switch (plugin.getInUseAPI()) {
+            case SPOUT:
+                SpoutUtils.instance.kickPlayer(player, kickMessage);
+            default:
+                throw new UnsupportedOperationException("Kicking is not yet supported in " + plugin.getInUseAPI().name());
+        }
     }
     
     public void mutePlayer(String player, long time) {
@@ -69,7 +69,7 @@ public class VBSpoutPunishments implements VBPunishments {
     }
     
     public boolean isGlobalBanned(String player) {
-        for (Ban b : plugin.mainDataRetriever.getGlobalBans()) {
+        for (Ban b : plugin.getMainDataRetriever().getGlobalBans()) {
             if (b.getPlayer().equalsIgnoreCase(player)) {
                 return true;
             }
@@ -81,7 +81,7 @@ public class VBSpoutPunishments implements VBPunishments {
         if (bans.isBanned(player)) {
             return true;
         }
-        for (Ban b : plugin.mainDataRetriever.getLocalBans()) {
+        for (Ban b : plugin.getMainDataRetriever().getLocalBans()) {
             if (player.equalsIgnoreCase(b.getPlayer())) {
                 return true;
             }

@@ -8,19 +8,22 @@ import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginManager;
 
 import com.volumetricpixels.voxelbans.VoxelBans;
-import com.volumetricpixels.voxelbans.shared.SharedUtil;
+import com.volumetricpixels.voxelbans.shared.VBPunishments;
 import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.shared.connection.DataRetriever;
 import com.volumetricpixels.voxelbans.shared.connection.PlayerDataRetriever;
 import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
+import com.volumetricpixels.voxelbans.shared.perapi.VBConfig;
 import com.volumetricpixels.voxelbans.shared.perapi.VBLocalBans;
+import com.volumetricpixels.voxelbans.shared.perapi.VBMutes;
+import com.volumetricpixels.voxelbans.shared.util.API;
+import com.volumetricpixels.voxelbans.shared.util.SharedUtil;
 import com.volumetricpixels.voxelbans.spout.event.VoxelBansDisableEvent;
 import com.volumetricpixels.voxelbans.spout.event.VoxelBansEnableEvent;
 import com.volumetricpixels.voxelbans.spout.files.SpoutGlobalBanStorer;
 import com.volumetricpixels.voxelbans.spout.files.VBSpoutLocalBans;
 import com.volumetricpixels.voxelbans.spout.files.VBSpoutConfig;
 import com.volumetricpixels.voxelbans.spout.files.VBSpoutMutes;
-import com.volumetricpixels.voxelbans.spout.punishments.VBSpoutPunishments;
 
 /**
  * VoxelBans for Spout Engine
@@ -29,7 +32,7 @@ import com.volumetricpixels.voxelbans.spout.punishments.VBSpoutPunishments;
 public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     
     public final VBSpoutPermissions perms = VBSpoutPermissions.perms;
-    public final VBSpoutPunishments punishments;
+    public final VBPunishments punishments;
     public final VBSpoutLocalBans bans;
     public final VBSpoutMutes mutes;
     
@@ -54,8 +57,10 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     public VoxelBansSpout() {
         this.bans = new VBSpoutLocalBans(this);
         this.mutes = new VBSpoutMutes(this);
-        this.punishments = new VBSpoutPunishments(this);
+        this.punishments = new VBPunishments(this);
     }
+    
+    /** CommonPlugin Overriden Methods **/
     
     @Override
     public void onEnable() {
@@ -90,6 +95,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
          */
         SharedUtil.init(this);
         punishments.pluginEnabled();
+        SpoutUtils.instance = new SpoutUtils();
         
         // Check API Key validity
         if (!apiKeyValid()) {
@@ -128,19 +134,49 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
         em.callEvent(new VoxelBansDisableEvent(this));
     }
     
+    /** VoxelBans Interface Overriden Methods **/
+    
     @Override
     public String getServerKey() {
         return apiKey;
     }
     
-    public VBSpoutConfig getConfig() {
+    @Override
+    public VBConfig getConfig() {
         return config;
     }
     
     @Override
-    public VBLocalBans bans() {
+    public VBLocalBans getLocalBanHandler() {
         return bans;
     }
+    
+    @Override
+    public VBMutes getMuteHandler() {
+        return mutes;
+    }
+    
+    @Override
+    public BanSynchronizer getBanSynchronizer() {
+        return bs;
+    }
+    
+    @Override
+    public GlobalBanStorer getGlobalBanStorer() {
+        return gbts;
+    }
+    
+    @Override
+    public DataRetriever getMainDataRetriever() {
+        return mainDataRetriever;
+    }
+    
+    @Override
+    public API getInUseAPI() {
+        return API.SPOUT;
+    }
+    
+    /** Util Methods **/
     
     public boolean apiKeyValid() {
         if (apiKey != null) {
@@ -159,11 +195,6 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     public boolean isServerDisabled() {
         // Checks if the VoxelBans admins disabled the server
         return mainDataRetriever.isServerDisabled();
-    }
-    
-    @Override
-    public GlobalBanStorer gbts() {
-        return gbts;
     }
     
 }
