@@ -1,5 +1,7 @@
 package com.volumetricpixels.voxelbans;
 
+import java.io.File;
+
 import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.shared.connection.DataRetriever;
 import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
@@ -28,10 +30,12 @@ public interface VoxelBans {
     
     public GlobalBanStorer getGlobalBanStorer();
     
-    public VBConfig getConfig();
+    public VBConfig getVBConfig();
     
     public DataRetriever getMainDataRetriever();
     
     public API getInUseAPI();
+    
+    public File getDataFolder();
     
 }

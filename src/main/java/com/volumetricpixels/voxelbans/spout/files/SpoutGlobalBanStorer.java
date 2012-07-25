@@ -6,24 +6,24 @@ import java.util.List;
 
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
+import com.volumetricpixels.voxelbans.VBUtils;
+import com.volumetricpixels.voxelbans.VoxelBans;
 import com.volumetricpixels.voxelbans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.voxelbans.shared.perapi.Ban;
 import com.volumetricpixels.voxelbans.shared.perapi.GlobalBanStorer;
-import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
-import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
 
 public class SpoutGlobalBanStorer implements GlobalBanStorer {
     
     private YamlConfiguration yc;
     
-    public SpoutGlobalBanStorer(VoxelBansSpout vb) {
+    public SpoutGlobalBanStorer(VoxelBans vb) {
         this.yc = new YamlConfiguration(new File(vb.getDataFolder(), "doNotTouch" + File.separator + "globalBansTemp.yml"));
     }
     
     public void addToTempList(Ban b) {
         List<String> currentTemps = new ArrayList<String>();
         currentTemps.addAll(yc.getNode("notSynchronizedGlobals").getStringList());
-        String ban = ((SpoutBan) b).getPlayer() + ":" + ((SpoutBan) b).getReason() + ":" + ((SpoutBan) b).getAdmin();
+        String ban = b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin();
         currentTemps.add(ban);
         yc.getNode("notSynchronizedGlobals").setValue(currentTemps);
     }
@@ -34,7 +34,7 @@ public class SpoutGlobalBanStorer implements GlobalBanStorer {
         }
         List<String> currentTemps = new ArrayList<String>();
         currentTemps.addAll(yc.getNode("notSynchronizedGlobals").getStringList());
-        String ban = ((SpoutBan) b).getPlayer() + ":" + ((SpoutBan) b).getReason() + ":" + ((SpoutBan) b).getAdmin();
+        String ban = b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin();
         currentTemps.remove(ban);
         yc.getNode("notSynchronizedGlobals").setValue(currentTemps);
     }
@@ -44,7 +44,7 @@ public class SpoutGlobalBanStorer implements GlobalBanStorer {
         List<String> inConf = yc.getNode("notSynchronizedGlobals").getStringList();
         for (String s : inConf) {
             String[] banSplit = s.split(":");
-            SpoutBan b = new SpoutBan(banSplit[0], banSplit[1], banSplit[2], true);
+            Ban b = VBUtils.newBan(banSplit[0], banSplit[1], banSplit[2], true);
             result.add(b);
         }
         return result;

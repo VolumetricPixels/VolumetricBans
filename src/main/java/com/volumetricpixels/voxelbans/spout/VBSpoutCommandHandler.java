@@ -27,8 +27,9 @@ public class VBSpoutCommandHandler implements CommandExecutor {
     }
 
     @Override
-    public boolean processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
+    public boolean processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
         String name = cmd.getPreferredName();
+        String[] args = context.getRawArgs();
         
         boolean vb = name.equalsIgnoreCase("vbans");
         boolean ban = name.equalsIgnoreCase("ban");
@@ -41,17 +42,17 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         
         if (vb) {
             // /vBans command
-            if (args.length() != 1) {
+            if (args.length != 1) {
                 sendVbansHelp(source);
                 return true;
             }
-            if (args.getString(0).equalsIgnoreCase("status")) {
+            if (args[0].equalsIgnoreCase("status")) {
                 if (plugin.perms.isAdmin(source.getName()) || !(source instanceof Player)) {
                     source.sendMessage(returnStatusMessage());
                 } else {
                     source.sendMessage(plugin.noPermsMessage);
                 }
-            } else if (args.getString(0).equalsIgnoreCase("flags")) {
+            } else if (args[0].equalsIgnoreCase("flags")) {
                 List<Object> message = new ArrayList<Object>();
                 message.add(ChatStyle.BLUE);
                 if (plugin.perms.canGlobalBan(source.getName()) || !(source instanceof Player)) {
@@ -60,7 +61,9 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 if (plugin.perms.canTempBan(source.getName()) || !(source instanceof Player)) {
                     message.add("-T=TimeValueInMinutes = Temporary Ban For The Specified Time\n");
                 }
-                source.sendMessage(message, ChatStyle.RED, "If you think flags are unlisted here that should be, contact the admin!");
+                source.sendMessage(message);
+                source.sendMessage(ChatStyle.RED, "Please note flags are NOT case sensitive!");
+                source.sendMessage(ChatStyle.RED, "If you think flags are unlisted here that should be, contact the admin!");
             } else {
                 source.sendMessage(ChatStyle.RED, "Unknown subcommand of /vBans!");
             }
@@ -69,12 +72,12 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         
         if (ban) {
             // /ban command
-            if (args.length() < 1) {
+            if (args.length < 1) {
                 source.sendMessage(ChatStyle.RED, "Usage: /ban {flags} playerName {reason='Banned!'} - {ParamName=Default} = Optional!");
             } else {
                 String arguments = null;
-                for (int i = 1; args.getString(i) != null; i++) {
-                    arguments += args.getString(i);
+                for (int i = 1; args[i] != null; i++) {
+                    arguments += args[i];
                     if (!arguments.endsWith(" ")) {
                         arguments += " ";
                     }
@@ -121,21 +124,21 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 }
                 String reason = "";
                 if (global || temporary) {
-                    for (int i = 2; args.getString(i) != null; i++) {
-                        reason += args.getString(i);
+                    for (int i = 2; args[i] != null; i++) {
+                        reason += args[i];
                         if (!reason.endsWith(" ")) {
                             reason += " ";
                         }
                     }
                 } else {
-                    for (int i = 1; args.getString(i) != null; i++) {
-                        reason += args.getString(i);
+                    for (int i = 1; args[i] != null; i++) {
+                        reason += args[i];
                         if (!reason.endsWith(" ")) {
                             reason += " ";
                         }
                     }
                 }
-                Player p2Ban = Spout.getEngine().getPlayer((global || temporary) ? args.getString(2) : args.getString(1), false);
+                Player p2Ban = Spout.getEngine().getPlayer((global || temporary) ? args[2] : args[1], false);
                 if (global) {
                     if (plugin.perms.canGlobalBan(source.getName()) || !(source instanceof Player)) {
                         plugin.punishments.globalBanPlayer(p2Ban.getName(), reason, source.getName());
@@ -161,9 +164,9 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         
         if (unban) {
             // /unban command
-            if (args.length() == 1) {
+            if (args.length == 1) {
                 if (plugin.perms.canUnban(source.getName()) || !(source instanceof Player)) {
-                    plugin.punishments.unbanPlayer(args.getString(0));
+                    plugin.punishments.unbanPlayer(args[0]);
                 } else {
                     source.sendMessage(plugin.noPermsMessage);
                 }
@@ -175,9 +178,9 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         
         if (kick) {
             // /kick command
-            if (args.length() > 0) {
-                if (args.length() == 1) {
-                    Player p = Spout.getEngine().getPlayer(args.getString(0), false);
+            if (args.length > 0) {
+                if (args.length == 1) {
+                    Player p = Spout.getEngine().getPlayer(args[0], false);
                     if (p != null) {
                         if (plugin.perms.canKick(source.getName())) {
                             plugin.punishments.kickPlayer(p.getName(), "Kicked!");
@@ -188,11 +191,11 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                         source.sendMessage(ChatStyle.RED, "That player is not online!");
                     }
                 } else {
-                    Player p = Spout.getEngine().getPlayer(args.getString(0), false);
+                    Player p = Spout.getEngine().getPlayer(args[0], false);
                     if (p != null) {
                         List<Object> kickMessage = new ArrayList<Object>();
                         int i = 0;
-                        for (String s : args.getRawArgs()) {
+                        for (String s : args) {
                             if (i > 1) {
                                 kickMessage.add(s + " ");
                             }
@@ -218,12 +221,12 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 source.sendMessage(plugin.noPermsMessage);
                 return true;
             }
-            if (args.length() == 0) {
+            if (args.length == 0) {
                 source.sendMessage(ChatStyle.RED, "Usage: /mute PlayerName {minutes=ConfigDefault} - Any params in {} are optional!");
             } else {
-                if (args.length() == 1) {
+                if (args.length == 1) {
                     
-                } else if (args.length() == 2) {
+                } else if (args.length == 2) {
                     
                 }
             }
@@ -257,8 +260,8 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         if (banreason) {
             // /banreason command
             if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
-                if (args.length() > 0) {
-                    source.sendMessage(plugin.bans.getBanReason(args.getString(0)));
+                if (args.length > 0) {
+                    source.sendMessage(plugin.bans.getBanReason(args[0]));
                 } else {
                     source.sendMessage(ChatStyle.RED, "Usage: /BanReason PlayerName");
                 }

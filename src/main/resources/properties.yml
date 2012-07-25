@@ -1,5 +1,5 @@
 name: VoxelBans
-version: 0.0.1-BETA
+version: 0.0.1-DEV-UNTESTED
 main: com.volumetricpixels.voxelbans.spout.VoxelBansSpout
 
 author: VolumetricPixels

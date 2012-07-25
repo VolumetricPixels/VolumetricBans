@@ -5,7 +5,7 @@ import com.volumetricpixels.voxelbans.spout.VoxelBansSpout;
 import com.volumetricpixels.voxelbans.spout.punishments.SpoutBan;
 
 /**
- * General utilities for VoxelBans. Extended by SharedUtil
+ * General utilities for VoxelBans
  * @author DziNeIT
  */
 public abstract class VBUtils {

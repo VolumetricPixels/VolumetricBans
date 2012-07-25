@@ -142,7 +142,7 @@ public class VoxelBansSpout extends CommonPlugin implements VoxelBans {
     }
     
     @Override
-    public VBConfig getConfig() {
+    public VBConfig getVBConfig() {
         return config;
     }
     
