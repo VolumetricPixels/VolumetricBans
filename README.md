@@ -1,6 +1,6 @@
-VoxelBans
+VolumetricBans
 =========
 
-VoxelBans - Global Banning System For SpoutEngine
+VolumetricBans - Global Banning System For SpoutEngine
 
 Brought to you by VolumetricPixels

@@ -1,10 +1,10 @@
 name: VoxelBans
-version: 0.0.1-DEV-UNTESTED
+version: ${project.name}
 main: com.volumetricpixels.voxelbans.spout.VoxelBansSpout
 
 author: VolumetricPixels
 description: >
             A Global Banning System for SpoutEngine.
             
-platform: SERVER
+platform: BOTH
 load: STARTUP
