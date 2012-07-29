@@ -1,6 +1,6 @@
-name: VoxelBans
-version: ${project.name}
-main: com.volumetricpixels.voxelbans.spout.VoxelBansSpout
+name: ${project.name}
+version: ${project.version}
+main: com.volumetricpixels.bans.spout.VolumetricBansSpout
 
 author: VolumetricPixels
 description: >

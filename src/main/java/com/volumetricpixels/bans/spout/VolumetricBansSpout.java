@@ -29,7 +29,7 @@ import com.volumetricpixels.bans.spout.files.VBSpoutMutes;
 import com.volumetricpixels.bans.spout.util.SpoutUtils;
 
 /**
- * VoxelBans for Spout Engine
+ * VolumetricBans for Spout Engine
  * @author DziNeIT
  */
 public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans {
@@ -47,7 +47,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     private EventManager em;
     private PluginManager pm;
     
-    private String apiKey = "VoxelBansAPIKeyToDoGet";
+    private String apiKey = "VolumetricBansAPIKeyToDoGet";
     private VBSpoutConfig config = null;
     private VBSpoutCommandHandler cmdHandler = null;
     
@@ -84,7 +84,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             // Then set help for commands
             this.cmdHandler = new VBSpoutCommandHandler(this);
             Command rootCmd = e.getRootCommand();
-            rootCmd.addSubCommand(e, "vbans").setExecutor(cmdHandler).setHelp("VoxelBans main command!");
+            rootCmd.addSubCommand(e, "vbans").setExecutor(cmdHandler).setHelp("VolumetricBans main command!");
             rootCmd.addSubCommand(e, "ban").setExecutor(cmdHandler).setHelp("Banning command!");
             rootCmd.addSubCommand(e, "kick").setExecutor(cmdHandler).setHelp("Kicking command!");
             rootCmd.addSubCommand(e, "mute").setExecutor(cmdHandler).setHelp("Muting command!");
@@ -102,25 +102,25 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             
             // Check API Key validity
             if (!apiKeyValid()) {
-                System.out.println("[VoxelBans] You have not added an API Key to the config, or the entered key is invalid!");
-                System.out.println("[VoxelBans] If you have an API Key, add it to the config!");
-                System.out.println("[VoxelBans] If you have not obtained an API Key, go to voxelbans.net!");
-                System.out.println("[VoxelBans] VoxelBans will disable until a valid Key is added!");
+                System.out.println("[VolumetricBans] You have not added an API Key to the config, or the entered key is invalid!");
+                System.out.println("[VolumetricBans] If you have an API Key, add it to the config!");
+                System.out.println("[VolumetricBans] If you have not obtained an API Key, go to voxelbans.net!");
+                System.out.println("[VolumetricBans] VolumetricBans will disable until a valid Key is added!");
                 pm.disablePlugin(this);
                 return;
             }
             
             // Check for server validity (E.G. It is disabled)
             if (!isServerValid()) {
-                System.err.println("[VoxelBans] An error occurred with your server:");
+                System.err.println("[VolumetricBans] An error occurred with your server:");
                 if (isServerDisabled()) {
-                    System.out.println("[VoxelBans] Your server has been disabled by the VoxelBans administration!");
-                    System.out.println("[VoxelBans] To appeal this, view your server page and click 'Appeal Server Removal'");
-                    System.out.println("[VoxelBans] You must be logged in to VoxelBans on the account used to register!");
-                    System.out.println("[VoxelBans] Disabling until issues resolved!");
+                    System.out.println("[VolumetricBans] Your server has been disabled by the VolumetricBans administration!");
+                    System.out.println("[VolumetricBans] To appeal this, view your server page and click 'Appeal Server Removal'");
+                    System.out.println("[VolumetricBans] You must be logged in to VolumetricBans on the account used to register!");
+                    System.out.println("[VolumetricBans] Disabling until issues resolved!");
                     pm.disablePlugin(this);
                 } else {
-                    System.out.println("[VoxelBans] There was a request error to the VoxelBans servers! Continuing!");
+                    System.out.println("[VolumetricBans] There was a request error to the VolumetricBans servers! Continuing!");
                     return;
                 }
             }
@@ -132,7 +132,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
         } else if (getEngine() instanceof Client) {
             new VBSpoutClientHandler().start();
         } else {
-            throw new IllegalStateException("VoxelBans does not support proxy servers!");
+            throw new IllegalStateException("VolumetricBans does not support proxy servers!");
         }
     }
     
@@ -142,7 +142,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
         em.callEvent(new VolumetricBansDisableEvent(this));
     }
     
-    /** VoxelBans Interface Overriden Methods **/
+    /** VolumetricBans Interface Overriden Methods **/
     
     @Override
     public String getServerKey() {
@@ -201,7 +201,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     }
     
     public boolean isServerDisabled() {
-        // Checks if the VoxelBans admins disabled the server
+        // Checks if the VolumetricBans admins disabled the server
         return mainDataRetriever.isServerDisabled();
     }
     

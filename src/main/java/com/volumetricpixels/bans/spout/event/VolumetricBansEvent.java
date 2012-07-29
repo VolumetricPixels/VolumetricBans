@@ -12,7 +12,7 @@ public abstract class VolumetricBansEvent extends Event {
         this.vb = vb;
     }
     
-    public VolumetricBansSpout getVoxelBans() {
+    public VolumetricBansSpout getVolumetricBans() {
         return vb;
     }
     

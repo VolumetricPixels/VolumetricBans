@@ -13,9 +13,9 @@ import com.volumetricpixels.bans.shared.util.API;
 /**
  * Although this is a PerAPI thing, it does not go in the perapi package
  * because it is the main class for the plugin and any plugins using
- * VoxelBans' API should interact with this class, not VoxelBansSpout
+ * VolumetricBans' API should interact with this class, not VolumetricBansSpout
  * or other. We keep it here so it makes sense when other plugins import
- * VoxelBans
+ * VolumetricBans
  * @author DziNeIT
  */
 public interface VolumetricBans {

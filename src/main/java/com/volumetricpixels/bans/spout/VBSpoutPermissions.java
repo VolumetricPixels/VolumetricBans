@@ -16,7 +16,7 @@ import com.volumetricpixels.bans.shared.perapi.VBPermissions;
  */
 public class VBSpoutPermissions implements VBPermissions {
     
-    public static final VBSpoutPermissions perms = new VBSpoutPermissions((VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VoxelBans"));
+    public static final VBSpoutPermissions perms = new VBSpoutPermissions((VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans"));
     
     private VolumetricBansSpout plugin;
     

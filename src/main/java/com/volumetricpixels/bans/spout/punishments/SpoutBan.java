@@ -32,7 +32,7 @@ public class SpoutBan implements Ban {
         this.time = time;
         this.global = false;
         
-        Spout.getEngine().getScheduler().scheduleAsyncRepeatingTask(Spout.getEngine().getPluginManager().getPlugin("VoxelBans"),
+        Spout.getEngine().getScheduler().scheduleAsyncRepeatingTask(Spout.getEngine().getPluginManager().getPlugin("VolumetricBans"),
             new TempBanTimer(this, time), 0, 60000, TaskPriority.HIGHEST);
     }
     
@@ -61,7 +61,7 @@ public class SpoutBan implements Ban {
     }
     
     private void deleteBan() {
-        VolumetricBans vb = (VolumetricBans) Spout.getEngine().getPluginManager().getPlugin("VoxelBans");
+        VolumetricBans vb = (VolumetricBans) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans");
         vb.getLocalBanHandler().unbanPlayer(getPlayer());
     }
     
@@ -77,7 +77,7 @@ public class SpoutBan implements Ban {
             this.timeFor = timeFor;
             this.minutes = timeFor;
             
-            File timerFile = new File(Spout.getEngine().getPluginManager().getPlugin("VoxelBans").getDataFolder(),
+            File timerFile = new File(Spout.getEngine().getPluginManager().getPlugin("VolumetricBans").getDataFolder(),
                 "doNotTouch" + File.separator + "banTimer.yml");
             if (!timerFile.exists()) {
                 try {

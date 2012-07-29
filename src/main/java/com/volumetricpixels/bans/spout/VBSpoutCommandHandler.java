@@ -15,7 +15,7 @@ import org.spout.api.player.Player;
 import com.volumetricpixels.bans.shared.perapi.Ban;
 
 /**
- * Deals with Commands for VoxelBans
+ * Deals with Commands for VolumetricBans
  * @author DziNeIT
  */
 public class VBSpoutCommandHandler implements CommandExecutor {
@@ -299,10 +299,10 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         // Sends a CommandSource help for /vBans
         List<Object> message = new ArrayList<Object>();
         message.add(ChatStyle.BRIGHT_GREEN);
-        message.add("VoxelBans v" + plugin.getDescription().getVersion() + "\n");
+        message.add("VolumetricBans v" + plugin.getDescription().getVersion() + "\n");
         message.add(ChatStyle.BLUE);
         message.add("/vBans - Displays this message");
-        message.add("/vBans status - Check the status of the VoxelBans server");
+        message.add("/vBans status - Check the status of the VolumetricBans server");
         message.add("/vBans flags - Display possible flags for /ban");
         s.sendMessage(message);
     }

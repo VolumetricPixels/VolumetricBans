@@ -23,7 +23,7 @@ public class VBSpoutPunishTimers implements VBPunishTimers {
         public void run() {
             time--;
             if (time == 0) {
-                VolumetricBansSpout vbs = (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VoxelBans");
+                VolumetricBansSpout vbs = (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans");
                 vbs.bans.unbanPlayer(player);
                 Spout.getScheduler().cancelTask(taskId);
             }
@@ -52,7 +52,7 @@ public class VBSpoutPunishTimers implements VBPunishTimers {
         public void run() {
             time--;
             if (time == 0) {
-                VolumetricBansSpout vbs = (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VoxelBans");
+                VolumetricBansSpout vbs = (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans");
                 vbs.mutes.unmutePlayer(player);
                 Spout.getScheduler().cancelTask(taskId);
             }

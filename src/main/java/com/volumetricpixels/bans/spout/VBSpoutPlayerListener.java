@@ -20,7 +20,7 @@ public class VBSpoutPlayerListener implements Listener {
         Player p = e.getPlayer();
         String name = p.getName();
         if (plugin.pdr.isBannedFromVBServers(name)) {
-            p.kick(ChatStyle.CYAN, "[VoxelBans] ", ChatStyle.RED, "You are permanently banned from VB servers! See voxelbans.net!");
+            p.kick(ChatStyle.CYAN, "[VolumetricBans] ", ChatStyle.RED, "You are permanently banned from VB servers! See voxelbans.net!");
             return;
         }
         if (plugin.bans.isBanned(name)) {
