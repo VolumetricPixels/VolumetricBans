@@ -104,7 +104,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             if (!apiKeyValid()) {
                 System.out.println("[VolumetricBans] You have not added an API Key to the config, or the entered key is invalid!");
                 System.out.println("[VolumetricBans] If you have an API Key, add it to the config!");
-                System.out.println("[VolumetricBans] If you have not obtained an API Key, go to voxelbans.net!");
+                System.out.println("[VolumetricBans] If you have not obtained an API Key, go to the website!");
                 System.out.println("[VolumetricBans] VolumetricBans will disable until a valid Key is added!");
                 pm.disablePlugin(this);
                 return;

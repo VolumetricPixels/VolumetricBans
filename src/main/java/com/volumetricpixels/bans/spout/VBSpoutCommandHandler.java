@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.spout.api.Spout;
+import org.spout.api.chat.ChatSection;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
@@ -29,7 +30,12 @@ public class VBSpoutCommandHandler implements CommandExecutor {
     @Override
     public boolean processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
         String name = cmd.getPreferredName();
-        String[] args = context.getRawArgs();
+        List<ChatSection> csl = context.getRawArgs();
+        String[] args = new String[csl.size()];
+        
+        for (int i = 0; i < csl.size(); i++) {
+            args[i] = csl.get(i).getPlainString();
+        }
         
         boolean vb = name.equalsIgnoreCase("vbans");
         boolean ban = name.equalsIgnoreCase("ban");
