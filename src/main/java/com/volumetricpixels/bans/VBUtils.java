@@ -1,7 +1,6 @@
 package com.volumetricpixels.bans;
 
 import com.volumetricpixels.bans.shared.perapi.Ban;
-import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 
 /**
@@ -17,17 +16,21 @@ public abstract class VBUtils {
     }
     
     public static Ban newBan(String player, String reason, String admin, boolean global) {
-        if (vb instanceof VolumetricBansSpout) {
-            return new SpoutBan(player, reason, admin, global);
+        switch (vb.getInUseAPI()) {
+            case SPOUT:
+                return new SpoutBan(player, reason, admin, global);
+            default:
+                throw new UnsupportedOperationException("The API being used has not got a newBan implementation!");
         }
-        return null;
     }
     
     public static Ban newBan(String player, String reason, String admin, long time) {
-        if (vb instanceof VolumetricBansSpout) {
-            return new SpoutBan(player, reason, admin, time);
+        switch (vb.getInUseAPI()) {
+            case SPOUT:
+                return new SpoutBan(player, reason, admin, time);
+            default:
+                throw new UnsupportedOperationException("The API being used has not got a newBan implementation!");
         }
-        return null;
     }
     
 }

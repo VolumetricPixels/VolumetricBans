@@ -1,25 +1,18 @@
-package com.volumetricpixels.bans.spout;
+package com.volumetricpixels.bans.bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.spout.api.Spout;
-import org.spout.api.player.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-import com.volumetricpixels.bans.shared.perapi.VBPermissions;
-
-/**
- * Easy way to deal with Permissions
- * Stores people with permissions in memory so no often perm checking
- * @author DziNeIT
- */
-public class VBSpoutPermissions implements VBPermissions {
+public class VBBukkitPermissions {
     
-    public static final VBSpoutPermissions perms = new VBSpoutPermissions((VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans"));
+    public static final VBBukkitPermissions perms = new VBBukkitPermissions((VolumetricBansBukkit) Bukkit.getPluginManager().getPlugin("VolumetricBans"));
     
-    private VolumetricBansSpout plugin;
+    private VolumetricBansBukkit plugin;
     
-    private VBSpoutPermissions(VolumetricBansSpout plugin) {
+    private VBBukkitPermissions(VolumetricBansBukkit plugin) {
         this.plugin = plugin;
     }
     
@@ -101,7 +94,7 @@ public class VBSpoutPermissions implements VBPermissions {
     
     void update() {
         // Updates all players
-        for (Player p : plugin.getEngine().getOnlinePlayers()) {
+        for (Player p : plugin.getServer().getOnlinePlayers()) {
             update(p);
         }
     }

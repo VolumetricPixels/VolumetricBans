@@ -94,7 +94,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             rootCmd.addSubCommand(e, "unban").setExecutor(cmdHandler).setHelp("Unbanning command!");
             
             /*
-             * Tell the punishments handler the plugin is enabled so it can use methods from CommonPlugin and initialize the utils (SharedUtil.init also calls VBUtils.init)
+             * Tell the punishments handler the plugin is enabled and initialize the utils (SharedUtil.init also calls VBUtils.init)
              */
             SharedUtil.init(this);
             punishments.pluginEnabled();
@@ -125,7 +125,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
                 }
             }
             
-            // Call our enable event and update / init everything remaining to do
+            // Call our enable event (for other plugins) and update / init everything remaining to do
             perms.update();
             bans.init();
             em.callEvent(new VolumetricBansEnableEvent(this));
@@ -182,6 +182,11 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     @Override
     public API getInUseAPI() {
         return API.SPOUT;
+    }
+
+    @Override
+    public VBPunishments getPunishmentHandler() {
+        return punishments;
     }
     
     /** Util Methods **/
