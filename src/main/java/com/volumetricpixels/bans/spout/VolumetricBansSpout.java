@@ -188,6 +188,11 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     public VBPunishments getPunishmentHandler() {
         return punishments;
     }
+
+    @Override
+    public PlayerDataRetriever getPlayerDataRetriever() {
+        return pdr;
+    }
     
     /** Util Methods **/
     

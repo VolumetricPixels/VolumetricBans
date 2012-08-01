@@ -5,6 +5,7 @@ import java.io.File;
 import com.volumetricpixels.bans.shared.VBPunishments;
 import com.volumetricpixels.bans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.bans.shared.connection.DataRetriever;
+import com.volumetricpixels.bans.shared.connection.PlayerDataRetriever;
 import com.volumetricpixels.bans.shared.perapi.GlobalBanStorer;
 import com.volumetricpixels.bans.shared.perapi.VBConfig;
 import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
@@ -40,5 +41,7 @@ public interface VolumetricBans {
     public File getDataFolder();
     
     public VBPunishments getPunishmentHandler();
+    
+    public PlayerDataRetriever getPlayerDataRetriever();
     
 }
