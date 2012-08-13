@@ -10,8 +10,8 @@ import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandExecutor;
 import org.spout.api.command.CommandSource;
+import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
-import org.spout.api.player.Player;
 
 import com.volumetricpixels.bans.shared.TimeType;
 import com.volumetricpixels.bans.shared.perapi.Ban;

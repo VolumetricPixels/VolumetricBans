@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.spout.api.Spout;
-import org.spout.api.player.Player;
+import org.spout.api.entity.Player;
 
 import com.volumetricpixels.bans.shared.perapi.VBPermissions;
 

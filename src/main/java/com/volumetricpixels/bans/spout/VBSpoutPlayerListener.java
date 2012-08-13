@@ -1,11 +1,11 @@
 package com.volumetricpixels.bans.spout;
 
 import org.spout.api.chat.style.ChatStyle;
+import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerJoinEvent;
-import org.spout.api.player.Player;
 
 public class VBSpoutPlayerListener implements Listener {
     
