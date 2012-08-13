@@ -1,6 +1,10 @@
 package com.volumetricpixels.bans.spout.util;
 
+import java.io.File;
+import java.util.List;
+
 import org.spout.api.Spout;
+import org.spout.api.util.config.yaml.YamlConfiguration;
 
 import com.volumetricpixels.bans.shared.util.SharedUtil;
 
@@ -10,6 +14,14 @@ public class SpoutUtils extends SharedUtil {
     
     public void kickPlayer(String player, Object... reason) {
         Spout.getEngine().getPlayer(player, true).kick(reason);
+    }
+    
+    public void setConfigNode(File f, String path, Object value) {
+        new YamlConfiguration(f).getNode(path).setValue(value);
+    }
+    
+    public List<String> getStringList(File f, String path) {
+        return new YamlConfiguration(f).getNode(path).getStringList();
     }
     
 }

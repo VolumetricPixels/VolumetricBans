@@ -10,6 +10,7 @@ import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginManager;
 
 import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.shared.VBGlobalBanStorer;
 import com.volumetricpixels.bans.shared.VBPunishments;
 import com.volumetricpixels.bans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.bans.shared.connection.DataRetriever;
@@ -22,7 +23,6 @@ import com.volumetricpixels.bans.shared.util.SharedUtil;
 import com.volumetricpixels.bans.spout.client.VBSpoutClientHandler;
 import com.volumetricpixels.bans.spout.event.VolumetricBansDisableEvent;
 import com.volumetricpixels.bans.spout.event.VolumetricBansEnableEvent;
-import com.volumetricpixels.bans.spout.files.SpoutGlobalBanStorer;
 import com.volumetricpixels.bans.spout.files.VBSpoutConfig;
 import com.volumetricpixels.bans.spout.files.VBSpoutLocalBans;
 import com.volumetricpixels.bans.spout.files.VBSpoutMutes;
@@ -54,7 +54,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     // Web stuff and global ban temporary storing
     public BanSynchronizer bs;
     public DataRetriever mainDataRetriever;
-    public SpoutGlobalBanStorer gbts;
+    public VBGlobalBanStorer gbts;
     public PlayerDataRetriever pdr;
     
     public VolumetricBansSpout() {
@@ -76,7 +76,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             
             // Init web stuff
             this.mainDataRetriever = new DataRetriever(this);
-            this.gbts = new SpoutGlobalBanStorer(this);
+            this.gbts = new VBGlobalBanStorer(this);
             this.bs = new BanSynchronizer(this);
             this.pdr = new PlayerDataRetriever(this);
             

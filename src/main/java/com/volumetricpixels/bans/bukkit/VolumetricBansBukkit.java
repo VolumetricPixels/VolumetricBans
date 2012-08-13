@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.bukkit.files.VBBukkitConfig;
+import com.volumetricpixels.bans.bukkit.util.BukkitUtils;
 import com.volumetricpixels.bans.shared.VBPunishments;
 import com.volumetricpixels.bans.shared.connection.BanSynchronizer;
 import com.volumetricpixels.bans.shared.connection.DataRetriever;
@@ -24,6 +25,7 @@ public class VolumetricBansBukkit extends JavaPlugin implements VolumetricBans {
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(new VBBukkitPlayerListener(this), this);
+        BukkitUtils.instance = new BukkitUtils();
         
         CommandExecutor e = new VBBukkitCommandHandler();
         this.getCommand("ban").setExecutor(e);
