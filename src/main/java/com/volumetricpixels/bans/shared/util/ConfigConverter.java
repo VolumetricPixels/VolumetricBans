@@ -21,6 +21,7 @@ public class ConfigConverter {
                 SpoutUtils.instance.setConfigNode(f, path, value);
                 break;
             case BUKKIT:
+                BukkitUtils.instance.setConfigValue(f, path, value);
                 break;
         }
     }
