@@ -29,7 +29,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
     }
 
     @Override
-    public boolean processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
+    public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
         String name = cmd.getPreferredName();
         List<ChatSection> csl = context.getRawArgs();
         String[] args = new String[csl.size()];
@@ -54,14 +54,14 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         
         if (!commandIsValid) {
             // We didn't register that command, how did it get here?
-            return false;
+            return;
         }
         
         if (vb) {
             // /vBans command
             if (args.length != 1) {
                 sendVbansHelp(source);
-                return true;
+                return;
             }
             if (args[0].equalsIgnoreCase("status")) {
                 if (plugin.perms.isAdmin(source.getName()) || !(source instanceof Player)) {
@@ -72,13 +72,13 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             } else {
                 source.sendMessage(ChatStyle.RED, "Unknown subcommand of /vBans!");
             }
-            return true;
+            return;
         }
         
         if (ban) {
             if (!plugin.perms.canLocalBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
-                return true;
+                return;
             }
             // /ban command
             if (args.length < 1) {
@@ -94,13 +94,13 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 }
                 plugin.punishments.localBanPlayer(args[1], reason, source.getName());
             }
-            return true;
+            return;
         }
         
         if (gban) {
             if (!plugin.perms.canGlobalBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
-                return true;
+                return;
             }
             if (args.length < 2) {
                 source.sendMessage(ChatStyle.RED, "Usage: /gban [playerName] [reason ban be multiple words] - Globally ban player for the reason given!");
@@ -119,7 +119,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         if (tban) {
             if (!plugin.perms.canTempBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
-                return true;
+                return;
             }
             if (args.length < 3) {
                 source.sendMessage(ChatStyle.RED, "Usage: /tban [playerName] [timeInt] [m/d/h] {reason} - Temp ban a player!");
@@ -165,7 +165,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             } else {
                 source.sendMessage(ChatStyle.RED, "Usage: /unban PlayerName");
             }
-            return true;
+            return;
         }
         
         if (kick) {
@@ -203,7 +203,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                     }
                 }
             }
-            return true;
+            return;
         }
         
         if (mute) {
@@ -211,7 +211,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             // Handle perms at the start for mutes because the permission is always the same
             if (!(plugin.perms.canMute(source.getName())) && source instanceof Player) {
                 source.sendMessage(plugin.noPermsMessage);
-                return true;
+                return;
             }
             if (args.length == 0) {
                 source.sendMessage(ChatStyle.RED, "Usage: /mute PlayerName {minutes=ConfigDefault} - Any params in {} are optional!");
@@ -246,7 +246,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                     }
                 }
             }
-            return true;
+            return;
         }
         
         if (unmute) {
@@ -264,7 +264,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         if (lookup) {
             // /lookup command
             // TODO: Lookups
-            return true;
+            return;
         }
         
         if (banlist) {
@@ -282,7 +282,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             } else {
                 source.sendMessage(plugin.noPermsMessage);
             }
-            return true;
+            return;
         }
         
         if (banreason) {
@@ -296,10 +296,8 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             } else {
                 source.sendMessage(plugin.noPermsMessage);
             }
-            return true;
+            return;
         }
-        
-        return false;
     }
     
     private void sendVbansHelp(CommandSource s) {
