@@ -14,6 +14,7 @@ import org.spout.api.util.config.ConfigurationNode;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
 import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
+import com.volumetricpixels.bans.shared.perapi.Ban;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers;
@@ -31,7 +32,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
     private File dataFolder;
     
     // Sections: 0 = Player Banned, 1 = Reason, 2 = Admin, 4 = Time (only if temp)
-    private final List<SpoutBan> localbans = new ArrayList<SpoutBan>();
+    private final List<Ban> localbans = new ArrayList<Ban>();
     private File banFile;
     private YamlConfiguration conf;
     
@@ -78,7 +79,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
         while (iterator.hasNext()) {
             Entry<String, ConfigurationNode> entry = iterator.next();
             String[] sections = entry.getKey().split(":");
-            SpoutBan b = null;
+            Ban b = null;
             if (Long.parseLong(sections[4]) != -1 && sections[4] != null) {
                 b = new SpoutBan(sections[0], sections[1], sections[2], Long.parseLong(sections[4]));
             } else if (Boolean.parseBoolean(sections[3]) == true) {
@@ -96,7 +97,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
     }
     
     public boolean isBanned(String name) {
-        for (SpoutBan b : localbans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 return true;
             }
@@ -105,7 +106,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
     }
     
     public String getBanReason(String name) {
-        for (SpoutBan b : localbans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 return b.getReason();
             }
@@ -114,7 +115,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
     }
     
     public String getAdmin(String banned) {
-        for (SpoutBan b : localbans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(banned)) {
                 return b.getAdmin();
             }
@@ -122,7 +123,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
         return null;
     }
     
-    public List<SpoutBan> getBans() {
+    public List<Ban> getBans() {
         return localbans;
     }
     
@@ -153,7 +154,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
         if (!isBanned(name)) {
             return false;
         }
-        for (SpoutBan b : localbans) {
+        for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
                 localbans.remove(b);
                 updateConfig(true);
@@ -166,7 +167,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
     private void updateConfig(boolean unban) {
         if (unban) {
             List<String> toBeInConf = new ArrayList<String>();
-            for (SpoutBan b : localbans) {
+            for (Ban b : localbans) {
                 String value = "";
                 value = b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin() + ":" + String.valueOf(b.isGlobal()) + ":" + b.getTime();
                 toBeInConf.add(value);
@@ -174,7 +175,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
             conf.getNode("Bans").setValue(toBeInConf);
         } else {
             List<String> inConf = conf.getNode("Bans").getStringList();
-            for (SpoutBan b : localbans) {
+            for (Ban b : localbans) {
                 boolean found = false;
                 for (String s : inConf) {
                     if (b.getPlayer().equalsIgnoreCase(s.split(":")[0])) {

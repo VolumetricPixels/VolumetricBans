@@ -20,7 +20,7 @@ public abstract class VBUtils {
             case SPOUT:
                 return new SpoutBan(player, reason, admin, global);
             default:
-                throw new UnsupportedOperationException("The API being used has not got a newBan implementation!");
+                throw new UnsupportedOperationException("The API being used has not got a Ban implementation!");
         }
     }
     
@@ -29,7 +29,7 @@ public abstract class VBUtils {
             case SPOUT:
                 return new SpoutBan(player, reason, admin, time);
             default:
-                throw new UnsupportedOperationException("The API being used has not got a newBan implementation!");
+                throw new UnsupportedOperationException("The API being used has not got a Ban implementation!");
         }
     }
     
