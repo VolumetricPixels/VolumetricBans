@@ -9,7 +9,7 @@ public class VolumetricBansSpoutAPI implements VolumetricBansAPI {
     
     @Override
     public VolumetricBansSpout getPlugin() {
-        return (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VoxelBans");
+        return (VolumetricBansSpout) Spout.getEngine().getPluginManager().getPlugin("VolumetricBans");
     }
     
 }
