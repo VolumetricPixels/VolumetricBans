@@ -3,6 +3,7 @@ package com.volumetricpixels.bans.spout;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.chat.ChatSection;
 import org.spout.api.chat.style.ChatStyle;
@@ -172,7 +173,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             // /kick command
             if (args.length > 0) {
                 if (args.length == 1) {
-                    Player p = Spout.getEngine().getPlayer(args[0], false);
+                    Player p = ((Server) Spout.getEngine()).getPlayer(args[0], false);
                     if (p != null) {
                         if (plugin.perms.canKick(source.getName())) {
                             plugin.punishments.kickPlayer(p.getName(), "Kicked!");
@@ -183,7 +184,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                         source.sendMessage(ChatStyle.RED, "That player is not online!");
                     }
                 } else {
-                    Player p = Spout.getEngine().getPlayer(args[0], false);
+                    Player p = ((Server) Spout.getEngine()).getPlayer(args[0], false);
                     if (p != null) {
                         List<Object> kickMessage = new ArrayList<Object>();
                         int i = 0;
@@ -217,7 +218,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 source.sendMessage(ChatStyle.RED, "Usage: /mute PlayerName {minutes=ConfigDefault} - Any params in {} are optional!");
             } else {
                 if (args.length == 1) {
-                    Player toBan = Spout.getEngine().getPlayer(args[0], false);
+                    Player toBan = ((Server) Spout.getEngine()).getPlayer(args[0], true);
                     if (plugin.perms.canMute(source.getName())) {
                         if (toBan != null) {
                             plugin.mutes.mutePlayer(toBan.getName(), plugin.getVBConfig().getNode("Mutes.Default-Length").getLong());
@@ -229,7 +230,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                         source.sendMessage(plugin.noPermsMessage);
                     }
                 } else if (args.length == 2) {
-                    Player toBan = Spout.getEngine().getPlayer(args[0], false);
+                    Player toBan = ((Server) Spout.getEngine()).getPlayer(args[0], true);
                     if (plugin.perms.canMute(source.getName())) {
                         if (toBan != null) {
                             try {

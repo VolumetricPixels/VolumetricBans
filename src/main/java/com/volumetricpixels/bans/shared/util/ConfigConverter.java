@@ -23,6 +23,8 @@ public class ConfigConverter {
             case BUKKIT:
                 BukkitUtils.instance.setConfigValue(f, path, value);
                 break;
+            default:
+                throw new UnsupportedOperationException("The API has not yet got a setValue implementation!");
         }
     }
     
@@ -33,7 +35,7 @@ public class ConfigConverter {
             case BUKKIT:
                 return BukkitUtils.instance.getStringList(f, path);
             default:
-                return null;
+                throw new UnsupportedOperationException("The API has not yet got a getStringList implementation!");
         }
     }
     

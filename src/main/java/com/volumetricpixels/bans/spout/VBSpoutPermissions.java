@@ -3,6 +3,7 @@ package com.volumetricpixels.bans.spout;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 
@@ -101,7 +102,7 @@ public class VBSpoutPermissions implements VBPermissions {
     
     void update() {
         // Updates all players
-        for (Player p : plugin.getEngine().getOnlinePlayers()) {
+        for (Player p : ((Server) plugin.getEngine()).getOnlinePlayers()) {
             update(p);
         }
     }
