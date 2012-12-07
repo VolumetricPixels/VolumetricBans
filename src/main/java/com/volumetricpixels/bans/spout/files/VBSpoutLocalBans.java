@@ -63,7 +63,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
             String[] sArray = s.split(":");
             if (sArray[4] != null) {
                 VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(sArray[0], Long.parseLong(sArray[4]));
-                int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+                int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
                 vbsbt.setTaskId(id);
             }
         }
@@ -131,7 +131,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
         SpoutBan spoutBan = new SpoutBan(name, reason, admin, time);
         localbans.add(spoutBan);
         VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(name, time);
-        int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+        int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
         vbsbt.setTaskId(id);
         updateConfig(false);
     }

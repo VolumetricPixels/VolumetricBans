@@ -13,25 +13,23 @@ import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.shared.perapi.Ban;
 
 /**
- * Retrieves data from the server;
- * Not timed, just utils for other classes in this package.
- * Deals only with server things, not locally stored.
+ * Retrieves data from the server; Not timed, just utils for other classes in
+ * this package. Deals only with server things, not locally stored.
  */
 public class DataRetriever {
-    
     private VolumetricBans plugin;
-    
+
     public DataRetriever(VolumetricBans plugin) {
         this.plugin = plugin;
     }
-    
+
     public List<Ban> getAllBans() {
         List<Ban> result = new ArrayList<Ban>();
         result.addAll(getGlobalBans());
         result.addAll(getLocalBans());
         return result;
     }
-    
+
     public boolean isServerDisabled() {
         boolean result = false;
         try {
@@ -40,10 +38,11 @@ public class DataRetriever {
             postData.put("action", "isServerDisabled");
             JSONObject jO = jH.handleJsonObject(postData);
             result = jO.getBoolean("result");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return result;
     }
-    
+
     public List<Ban> getGlobalBans() {
         List<Ban> result = new ArrayList<Ban>();
         try {
@@ -58,10 +57,11 @@ public class DataRetriever {
                 result.add(VBUtils.newBan(sArray[0], sArray[1], sArray[2], true));
             }
             return result;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return null;
     }
-    
+
     public List<Ban> getLocalBans() {
         List<Ban> result = new ArrayList<Ban>();
         try {
@@ -76,7 +76,8 @@ public class DataRetriever {
                 result.add(VBUtils.newBan(sArray[0], sArray[1], sArray[2], false));
             }
             return result;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return null;
     }
 
@@ -84,5 +85,4 @@ public class DataRetriever {
         // TODO: Check
         return true;
     }
-    
 }

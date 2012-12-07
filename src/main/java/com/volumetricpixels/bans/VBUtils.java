@@ -5,16 +5,18 @@ import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 
 /**
  * General utilities for VolumetricBans
+ * 
  * @author DziNeIT
  */
 public abstract class VBUtils {
-    
     private static VolumetricBans vb;
-    
+
     public static void init(VolumetricBans v) {
-        vb = v;
+        if (vb == null && v != null) {
+            vb = v;
+        }
     }
-    
+
     public static Ban newBan(String player, String reason, String admin, boolean global) {
         switch (vb.getInUseAPI()) {
             case SPOUT:
@@ -23,7 +25,7 @@ public abstract class VBUtils {
                 throw new UnsupportedOperationException("The API being used has not got a Ban implementation!");
         }
     }
-    
+
     public static Ban newBan(String player, String reason, String admin, long time) {
         switch (vb.getInUseAPI()) {
             case SPOUT:
@@ -32,5 +34,4 @@ public abstract class VBUtils {
                 throw new UnsupportedOperationException("The API being used has not got a Ban implementation!");
         }
     }
-    
 }

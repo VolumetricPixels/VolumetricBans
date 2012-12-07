@@ -13,24 +13,23 @@ import com.volumetricpixels.bans.shared.perapi.GlobalBanStorer;
 import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
 
 /**
- * Deals only with website bans.
- * Synchronizes bans (adds to website)
+ * Deals only with website bans. Synchronizes bans (adds to website)
+ * 
  * @author DziNeIT
  */
 public class BanSynchronizer implements Runnable {
-    
     private VolumetricBans plugin;
     private VBLocalBans bans;
     private GlobalBanStorer gbts;
     private DataRetriever dr;
-    
+
     public BanSynchronizer(VolumetricBans plugin) {
         this.plugin = plugin;
         this.bans = this.plugin.getLocalBanHandler();
         this.gbts = this.plugin.getGlobalBanStorer();
         this.dr = new DataRetriever(plugin);
     }
-    
+
     @Override
     public void run() {
         List<Ban> localBanList = new ArrayList<Ban>();
@@ -51,16 +50,17 @@ public class BanSynchronizer implements Runnable {
                 submitBan(b, false);
                 try {
                     gbts.remove(this, b);
-                } catch (IllegalAccessException neverHappens) {} // Exception only occurs if param 1 in remove is null
+                } catch (IllegalAccessException neverHappens) {
+                } // Exception only occurs if param 1 in remove is null
             }
         }
     }
-    
+
     @SuppressWarnings("unused")
     private boolean isBannedAtAll(String player) {
         return dr.getAllBans().contains(player);
     }
-    
+
     private boolean isGloballyBanned(String player) {
         for (Ban b : dr.getGlobalBans()) {
             if (b.getPlayer().equalsIgnoreCase(player)) {
@@ -69,7 +69,7 @@ public class BanSynchronizer implements Runnable {
         }
         return false;
     }
-    
+
     private boolean isLocallyBanned(String player) {
         for (Ban b : dr.getLocalBans()) {
             if (b.getPlayer().equalsIgnoreCase(player)) {
@@ -78,7 +78,7 @@ public class BanSynchronizer implements Runnable {
         }
         return false;
     }
-    
+
     public void removeBan(String player) {
         try {
             JSONHandler jH = new JSONHandler(plugin, "bans");
@@ -89,11 +89,12 @@ public class BanSynchronizer implements Runnable {
             if (!jO.getString("result").equalsIgnoreCase("OK")) {
                 System.err.println("[VoxelBans] JSON unban response was not OK! Possible invalid server API Key!");
             } else {
-                
+
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
-    
+
     private void submitBan(Ban b, boolean temp) {
         String player = b.getPlayer();
         String reason = b.getReason();
@@ -114,7 +115,8 @@ public class BanSynchronizer implements Runnable {
                 } else {
                     System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key!");
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         } else {
             try {
                 JSONHandler jH = new JSONHandler(plugin, "bans");
@@ -130,8 +132,8 @@ public class BanSynchronizer implements Runnable {
                 } else {
                     System.err.println("[VoxelBans] JSON ban response was not OK! Possible invalid server API Key!");
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
-    
 }

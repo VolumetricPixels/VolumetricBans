@@ -36,7 +36,7 @@ public class VBSpoutMutes implements VBMutes {
         for (String s : muteConfig.getNode("Muted").getStringList()) {
             String[] sArray = s.split("=");
             VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(sArray[0], Long.parseLong(sArray[1]));
-            int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+            int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
             vbsmt.setTaskId(id);
         }
         
@@ -46,7 +46,7 @@ public class VBSpoutMutes implements VBMutes {
     public void mutePlayer(String player, long time) {
         muted.add(player + "=" + time);
         VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(player, time);
-        int id = Spout.getScheduler().scheduleAsyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+        int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
         vbsmt.setTaskId(id);
         updateConfig(false);
     }

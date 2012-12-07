@@ -32,7 +32,7 @@ public class SpoutBan implements Ban {
         this.time = time;
         this.global = false;
         
-        Spout.getEngine().getScheduler().scheduleAsyncRepeatingTask(Spout.getEngine().getPluginManager().getPlugin("VolumetricBans"),
+        Spout.getEngine().getScheduler().scheduleSyncRepeatingTask(Spout.getEngine().getPluginManager().getPlugin("VolumetricBans"),
             new TempBanTimer(this, time), 0, 60000, TaskPriority.HIGHEST);
     }
     

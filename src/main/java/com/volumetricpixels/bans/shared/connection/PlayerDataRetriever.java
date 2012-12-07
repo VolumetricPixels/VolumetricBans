@@ -10,13 +10,12 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.VolumetricBans;
 
 public class PlayerDataRetriever {
-    
     private VolumetricBans plugin;
-    
+
     public PlayerDataRetriever(VolumetricBans vb) {
         this.plugin = vb;
     }
-    
+
     public boolean isBannedFromVBServers(String name) {
         boolean result = false;
         try {
@@ -26,10 +25,11 @@ public class PlayerDataRetriever {
             postData.put("player", name);
             JSONObject jO = jH.handleJsonObject(postData);
             result = jO.getBoolean("result");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return result;
     }
-    
+
     public int getReputation(String name) {
         int result = 10;
         try {
@@ -39,10 +39,11 @@ public class PlayerDataRetriever {
             postData.put("player", name);
             JSONObject jO = jH.handleJsonObject(postData);
             result = jO.getInt("result");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return result;
     }
-    
+
     public List<String> getServersBannedFrom(String name) {
         List<String> result = new ArrayList<String>();
         try {
@@ -54,8 +55,8 @@ public class PlayerDataRetriever {
             for (int i = 0; i <= jO.getJSONArray("result").length(); i++) {
                 result.add(jO.getJSONArray("result").getString(i));
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return result;
     }
-    
 }

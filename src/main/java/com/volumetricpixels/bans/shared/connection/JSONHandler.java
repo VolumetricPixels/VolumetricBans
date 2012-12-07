@@ -18,32 +18,33 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.VolumetricBans;
 
 /**
- * Handles JSON sent by the VoxelBans servers (done by Kwiebert)
+ * Handles JSON sent by the VoxelBans servers
+ * 
  * @author DziNeIT
  */
 public class JSONHandler {
-    
     private final VolumetricBans plugin;
     private final String apiKey;
     private String apiServerHostName;
     private String actionCategory;
-    
+
     public JSONHandler(VolumetricBans plugin2, String actionCategory) {
         this.plugin = plugin2;
         this.apiKey = plugin.getServerKey();
         this.actionCategory = actionCategory;
     }
-    
+
     public JSONObject getData(String jsonText) {
         try {
             return new JSONObject(jsonText);
-        } catch (JSONException e) {}
+        } catch (JSONException e) {
+        }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public Map<String, String> mainReq(Map<String, String> postData) {
-        Map<String,String> out = new HashMap<String, String>();
+        Map<String, String> out = new HashMap<String, String>();
         String reqUrl = parsePostItems(postData);
         String jsonText = apiRequest(reqUrl);
         JSONObject output = getData(jsonText);
@@ -54,23 +55,24 @@ public class JSONHandler {
                     String next = i.next();
                     try {
                         out.put(next, output.getString(next));
-                    } catch (JSONException ignore) {}
+                    } catch (JSONException ignore) {
+                    }
                 }
             }
         }
         return out;
     }
-    
+
     public JSONObject handleJsonObject(Map<String, String> postData) {
         String urlReq = parsePostItems(postData);
         String jText = apiRequest(urlReq);
         return getData(jText);
     }
-    
+
     public String apiRequest(String data) {
         return apiRequest(data, apiServerHostName);
     }
-    
+
     public String apiRequest(String data, String apiServer) {
         try {
             URL u = new URL(apiServer + "/api/" + actionCategory + "/" + apiKey);
@@ -88,20 +90,23 @@ public class JSONHandler {
                 b.append(line);
             }
             String result = b.toString();
-            // Separate try block so close failures do not disrupt whole API Request
+            // Separate try block so close failures do not disrupt whole API
+            // Request
             try {
                 osw.close();
                 r.close();
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
             return result;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return null;
     }
-    
+
     public String parsePostItems(Map<String, String> postData) {
         String data = null;
         try {
-            for (Entry<String, String> entry : postData.entrySet()){
+            for (Entry<String, String> entry : postData.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (data.equals("")) {
@@ -111,8 +116,8 @@ public class JSONHandler {
                 }
             }
             return data;
-        } catch (UnsupportedEncodingException ignore) {}
+        } catch (UnsupportedEncodingException ignore) {
+        }
         return "";
     }
-    
 }
