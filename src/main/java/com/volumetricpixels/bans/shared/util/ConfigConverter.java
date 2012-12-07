@@ -6,7 +6,7 @@ import java.util.List;
 import com.volumetricpixels.bans.spout.util.SpoutUtils;
 
 public class ConfigConverter {
-    
+
     private API api = SharedUtil.getApiInUse();
     private File f;
 
@@ -23,7 +23,7 @@ public class ConfigConverter {
                 throw new UnsupportedOperationException("The API has not yet got a setValue implementation!");
         }
     }
-    
+
     public List<String> getStringList(String path) {
         switch (api) {
             case SPOUT:
@@ -32,5 +32,5 @@ public class ConfigConverter {
                 throw new UnsupportedOperationException("The API has not yet got a getStringList implementation!");
         }
     }
-    
+
 }

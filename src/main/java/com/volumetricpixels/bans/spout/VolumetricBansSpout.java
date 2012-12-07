@@ -33,38 +33,38 @@ import com.volumetricpixels.bans.spout.util.SpoutUtils;
  * @author DziNeIT
  */
 public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans {
-    
+
     public final VBSpoutPermissions perms = VBSpoutPermissions.perms;
     public final VBPunishments punishments;
     public final VBSpoutLocalBans bans;
     public final VBSpoutMutes mutes;
-    
+
     public final Object[] noPermsMessage = {
-        ChatStyle.RED, "You don't have permission to do that!"
+            ChatStyle.RED, "You don't have permission to do that!"
     };
-    
+
     private Engine e;
     private EventManager em;
     private PluginManager pm;
-    
+
     private String apiKey = "VolumetricBansAPIKeyToDoGet";
     private VBSpoutConfig config = null;
     private VBSpoutCommandHandler cmdHandler = null;
-    
+
     // Web stuff and global ban temporary storing
     public BanSynchronizer bs;
     public DataRetriever mainDataRetriever;
     public VBGlobalBanStorer gbts;
     public PlayerDataRetriever pdr;
-    
+
     public VolumetricBansSpout() {
         this.bans = new VBSpoutLocalBans(this);
         this.mutes = new VBSpoutMutes(this);
         this.punishments = new VBPunishments(this);
     }
-    
+
     /** CommonPlugin Overriden Methods **/
-    
+
     @Override
     public void onEnable() {
         if (getEngine() instanceof Server) {
@@ -73,13 +73,13 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             this.e = getEngine();
             this.em = e.getEventManager();
             this.pm = e.getPluginManager();
-            
+
             // Init web stuff
             this.mainDataRetriever = new DataRetriever(this);
             this.gbts = new VBGlobalBanStorer(this);
             this.bs = new BanSynchronizer(this);
             this.pdr = new PlayerDataRetriever(this);
-            
+
             // Init command vars and setup commands
             // Then set help for commands
             this.cmdHandler = new VBSpoutCommandHandler(this);
@@ -92,14 +92,14 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             rootCmd.addSubCommand(e, "banlist").setExecutor(cmdHandler).setHelp("List bans!");
             rootCmd.addSubCommand(e, "lookup").setExecutor(cmdHandler).setHelp("Lookup a player!");
             rootCmd.addSubCommand(e, "unban").setExecutor(cmdHandler).setHelp("Unbanning command!");
-            
+
             /*
              * Tell the punishments handler the plugin is enabled and initialize the utils (SharedUtil.init also calls VBUtils.init)
              */
             SharedUtil.init(this);
             punishments.pluginEnabled();
             SpoutUtils.instance = new SpoutUtils();
-            
+
             // Check API Key validity
             if (!apiKeyValid()) {
                 System.out.println("[VolumetricBans] You have not added an API Key to the config, or the entered key is invalid!");
@@ -109,7 +109,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
                 pm.disablePlugin(this);
                 return;
             }
-            
+
             // Check for server validity (E.G. It is disabled)
             if (!isServerValid()) {
                 System.err.println("[VolumetricBans] An error occurred with your server:");
@@ -124,7 +124,7 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
                     return;
                 }
             }
-            
+
             // Call our enable event (for other plugins) and update / init everything remaining to do
             perms.update();
             bans.init();
@@ -135,50 +135,50 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
             throw new IllegalStateException("VolumetricBans does not support proxy servers!");
         }
     }
-    
+
     @Override
     public void onDisable() {
         // Call disable event for other plugins
         em.callEvent(new VolumetricBansDisableEvent(this));
     }
-    
+
     /** VolumetricBans Interface Overriden Methods **/
-    
+
     @Override
     public String getServerKey() {
         return apiKey;
     }
-    
+
     @Override
     public VBSpoutConfig getVBConfig() {
         return config;
     }
-    
+
     @Override
     public VBLocalBans getLocalBanHandler() {
         return bans;
     }
-    
+
     @Override
     public VBMutes getMuteHandler() {
         return mutes;
     }
-    
+
     @Override
     public BanSynchronizer getBanSynchronizer() {
         return bs;
     }
-    
+
     @Override
     public GlobalBanStorer getGlobalBanStorer() {
         return gbts;
     }
-    
+
     @Override
     public DataRetriever getMainDataRetriever() {
         return mainDataRetriever;
     }
-    
+
     @Override
     public API getInUseAPI() {
         return API.SPOUT;
@@ -193,9 +193,9 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     public PlayerDataRetriever getPlayerDataRetriever() {
         return pdr;
     }
-    
+
     /** Util Methods **/
-    
+
     public boolean apiKeyValid() {
         if (apiKey != null) {
             // Performs a server check; if it is null an exception was thrown, meaning there was probably an invalid API Key
@@ -204,15 +204,15 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
         }
         return false;
     }
-    
+
     public boolean isServerValid() {
         // Checks all possible server validity errors
         return !isServerDisabled();
     }
-    
+
     public boolean isServerDisabled() {
         // Checks if the VolumetricBans admins disabled the server
         return mainDataRetriever.isServerDisabled();
     }
-    
+
 }

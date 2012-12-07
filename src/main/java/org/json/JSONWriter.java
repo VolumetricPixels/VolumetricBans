@@ -57,34 +57,34 @@ SOFTWARE.
  * @version 2011-11-24
  */
 public class JSONWriter {
-    
+
     private static final int maxdepth = 200;
-    
+
     /**
      * The comma flag determines if a comma should be output before the next value.
      */
     private boolean comma;
-    
+
     /**
      * The current mode. Values: 'a' (array), 'd' (done), 'i' (initial), 'k' (key), 'o' (object).
      */
     protected char mode;
-    
+
     /**
      * The object/array stack.
      */
     private final JSONObject stack[];
-    
+
     /**
      * The stack top index. A value of 0 indicates that the stack is empty.
      */
     private int top;
-    
+
     /**
      * The writer that will receive the output.
      */
     protected Writer writer;
-    
+
     /**
      * Make a fresh JSONWriter. It can be used to build one JSON text.
      */
@@ -95,7 +95,7 @@ public class JSONWriter {
         this.top = 0;
         this.writer = w;
     }
-    
+
     /**
      * Append a value.
      * 
@@ -124,7 +124,7 @@ public class JSONWriter {
         }
         throw new JSONException("Value out of sequence.");
     }
-    
+
     /**
      * Begin appending a new array. All values until the balancing <code>endArray</code> will be appended to this array. The <code>endArray</code> method must be called to mark the array's end.
      * 
@@ -140,7 +140,7 @@ public class JSONWriter {
         }
         throw new JSONException("Misplaced array.");
     }
-    
+
     /**
      * End something.
      * 
@@ -152,8 +152,8 @@ public class JSONWriter {
     private JSONWriter end(char mode, char c) throws JSONException {
         if (this.mode != mode) {
             throw new JSONException(mode == 'a'
-                ? "Misplaced endArray."
-                : "Misplaced endObject.");
+                    ? "Misplaced endArray."
+                    : "Misplaced endObject.");
         }
         this.pop(mode);
         try {
@@ -164,7 +164,7 @@ public class JSONWriter {
         this.comma = true;
         return this;
     }
-    
+
     /**
      * End an array. This method most be called to balance calls to <code>array</code>.
      * 
@@ -174,7 +174,7 @@ public class JSONWriter {
     public JSONWriter endArray() throws JSONException {
         return this.end('a', ']');
     }
-    
+
     /**
      * End an object. This method most be called to balance calls to <code>object</code>.
      * 
@@ -184,7 +184,7 @@ public class JSONWriter {
     public JSONWriter endObject() throws JSONException {
         return this.end('k', '}');
     }
-    
+
     /**
      * Append a key. The key will be associated with the next value. In an object, every value must be preceded by a key.
      * 
@@ -213,7 +213,7 @@ public class JSONWriter {
         }
         throw new JSONException("Misplaced key.");
     }
-    
+
     /**
      * Begin appending a new object. All keys and values until the balancing <code>endObject</code> will be appended to this object. The <code>endObject</code> method must be called to mark the
      * object's end.
@@ -232,9 +232,9 @@ public class JSONWriter {
             return this;
         }
         throw new JSONException("Misplaced object.");
-        
+
     }
-    
+
     /**
      * Pop an array or object scope.
      * 
@@ -251,12 +251,12 @@ public class JSONWriter {
         }
         this.top -= 1;
         this.mode = this.top == 0
-            ? 'd'
-            : this.stack[this.top - 1] == null
-                ? 'a'
-                : 'k';
+                ? 'd'
+                : this.stack[this.top - 1] == null
+                        ? 'a'
+                        : 'k';
     }
-    
+
     /**
      * Push an array or object scope.
      * 
@@ -271,7 +271,7 @@ public class JSONWriter {
         this.mode = jo == null ? 'a' : 'k';
         this.top += 1;
     }
-    
+
     /**
      * Append either the value <code>true</code> or the value <code>false</code>.
      * 
@@ -282,7 +282,7 @@ public class JSONWriter {
     public JSONWriter value(boolean b) throws JSONException {
         return this.append(b ? "true" : "false");
     }
-    
+
     /**
      * Append a double value.
      * 
@@ -293,7 +293,7 @@ public class JSONWriter {
     public JSONWriter value(double d) throws JSONException {
         return this.value(new Double(d));
     }
-    
+
     /**
      * Append a long value.
      * 
@@ -304,7 +304,7 @@ public class JSONWriter {
     public JSONWriter value(long l) throws JSONException {
         return this.append(Long.toString(l));
     }
-    
+
     /**
      * Append an object value.
      * 
@@ -315,5 +315,5 @@ public class JSONWriter {
     public JSONWriter value(Object object) throws JSONException {
         return this.append(JSONObject.valueToString(object));
     }
-    
+
 }

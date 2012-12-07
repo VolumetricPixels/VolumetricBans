@@ -31,12 +31,12 @@ SOFTWARE.
  * @version 2010-12-24
  */
 public class XMLTokener extends JSONTokener {
-    
+
     /**
      * The table of entity values. It initially contains Character values for amp, apos, gt, lt, quot.
      */
     public static final java.util.HashMap entity;
-    
+
     static {
         entity = new java.util.HashMap(8);
         entity.put("amp", XML.AMP);
@@ -45,7 +45,7 @@ public class XMLTokener extends JSONTokener {
         entity.put("lt", XML.LT);
         entity.put("quot", XML.QUOT);
     }
-    
+
     /**
      * Construct an XMLTokener from a string.
      * 
@@ -54,7 +54,7 @@ public class XMLTokener extends JSONTokener {
     public XMLTokener(String s) {
         super(s);
     }
-    
+
     /**
      * Get the text in the CDATA block.
      * 
@@ -73,22 +73,22 @@ public class XMLTokener extends JSONTokener {
             sb.append(c);
             i = sb.length() - 3;
             if (i >= 0 && sb.charAt(i) == ']' &&
-                sb.charAt(i + 1) == ']' && sb.charAt(i + 2) == '>') {
+                    sb.charAt(i + 1) == ']' && sb.charAt(i + 2) == '>') {
                 sb.setLength(i);
                 return sb.toString();
             }
         }
     }
-    
-/**
-     * Get the next XML outer token, trimming whitespace. There are two kinds
-     * of tokens: the '<' character which begins a markup tag, and the content
-     * text between markup tags.
-     *
-     * @return  A string, or a '<' Character, or null if there is no more
-     * source text.
-     * @throws JSONException
-     */
+
+    /**
+         * Get the next XML outer token, trimming whitespace. There are two kinds
+         * of tokens: the '<' character which begins a markup tag, and the content
+         * text between markup tags.
+         *
+         * @return  A string, or a '<' Character, or null if there is no more
+         * source text.
+         * @throws JSONException
+         */
     public Object nextContent() throws JSONException {
         char c;
         StringBuffer sb;
@@ -115,7 +115,7 @@ public class XMLTokener extends JSONTokener {
             c = next();
         }
     }
-    
+
     /**
      * Return the next entity. These entities are translated to Characters: <code>&amp;  &apos;  &gt;  &lt;  &quot;</code>.
      * 
@@ -139,7 +139,7 @@ public class XMLTokener extends JSONTokener {
         Object object = entity.get(string);
         return object != null ? object : ampersand + string + ";";
     }
-    
+
     /**
      * Returns the next XML meta token. This is used for skipping over <!...> and <?...?> structures.
      * 
@@ -201,7 +201,7 @@ public class XMLTokener extends JSONTokener {
                 }
         }
     }
-    
+
     /**
      * Get the next XML Token. These tokens are found inside of angle brackets. It may be one of these characters: <code>/ > = ! ?</code> or it may be a string wrapped in single quotes or double
      * quotes, or it may be a name.
@@ -231,9 +231,9 @@ public class XMLTokener extends JSONTokener {
                 return XML.BANG;
             case '?':
                 return XML.QUEST;
-                
+
                 // Quoted string
-                
+
             case '"':
             case '\'':
                 q = c;
@@ -253,9 +253,9 @@ public class XMLTokener extends JSONTokener {
                     }
                 }
             default:
-                
+
                 // Name
-                
+
                 sb = new StringBuffer();
                 for (;;) {
                     sb.append(c);
@@ -283,7 +283,7 @@ public class XMLTokener extends JSONTokener {
                 }
         }
     }
-    
+
     /**
      * Skip characters until past the requested string. If it is not found, we are left at the end of the source with a result of false.
      * 
@@ -298,11 +298,11 @@ public class XMLTokener extends JSONTokener {
         int offset = 0;
         int length = to.length();
         char[] circle = new char[length];
-        
+
         /*
          * First fill the circle buffer with as many characters as are in the to string. If we reach an early end, bail.
          */
-        
+
         for (i = 0; i < length; i += 1) {
             c = next();
             if (c == 0) {
@@ -352,5 +352,5 @@ public class XMLTokener extends JSONTokener {
             }
         }
     }
-    
+
 }

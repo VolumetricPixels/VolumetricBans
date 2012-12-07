@@ -5,7 +5,7 @@ package com.volumetricpixels.bans.shared.util;
  * @author DziNeIT
  */
 public enum API {
-    
+
     SPOUT, BUKKIT, CANARY, MOJANG_API, UNKNOWN;
-    
+
 }

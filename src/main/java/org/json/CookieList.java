@@ -32,7 +32,7 @@ import java.util.Iterator;
  * @version 2010-12-24
  */
 public class CookieList {
-    
+
     /**
      * Convert a cookie list into a JSONObject. A cookie list is a sequence of name/value pairs. The names are separated from the values by '='. The pairs are separated by ';'. The names and the
      * values will be unescaped, possibly converting '+' and '%' sequences. To add a cookie to a cooklist, cookielistJSONObject.put(cookieJSONObject.getString("name"),
@@ -53,7 +53,7 @@ public class CookieList {
         }
         return jo;
     }
-    
+
     /**
      * Convert a JSONObject into a cookie list. A cookie list is a sequence of name/value pairs. The names are separated from the values by '='. The pairs are separated by ';'. The characters '%',
      * '+', '=', and ';' in the names and values are replaced by "%hh".
@@ -81,5 +81,5 @@ public class CookieList {
         }
         return sb.toString();
     }
-    
+
 }

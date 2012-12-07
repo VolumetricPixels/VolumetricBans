@@ -31,7 +31,7 @@ SOFTWARE.
  * @version 2010-12-24
  */
 public class HTTPTokener extends JSONTokener {
-    
+
     /**
      * Construct an HTTPTokener from a string.
      * 
@@ -40,7 +40,7 @@ public class HTTPTokener extends JSONTokener {
     public HTTPTokener(String string) {
         super(string);
     }
-    
+
     /**
      * Get the next token or string. This is used in parsing HTTP headers.
      * 
@@ -75,5 +75,5 @@ public class HTTPTokener extends JSONTokener {
             c = next();
         }
     }
-    
+
 }

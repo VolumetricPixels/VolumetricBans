@@ -13,8 +13,8 @@ import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.ConfigurationNode;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
 import com.volumetricpixels.bans.shared.perapi.Ban;
+import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers;
@@ -25,40 +25,40 @@ import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers.VBSpoutBa
  * Globals handled elsewhere
  */
 public class VBSpoutLocalBans implements VBLocalBans {
-    
+
     private final VolumetricBansSpout plugin;
     public final VBSpoutPunishTimers vbspt = new VBSpoutPunishTimers();
     private boolean initialized = false;
     private File dataFolder;
-    
+
     // Sections: 0 = Player Banned, 1 = Reason, 2 = Admin, 4 = Time (only if temp)
     private final List<Ban> localbans = new ArrayList<Ban>();
     private File banFile;
     private YamlConfiguration conf;
-    
+
     private final List<String> exceptions = new ArrayList<String>();
     private final List<String> ignoredReasons = new ArrayList<String>();
     private YamlConfiguration exceptionYaml;
     private File exceptionFile;
-    
+
     public VBSpoutLocalBans(VolumetricBansSpout pl) {
         this.plugin = pl;
     }
-    
+
     // Called in onEnable; NOT when plugin instance created
     public void init() {
         if (initialized) {
             return;
         }
-        
+
         this.dataFolder = plugin.getDataFolder();
-        
+
         this.banFile = new File(dataFolder, "bans.yml");
         this.conf = new YamlConfiguration(banFile);
-        
+
         this.exceptionFile = new File(dataFolder, "exceptions.yml");
         this.exceptionYaml = new YamlConfiguration(exceptionFile);
-        
+
         for (String s : conf.getNode("Bans").getStringList()) {
             String[] sArray = s.split(":");
             if (sArray[4] != null) {
@@ -67,15 +67,16 @@ public class VBSpoutLocalBans implements VBLocalBans {
                 vbsbt.setTaskId(id);
             }
         }
-        
+
         try {
             conf.load();
             exceptionYaml.load();
-        } catch (ConfigurationException e) {}
-        
+        } catch (ConfigurationException e) {
+        }
+
         Map<String, ConfigurationNode> map = conf.getChildren();
         Iterator<Entry<String, ConfigurationNode>> iterator = map.entrySet().iterator();
-        
+
         while (iterator.hasNext()) {
             Entry<String, ConfigurationNode> entry = iterator.next();
             String[] sections = entry.getKey().split(":");
@@ -89,13 +90,14 @@ public class VBSpoutLocalBans implements VBLocalBans {
             }
             localbans.add(b);
         }
-        
+
         exceptions.addAll(exceptionYaml.getNode("Ignored-Players").getStringList());
         ignoredReasons.addAll(exceptionYaml.getNode("Ignored-Reasons").getStringList());
-        
+
         initialized = true;
     }
-    
+
+    @Override
     public boolean isBanned(String name) {
         for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
@@ -104,7 +106,8 @@ public class VBSpoutLocalBans implements VBLocalBans {
         }
         return false;
     }
-    
+
+    @Override
     public String getBanReason(String name) {
         for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(name)) {
@@ -113,7 +116,8 @@ public class VBSpoutLocalBans implements VBLocalBans {
         }
         return null;
     }
-    
+
+    @Override
     public String getAdmin(String banned) {
         for (Ban b : localbans) {
             if (b.getPlayer().equalsIgnoreCase(banned)) {
@@ -122,11 +126,13 @@ public class VBSpoutLocalBans implements VBLocalBans {
         }
         return null;
     }
-    
+
+    @Override
     public List<Ban> getBans() {
         return localbans;
     }
-    
+
+    @Override
     public void banPlayer(String name, String reason, String admin, long time) {
         SpoutBan spoutBan = new SpoutBan(name, reason, admin, time);
         localbans.add(spoutBan);
@@ -135,21 +141,25 @@ public class VBSpoutLocalBans implements VBLocalBans {
         vbsbt.setTaskId(id);
         updateConfig(false);
     }
-    
+
+    @Override
     public void banPlayer(String name, String reason, String admin) {
         SpoutBan spoutBan = new SpoutBan(name, reason, admin, false);
         localbans.add(spoutBan);
         updateConfig(false);
     }
-    
+
+    @Override
     public void banPlayer(String name, String admin) {
         banPlayer(name, "Banned!", admin);
     }
-    
+
+    @Override
     public void banPlayer(String name) {
         banPlayer(name, "CONSOLE");
     }
-    
+
+    @Override
     public boolean unbanPlayer(String name) {
         if (!isBanned(name)) {
             return false;
@@ -163,7 +173,7 @@ public class VBSpoutLocalBans implements VBLocalBans {
         }
         return false;
     }
-    
+
     private void updateConfig(boolean unban) {
         if (unban) {
             List<String> toBeInConf = new ArrayList<String>();
@@ -189,5 +199,5 @@ public class VBSpoutLocalBans implements VBLocalBans {
             conf.getNode("Bans").setValue(inConf);
         }
     }
-    
+
 }

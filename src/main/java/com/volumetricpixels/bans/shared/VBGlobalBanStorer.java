@@ -18,6 +18,7 @@ public class VBGlobalBanStorer implements GlobalBanStorer {
         this.yc = new ConfigConverter(new File(vb.getDataFolder(), "doNotTouch" + File.separator + "globalBansTemp.yml"));
     }
 
+    @Override
     public void addToTempList(Ban b) {
         List<String> currentTemps = new ArrayList<String>();
         currentTemps.addAll(yc.getStringList("notSynchronizedGlobals"));
@@ -26,6 +27,7 @@ public class VBGlobalBanStorer implements GlobalBanStorer {
         yc.setValue("notSynchronizedGlobals", currentTemps);
     }
 
+    @Override
     public void remove(BanSynchronizer bs, Ban b) throws IllegalAccessException {
         if (bs == null) {
             throw new IllegalAccessException("Something tried to remove a ban from the GlobalTempBanSaver with a null param!");
@@ -39,6 +41,7 @@ public class VBGlobalBanStorer implements GlobalBanStorer {
         yc.setValue("notSynchronizedGlobals", currentTemps);
     }
 
+    @Override
     public List<Ban> getBansToSubmit() {
         List<Ban> result = new ArrayList<Ban>();
         List<String> inConf = yc.getStringList("notSynchronizedGlobals");

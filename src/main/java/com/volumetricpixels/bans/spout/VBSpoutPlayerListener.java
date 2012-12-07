@@ -8,13 +8,13 @@ import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerJoinEvent;
 
 public class VBSpoutPlayerListener implements Listener {
-    
+
     private VolumetricBansSpout plugin;
-    
+
     public VBSpoutPlayerListener(VolumetricBansSpout plugin) {
         this.plugin = plugin;
     }
-    
+
     @EventHandler(order = Order.LATEST)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -29,5 +29,5 @@ public class VBSpoutPlayerListener implements Listener {
         }
         plugin.perms.update(e.getPlayer());
     }
-    
+
 }

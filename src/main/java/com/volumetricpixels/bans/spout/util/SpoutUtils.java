@@ -10,19 +10,19 @@ import org.spout.api.util.config.yaml.YamlConfiguration;
 import com.volumetricpixels.bans.shared.util.SharedUtil;
 
 public class SpoutUtils extends SharedUtil {
-    
+
     public static SpoutUtils instance;
-    
+
     public void kickPlayer(String player, Object... reason) {
         ((Server) Spout.getEngine()).getPlayer(player, true).kick(reason);
     }
-    
+
     public void setConfigNode(File f, String path, Object value) {
         new YamlConfiguration(f).getNode(path).setValue(value);
     }
-    
+
     public List<String> getStringList(File f, String path) {
         return new YamlConfiguration(f).getNode(path).getStringList();
     }
-    
+
 }

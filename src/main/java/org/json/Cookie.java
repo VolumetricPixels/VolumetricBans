@@ -31,7 +31,7 @@ SOFTWARE.
  * @version 2010-12-24
  */
 public class Cookie {
-    
+
     /**
      * Produce a copy of a string in which the characters '+', '%', '=', ';' and control characters are replaced with "%hh". This is a gentle form of URL encoding, attempting to cause as little
      * distortion to the string as possible. The characters '=' and ';' are meta characters in cookies. By convention, they are escaped using the URL-encoding. This is only a convention, not a
@@ -57,7 +57,7 @@ public class Cookie {
         }
         return sb.toString();
     }
-    
+
     /**
      * Convert a cookie specification string into a JSONObject. The string will contain a name value pair separated by '='. The name and the value will be unescaped, possibly converting '+' and '%'
      * sequences. The cookie properties may follow, separated by ';', also represented as name=value (except the secure property, which does not have a value). The name will be stored under the key
@@ -92,7 +92,7 @@ public class Cookie {
         }
         return jo;
     }
-    
+
     /**
      * Convert a JSONObject into a cookie specification string. The JSONObject must contain "name" and "value" members. If the JSONObject contains "expires", "domain", "path", or "secure" members,
      * they will be appended to the cookie specification string. All other members are ignored.
@@ -103,7 +103,7 @@ public class Cookie {
      */
     public static String toString(JSONObject jo) throws JSONException {
         StringBuffer sb = new StringBuffer();
-        
+
         sb.append(escape(jo.getString("name")));
         sb.append("=");
         sb.append(escape(jo.getString("value")));
@@ -124,7 +124,7 @@ public class Cookie {
         }
         return sb.toString();
     }
-    
+
     /**
      * Convert <code>%</code><i>hh</i> sequences to single characters, and convert plus to space.
      * 
@@ -150,5 +150,5 @@ public class Cookie {
         }
         return sb.toString();
     }
-    
+
 }

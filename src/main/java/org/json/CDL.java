@@ -44,7 +44,7 @@ SOFTWARE.
  * @version 2010-12-24
  */
 public class CDL {
-    
+
     /**
      * Get the next value. The value can be wrapped in quotes. The value can be empty.
      * 
@@ -85,7 +85,7 @@ public class CDL {
                 return x.nextTo(',');
         }
     }
-    
+
     /**
      * Produce a JSONArray of strings from a row of comma delimited values.
      * 
@@ -99,7 +99,7 @@ public class CDL {
             String value = getValue(x);
             char c = x.next();
             if (value == null ||
-                (ja.length() == 0 && value.length() == 0 && c != ',')) {
+                    (ja.length() == 0 && value.length() == 0 && c != ',')) {
                 return null;
             }
             ja.put(value);
@@ -112,13 +112,13 @@ public class CDL {
                         return ja;
                     }
                     throw x.syntaxError("Bad character '" + c + "' (" +
-                        (int) c + ").");
+                            (int) c + ").");
                 }
                 c = x.next();
             }
         }
     }
-    
+
     /**
      * Produce a JSONObject from a row of comma delimited text, using a parallel JSONArray of strings to provides the names of the elements.
      * 
@@ -128,11 +128,11 @@ public class CDL {
      * @throws JSONException
      */
     public static JSONObject rowToJSONObject(JSONArray names, JSONTokener x)
-        throws JSONException {
+            throws JSONException {
         JSONArray ja = rowToJSONArray(x);
         return ja != null ? ja.toJSONObject(names) : null;
     }
-    
+
     /**
      * Produce a comma delimited text row from a JSONArray. Values containing the comma character will be quoted. Troublesome characters may be removed.
      * 
@@ -149,8 +149,8 @@ public class CDL {
             if (object != null) {
                 String string = object.toString();
                 if (string.length() > 0 && (string.indexOf(',') >= 0 ||
-                    string.indexOf('\n') >= 0 || string.indexOf('\r') >= 0 ||
-                    string.indexOf(0) >= 0 || string.charAt(0) == '"')) {
+                        string.indexOf('\n') >= 0 || string.indexOf('\r') >= 0 ||
+                        string.indexOf(0) >= 0 || string.charAt(0) == '"')) {
                     sb.append('"');
                     int length = string.length();
                     for (int j = 0; j < length; j += 1) {
@@ -168,7 +168,7 @@ public class CDL {
         sb.append('\n');
         return sb.toString();
     }
-    
+
     /**
      * Produce a JSONArray of JSONObjects from a comma delimited text string, using the first row as a source of names.
      * 
@@ -179,7 +179,7 @@ public class CDL {
     public static JSONArray toJSONArray(String string) throws JSONException {
         return toJSONArray(new JSONTokener(string));
     }
-    
+
     /**
      * Produce a JSONArray of JSONObjects from a comma delimited text string, using the first row as a source of names.
      * 
@@ -190,7 +190,7 @@ public class CDL {
     public static JSONArray toJSONArray(JSONTokener x) throws JSONException {
         return toJSONArray(rowToJSONArray(x), x);
     }
-    
+
     /**
      * Produce a JSONArray of JSONObjects from a comma delimited text string using a supplied JSONArray as the source of element names.
      * 
@@ -200,10 +200,10 @@ public class CDL {
      * @throws JSONException
      */
     public static JSONArray toJSONArray(JSONArray names, String string)
-        throws JSONException {
+            throws JSONException {
         return toJSONArray(names, new JSONTokener(string));
     }
-    
+
     /**
      * Produce a JSONArray of JSONObjects from a comma delimited text string using a supplied JSONArray as the source of element names.
      * 
@@ -213,7 +213,7 @@ public class CDL {
      * @throws JSONException
      */
     public static JSONArray toJSONArray(JSONArray names, JSONTokener x)
-        throws JSONException {
+            throws JSONException {
         if (names == null || names.length() == 0) {
             return null;
         }
@@ -230,7 +230,7 @@ public class CDL {
         }
         return ja;
     }
-    
+
     /**
      * Produce a comma delimited text from a JSONArray of JSONObjects. The first row will be a list of names obtained by inspecting the first JSONObject.
      * 
@@ -248,7 +248,7 @@ public class CDL {
         }
         return null;
     }
-    
+
     /**
      * Produce a comma delimited text from a JSONArray of JSONObjects using a provided list of names. The list of names is not included in the output.
      * 
@@ -258,7 +258,7 @@ public class CDL {
      * @throws JSONException
      */
     public static String toString(JSONArray names, JSONArray ja)
-        throws JSONException {
+            throws JSONException {
         if (names == null || names.length() == 0) {
             return null;
         }
@@ -271,5 +271,5 @@ public class CDL {
         }
         return sb.toString();
     }
-    
+
 }

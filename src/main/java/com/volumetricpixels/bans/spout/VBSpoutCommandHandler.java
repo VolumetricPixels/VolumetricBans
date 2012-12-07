@@ -22,9 +22,9 @@ import com.volumetricpixels.bans.shared.perapi.Ban;
  * @author DziNeIT
  */
 public class VBSpoutCommandHandler implements CommandExecutor {
-    
+
     private VolumetricBansSpout plugin;
-    
+
     public VBSpoutCommandHandler(VolumetricBansSpout plugin) {
         this.plugin = plugin;
     }
@@ -34,11 +34,11 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         String name = cmd.getPreferredName();
         List<ChatSection> csl = context.getRawArgs();
         String[] args = new String[csl.size()];
-        
+
         for (int i = 0; i < csl.size(); i++) {
             args[i] = csl.get(i).getPlainString();
         }
-        
+
         boolean vb = name.equalsIgnoreCase("vbans");
         boolean ban = name.equalsIgnoreCase("ban");
         boolean gban = name.equalsIgnoreCase("gban");
@@ -50,14 +50,14 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         boolean unban = name.equalsIgnoreCase("unban");
         boolean banlist = name.equalsIgnoreCase("banlist");
         boolean banreason = name.equalsIgnoreCase("banreason");
-        
+
         boolean commandIsValid = vb || ban || kick || mute || unmute || lookup || unban || banlist || banreason || gban || tban;
-        
+
         if (!commandIsValid) {
             // We didn't register that command, how did it get here?
             return;
         }
-        
+
         if (vb) {
             // /vBans command
             if (args.length != 1) {
@@ -75,7 +75,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (ban) {
             if (!plugin.perms.canLocalBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
@@ -84,7 +84,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             // /ban command
             if (args.length < 1) {
                 source.sendMessage(ChatStyle.RED, "Usage: /ban playerName {reason='Banned!'} - " +
-                		"Locally ban a player for the reason given, or 'banned' if blank!");
+                        "Locally ban a player for the reason given, or 'banned' if blank!");
             } else {
                 String reason = "";
                 for (int i = 1; args[i] != null; i++) {
@@ -97,7 +97,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (gban) {
             if (!plugin.perms.canGlobalBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
@@ -116,7 +116,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 plugin.punishments.globalBanPlayer(args[1], reason, source.getName());
             }
         }
-        
+
         if (tban) {
             if (!plugin.perms.canTempBan(source.getName()) || !(source instanceof Player)) {
                 source.sendMessage(plugin.noPermsMessage);
@@ -128,7 +128,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 String player = args[0];
                 int timeInt = Integer.parseInt(args[1]);
                 TimeType tt = TimeType.parse(args[2]);
-                
+
                 String reason = null;
                 for (int i = 3; args[i] != null; i++) {
                     if (i == 3) {
@@ -137,7 +137,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                         reason += args[i];
                     }
                 }
-                
+
                 switch (tt) {
                     case MINUTES:
                         plugin.punishments.tempBanPlayer(player, reason, source.getName(), timeInt);
@@ -154,7 +154,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 }
             }
         }
-        
+
         if (unban) {
             // /unban command
             if (args.length == 1) {
@@ -168,7 +168,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (kick) {
             // /kick command
             if (args.length > 0) {
@@ -206,7 +206,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (mute) {
             // /mute command
             // Handle perms at the start for mutes because the permission is always the same
@@ -249,7 +249,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (unmute) {
             if (plugin.perms.canUnmute(source.getName())) {
                 if (args[0] != null) {
@@ -261,13 +261,13 @@ public class VBSpoutCommandHandler implements CommandExecutor {
                 source.sendMessage(plugin.noPermsMessage);
             }
         }
-        
+
         if (lookup) {
             // /lookup command
             // TODO: Lookups
             return;
         }
-        
+
         if (banlist) {
             // /banlist command
             // TODO: Pages
@@ -285,7 +285,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             }
             return;
         }
-        
+
         if (banreason) {
             // /banreason command
             if (plugin.perms.canViewBans(source.getName()) || !(source instanceof Player)) {
@@ -300,7 +300,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             return;
         }
     }
-    
+
     private void sendVbansHelp(CommandSource s) {
         // Sends a CommandSource help for /vBans
         List<Object> message = new ArrayList<Object>();
@@ -312,7 +312,7 @@ public class VBSpoutCommandHandler implements CommandExecutor {
         message.add("/vBans flags - Display possible flags for /ban");
         s.sendMessage(message);
     }
-    
+
     private Object[] returnStatusMessage() {
         if (serverOnline()) {
             return new Object[] { ChatStyle.PURPLE, "The server is online!" };
@@ -320,9 +320,9 @@ public class VBSpoutCommandHandler implements CommandExecutor {
             return new Object[] { ChatStyle.DARK_RED, "The server is down!" };
         }
     }
-    
+
     private boolean serverOnline() {
         return plugin.mainDataRetriever.isVBServerOnline();
     }
-    
+
 }
