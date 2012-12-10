@@ -2,15 +2,16 @@ package com.volumetricpixels.bans;
 
 import java.io.File;
 
-import com.volumetricpixels.bans.shared.VBPunishments;
-import com.volumetricpixels.bans.shared.connection.BanSynchronizer;
-import com.volumetricpixels.bans.shared.connection.DataRetriever;
-import com.volumetricpixels.bans.shared.connection.PlayerDataRetriever;
-import com.volumetricpixels.bans.shared.perapi.GlobalBanStorer;
-import com.volumetricpixels.bans.shared.perapi.VBConfig;
-import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
-import com.volumetricpixels.bans.shared.perapi.VBMutes;
-import com.volumetricpixels.bans.shared.util.API;
+import com.volumetricpixels.bans.api.VolumetricBansAPI;
+import com.volumetricpixels.bans.crossapi.VBPunishments;
+import com.volumetricpixels.bans.crossapi.connection.BanSynchronizer;
+import com.volumetricpixels.bans.crossapi.connection.DataRetriever;
+import com.volumetricpixels.bans.crossapi.connection.PlayerDataRetriever;
+import com.volumetricpixels.bans.crossapi.perapi.GlobalBanStorer;
+import com.volumetricpixels.bans.crossapi.perapi.VBConfig;
+import com.volumetricpixels.bans.crossapi.perapi.VBLocalBans;
+import com.volumetricpixels.bans.crossapi.perapi.VBMutes;
+import com.volumetricpixels.bans.crossapi.util.API;
 
 /**
  * Although this is a PerAPI thing, it does not go in the perapi package because
@@ -21,25 +22,27 @@ import com.volumetricpixels.bans.shared.util.API;
  * @author DziNeIT
  */
 public interface VolumetricBans {
-    public BanSynchronizer getBanSynchronizer();
+    VolumetricBansAPI getAPI();
 
-    public String getServerKey();
+    BanSynchronizer getBanSynchronizer();
 
-    public VBLocalBans getLocalBanHandler();
+    String getServerKey();
 
-    public VBMutes getMuteHandler();
+    VBLocalBans getLocalBanHandler();
 
-    public GlobalBanStorer getGlobalBanStorer();
+    VBMutes getMuteHandler();
 
-    public VBConfig getVBConfig();
+    GlobalBanStorer getGlobalBanStorer();
 
-    public DataRetriever getMainDataRetriever();
+    VBConfig getVBConfig();
 
-    public API getInUseAPI();
+    DataRetriever getMainDataRetriever();
 
-    public File getDataFolder();
+    API getInUseAPI();
 
-    public VBPunishments getPunishmentHandler();
+    File getDataFolder();
 
-    public PlayerDataRetriever getPlayerDataRetriever();
+    VBPunishments getPunishmentHandler();
+
+    PlayerDataRetriever getPlayerDataRetriever();
 }

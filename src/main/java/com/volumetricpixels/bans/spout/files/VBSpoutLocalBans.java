@@ -13,8 +13,8 @@ import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.ConfigurationNode;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.bans.shared.perapi.Ban;
-import com.volumetricpixels.bans.shared.perapi.VBLocalBans;
+import com.volumetricpixels.bans.crossapi.perapi.Ban;
+import com.volumetricpixels.bans.crossapi.perapi.VBLocalBans;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers;

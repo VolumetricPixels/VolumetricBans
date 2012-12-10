@@ -14,8 +14,8 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 
-import com.volumetricpixels.bans.shared.TimeType;
-import com.volumetricpixels.bans.shared.perapi.Ban;
+import com.volumetricpixels.bans.crossapi.TimeType;
+import com.volumetricpixels.bans.crossapi.perapi.Ban;
 
 /**
  * Deals with Commands for VolumetricBans

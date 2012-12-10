@@ -2,7 +2,7 @@ package com.volumetricpixels.bans.spout.punishments;
 
 import org.spout.api.Spout;
 
-import com.volumetricpixels.bans.shared.perapi.VBPunishTimers;
+import com.volumetricpixels.bans.crossapi.perapi.VBPunishTimers;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 
 public class VBSpoutPunishTimers implements VBPunishTimers {
