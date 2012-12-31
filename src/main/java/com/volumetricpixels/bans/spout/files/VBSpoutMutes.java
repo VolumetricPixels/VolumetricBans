@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.spout.api.Spout;
+import org.spout.api.scheduler.Task;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
@@ -13,10 +14,8 @@ import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers.VBSpoutMuteTimer;
 
 public class VBSpoutMutes implements VBMutes {
-
     private VolumetricBansSpout plugin;
     private boolean initialized = false;
-
     private File muteFile;
     private YamlConfiguration muteConfig;
     private final List<String> muted = new ArrayList<String>();
@@ -35,9 +34,9 @@ public class VBSpoutMutes implements VBMutes {
 
         for (String s : muteConfig.getNode("Muted").getStringList()) {
             String[] sArray = s.split("=");
-            VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(sArray[0], Long.parseLong(sArray[1]));
-            int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
-            vbsmt.setTaskId(id);
+            VBSpoutMuteTimer vbsmt = plugin.getLocalBanHandler().vbspt.new VBSpoutMuteTimer(sArray[0], Long.parseLong(sArray[1]));
+            Task id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+            vbsmt.setTaskId(id.getTaskId());
         }
 
         initialized = true;
@@ -47,9 +46,9 @@ public class VBSpoutMutes implements VBMutes {
     public void mutePlayer(String player, long time) {
         muted.add(player + "=" + time);
         VBSpoutMuteTimer vbsmt = plugin.bans.vbspt.new VBSpoutMuteTimer(player, time);
-        int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
-        vbsmt.setTaskId(id);
-        updateConfig(false);
+        Task id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsmt, 0, 1000, TaskPriority.HIGHEST);
+        vbsmt.setTaskId(id.getTaskId());
+        updateConfig();
     }
 
     @Override
@@ -61,7 +60,7 @@ public class VBSpoutMutes implements VBMutes {
                 return;
             }
         }
-        updateConfig(true);
+        updateConfig();
     }
 
     @Override
@@ -69,8 +68,7 @@ public class VBSpoutMutes implements VBMutes {
         return muted.contains(player);
     }
 
-    private void updateConfig(boolean unmute) {
+    private void updateConfig() {
         muteConfig.getNode("Mutes").setValue(muted);
     }
-
 }

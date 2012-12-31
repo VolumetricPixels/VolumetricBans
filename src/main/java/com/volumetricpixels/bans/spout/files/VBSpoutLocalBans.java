@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import org.spout.api.Spout;
 import org.spout.api.exception.ConfigurationException;
+import org.spout.api.scheduler.Task;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.ConfigurationNode;
 import org.spout.api.util.config.yaml.YamlConfiguration;
@@ -63,8 +64,8 @@ public class VBSpoutLocalBans implements VBLocalBans {
             String[] sArray = s.split(":");
             if (sArray[4] != null) {
                 VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(sArray[0], Long.parseLong(sArray[4]));
-                int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
-                vbsbt.setTaskId(id);
+                Task id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+                vbsbt.setTaskId(id.getTaskId());
             }
         }
 
@@ -137,8 +138,8 @@ public class VBSpoutLocalBans implements VBLocalBans {
         SpoutBan spoutBan = new SpoutBan(name, reason, admin, time);
         localbans.add(spoutBan);
         VBSpoutBanTimer vbsbt = vbspt.new VBSpoutBanTimer(name, time);
-        int id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
-        vbsbt.setTaskId(id);
+        Task id = Spout.getScheduler().scheduleSyncRepeatingTask(plugin, vbsbt, 0, 1000, TaskPriority.HIGHEST);
+        vbsbt.setTaskId(id.getTaskId());
         updateConfig(false);
     }
 
@@ -175,29 +176,12 @@ public class VBSpoutLocalBans implements VBLocalBans {
     }
 
     private void updateConfig(boolean unban) {
-        if (unban) {
-            List<String> toBeInConf = new ArrayList<String>();
-            for (Ban b : localbans) {
-                String value = "";
-                value = b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin() + ":" + String.valueOf(b.isGlobal()) + ":" + b.getTime();
-                toBeInConf.add(value);
-            }
-            conf.getNode("Bans").setValue(toBeInConf);
-        } else {
-            List<String> inConf = conf.getNode("Bans").getStringList();
-            for (Ban b : localbans) {
-                boolean found = false;
-                for (String s : inConf) {
-                    if (b.getPlayer().equalsIgnoreCase(s.split(":")[0])) {
-                        found = true;
-                    }
-                }
-                if (!found) {
-                    inConf.add(b.getPlayer() + ":" + b.getReason() + ":" + b.getAdmin() + ":" + String.valueOf(b.isGlobal()) + ":" + b.getTime());
-                }
-            }
-            conf.getNode("Bans").setValue(inConf);
+        List<String> banned = new ArrayList<String>();
+        for (Ban ban : localbans) {
+            banned.add(new StringBuilder(ban.getPlayer()).append(":").append(ban.getReason()).append(":").append(ban.getAdmin())
+                    .append(":").append(ban.isGlobal()).append(":").append(ban.getTime()).toString());
         }
+        conf.getNode("Bans").setValue(banned);
     }
 
 }

@@ -10,7 +10,6 @@ import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.crossapi.perapi.Ban;
 
 public class SpoutBan implements Ban {
-
     private final String playerName;
     private final String reason;
     private final String admin;
@@ -72,7 +71,6 @@ public class SpoutBan implements Ban {
     }
 
     private static class TempBanTimer implements Runnable {
-
         private final SpoutBan b;
         private final long timeFor;
         private final YamlConfiguration yc;
@@ -110,7 +108,5 @@ public class SpoutBan implements Ban {
                 yc.getNode(b.getPlayer()).setValue(minutes);
             }
         }
-
     }
-
 }

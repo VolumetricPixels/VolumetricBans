@@ -6,9 +6,7 @@ import com.volumetricpixels.bans.crossapi.perapi.VBPunishTimers;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 
 public class VBSpoutPunishTimers implements VBPunishTimers {
-
     public class VBSpoutBanTimer implements VBBanTimer {
-
         private String player;
         private long time;
 
@@ -33,14 +31,11 @@ public class VBSpoutPunishTimers implements VBPunishTimers {
             this.taskId = id;
             return this;
         }
-
     }
 
     public class VBSpoutMuteTimer implements VBMuteTimer {
-
         private String player;
         private long time;
-
         private int taskId;
 
         public VBSpoutMuteTimer(String player, long time) {
@@ -62,7 +57,5 @@ public class VBSpoutPunishTimers implements VBPunishTimers {
             this.taskId = id;
             return this;
         }
-
     }
-
 }

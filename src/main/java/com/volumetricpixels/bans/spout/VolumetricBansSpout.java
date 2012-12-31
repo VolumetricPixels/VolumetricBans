@@ -17,8 +17,6 @@ import com.volumetricpixels.bans.crossapi.connection.BanSynchronizer;
 import com.volumetricpixels.bans.crossapi.connection.DataRetriever;
 import com.volumetricpixels.bans.crossapi.connection.PlayerDataRetriever;
 import com.volumetricpixels.bans.crossapi.perapi.GlobalBanStorer;
-import com.volumetricpixels.bans.crossapi.perapi.VBLocalBans;
-import com.volumetricpixels.bans.crossapi.perapi.VBMutes;
 import com.volumetricpixels.bans.crossapi.util.API;
 import com.volumetricpixels.bans.crossapi.util.GeneralUtil;
 import com.volumetricpixels.bans.spout.client.VBSpoutClientHandler;
@@ -162,12 +160,12 @@ public class VolumetricBansSpout extends CommonPlugin implements VolumetricBans 
     }
 
     @Override
-    public VBLocalBans getLocalBanHandler() {
+    public VBSpoutLocalBans getLocalBanHandler() {
         return bans;
     }
 
     @Override
-    public VBMutes getMuteHandler() {
+    public VBSpoutMutes getMuteHandler() {
         return mutes;
     }
 
