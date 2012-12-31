@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.perapi;
+package com.volumetricpixels.bans.interfaces;
 
 public interface Ban {
     public String getPlayer();

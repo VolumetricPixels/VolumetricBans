@@ -3,15 +3,15 @@ package com.volumetricpixels.bans;
 import java.io.File;
 
 import com.volumetricpixels.bans.api.VolumetricBansAPI;
-import com.volumetricpixels.bans.crossapi.VBPunishments;
-import com.volumetricpixels.bans.crossapi.connection.BanSynchronizer;
-import com.volumetricpixels.bans.crossapi.connection.DataRetriever;
-import com.volumetricpixels.bans.crossapi.connection.PlayerDataRetriever;
-import com.volumetricpixels.bans.crossapi.perapi.GlobalBanStorer;
-import com.volumetricpixels.bans.crossapi.perapi.VBConfig;
-import com.volumetricpixels.bans.crossapi.perapi.VBLocalBans;
-import com.volumetricpixels.bans.crossapi.perapi.VBMutes;
-import com.volumetricpixels.bans.crossapi.util.API;
+import com.volumetricpixels.bans.common.VBPunishments;
+import com.volumetricpixels.bans.common.connection.BanSynchronizer;
+import com.volumetricpixels.bans.common.connection.DataRetriever;
+import com.volumetricpixels.bans.common.connection.PlayerDataRetriever;
+import com.volumetricpixels.bans.common.util.API;
+import com.volumetricpixels.bans.interfaces.GlobalBanStorer;
+import com.volumetricpixels.bans.interfaces.VBConfig;
+import com.volumetricpixels.bans.interfaces.VBLocalBans;
+import com.volumetricpixels.bans.interfaces.VBMutes;
 
 /**
  * Although this is a PerAPI thing, it does not go in the perapi package because

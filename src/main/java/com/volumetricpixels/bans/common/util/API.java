@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.util;
+package com.volumetricpixels.bans.common.util;
 
 /**
  * All the APIs that could eventually be supported in VoxelBans

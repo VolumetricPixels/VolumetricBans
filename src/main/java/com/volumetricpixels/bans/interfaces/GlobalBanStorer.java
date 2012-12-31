@@ -1,8 +1,8 @@
-package com.volumetricpixels.bans.crossapi.perapi;
+package com.volumetricpixels.bans.interfaces;
 
 import java.util.List;
 
-import com.volumetricpixels.bans.crossapi.connection.BanSynchronizer;
+import com.volumetricpixels.bans.common.connection.BanSynchronizer;
 
 public interface GlobalBanStorer {
     public void addToTempList(Ban b);

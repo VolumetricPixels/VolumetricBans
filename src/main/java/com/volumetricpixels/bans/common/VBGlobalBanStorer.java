@@ -1,15 +1,15 @@
-package com.volumetricpixels.bans.crossapi;
+package com.volumetricpixels.bans.common;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.crossapi.connection.BanSynchronizer;
-import com.volumetricpixels.bans.crossapi.perapi.Ban;
-import com.volumetricpixels.bans.crossapi.perapi.GlobalBanStorer;
-import com.volumetricpixels.bans.crossapi.util.ConfigConverter;
-import com.volumetricpixels.bans.crossapi.util.GeneralUtil;
+import com.volumetricpixels.bans.common.connection.BanSynchronizer;
+import com.volumetricpixels.bans.common.util.ConfigConverter;
+import com.volumetricpixels.bans.common.util.GeneralUtil;
+import com.volumetricpixels.bans.interfaces.Ban;
+import com.volumetricpixels.bans.interfaces.GlobalBanStorer;
 
 public class VBGlobalBanStorer implements GlobalBanStorer {
     private ConfigConverter yc;

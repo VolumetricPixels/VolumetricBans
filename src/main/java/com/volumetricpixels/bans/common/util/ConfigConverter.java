@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.util;
+package com.volumetricpixels.bans.common.util;
 
 import java.io.File;
 import java.util.List;

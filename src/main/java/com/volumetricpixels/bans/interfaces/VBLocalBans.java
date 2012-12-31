@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.perapi;
+package com.volumetricpixels.bans.interfaces;
 
 import java.util.Collection;
 

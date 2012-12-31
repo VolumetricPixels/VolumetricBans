@@ -1,6 +1,6 @@
 package com.volumetricpixels.bans.spout.event.punishment;
 
-import com.volumetricpixels.bans.crossapi.perapi.Ban;
+import com.volumetricpixels.bans.interfaces.Ban;
 
 public class PlayerBannedEvent {
 

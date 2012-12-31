@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.connection;
+package com.volumetricpixels.bans.common.connection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.crossapi.perapi.Ban;
-import com.volumetricpixels.bans.crossapi.util.GeneralUtil;
+import com.volumetricpixels.bans.common.util.GeneralUtil;
+import com.volumetricpixels.bans.interfaces.Ban;
 import com.volumetricpixels.bans.lib.org.json.JSONArray;
 import com.volumetricpixels.bans.lib.org.json.JSONObject;
 

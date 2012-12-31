@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.connection;
+package com.volumetricpixels.bans.common.connection;
 
 import java.util.ArrayList;
 import java.util.HashMap;

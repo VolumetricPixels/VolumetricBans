@@ -1,7 +1,7 @@
-package com.volumetricpixels.bans.crossapi.util;
+package com.volumetricpixels.bans.common.util;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.crossapi.perapi.Ban;
+import com.volumetricpixels.bans.interfaces.Ban;
 import com.volumetricpixels.bans.spout.punishments.SpoutBan;
 
 /**

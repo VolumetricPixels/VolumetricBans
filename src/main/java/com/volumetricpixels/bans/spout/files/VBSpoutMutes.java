@@ -9,7 +9,7 @@ import org.spout.api.scheduler.Task;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.bans.crossapi.perapi.VBMutes;
+import com.volumetricpixels.bans.interfaces.VBMutes;
 import com.volumetricpixels.bans.spout.VolumetricBansSpout;
 import com.volumetricpixels.bans.spout.punishments.VBSpoutPunishTimers.VBSpoutMuteTimer;
 

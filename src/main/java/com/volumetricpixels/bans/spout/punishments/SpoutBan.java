@@ -7,7 +7,7 @@ import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.crossapi.perapi.Ban;
+import com.volumetricpixels.bans.interfaces.Ban;
 
 public class SpoutBan implements Ban {
     private final String playerName;

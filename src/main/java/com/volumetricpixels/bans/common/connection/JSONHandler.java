@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi.connection;
+package com.volumetricpixels.bans.common.connection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

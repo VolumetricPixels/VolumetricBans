@@ -7,7 +7,7 @@ import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.volumetricpixels.bans.crossapi.util.GeneralUtil;
+import com.volumetricpixels.bans.common.util.GeneralUtil;
 
 public class SpoutUtils extends GeneralUtil {
 

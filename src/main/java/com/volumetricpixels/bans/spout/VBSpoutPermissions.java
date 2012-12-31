@@ -7,7 +7,7 @@ import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 
-import com.volumetricpixels.bans.crossapi.perapi.VBPermissions;
+import com.volumetricpixels.bans.interfaces.VBPermissions;
 
 /**
  * Easy way to deal with Permissions

@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.crossapi;
+package com.volumetricpixels.bans.common;
 
 /**
  * Utility enum for time measurements
