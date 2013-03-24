@@ -1,10 +1,11 @@
 name: ${project.name}
 version: ${project.version}
-main: com.volumetricpixels.bans.spout.VolumetricBansSpout
+main: com.volumetricpixels.bans.spout.SpoutVolumetricBans
 
 author: VolumetricPixels
+authors: [DziNeIT, AlbireoX]
 description: >
-            A Global Banning System for SpoutEngine.
+            A Global Banning System for Spout
             
 platform: BOTH
 load: STARTUP
