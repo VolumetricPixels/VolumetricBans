@@ -7,6 +7,8 @@ import com.volumetricpixels.bans.command.commands.VBBanCommand;
 import com.volumetricpixels.bans.command.commands.VBHelpCommand;
 import com.volumetricpixels.bans.command.commands.VBLookupCommand;
 import com.volumetricpixels.bans.command.commands.VBMuteCommand;
+import com.volumetricpixels.bans.command.commands.VBStatusCommand;
+import com.volumetricpixels.bans.command.commands.VBToggleStateCommand;
 import com.volumetricpixels.bans.command.commands.VBUnbanCommand;
 import com.volumetricpixels.bans.command.commands.VBUnmuteCommand;
 import com.volumetricpixels.bans.command.commands.VBVersionCommand;
@@ -52,6 +54,8 @@ public class VBCommands {
 		new VBHelpCommand(plugin).register(cmd);
 		new VBLookupCommand(plugin).register(cmd);
 		new VBMuteCommand(plugin).register(cmd);
+		new VBStatusCommand(plugin).register(cmd);
+		new VBToggleStateCommand(plugin).register(cmd);
 		new VBUnbanCommand(plugin).register(cmd);
 		new VBUnmuteCommand(plugin).register(cmd);
 		new VBVersionCommand(plugin).register(cmd);

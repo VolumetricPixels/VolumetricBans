@@ -101,6 +101,7 @@ public class JSONArray {
 	 * @throws JSONException
 	 *             If there is a syntax error.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONArray(JSONTokener x) throws JSONException {
 		this();
 		if (x.nextClean() != '[') {
@@ -153,6 +154,7 @@ public class JSONArray {
 	 * @param collection
 	 *            A Collection.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONArray(Collection collection) {
 		myArrayList = new ArrayList();
 		if (collection != null) {
@@ -653,6 +655,7 @@ public class JSONArray {
 	 *            JSONObject.NULL object.
 	 * @return this.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONArray put(Object value) {
 		myArrayList.add(value);
 		return this;
@@ -781,6 +784,7 @@ public class JSONArray {
 	 *             If the index is negative or if the the value is an invalid
 	 *             number.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONArray put(int index, Object value) throws JSONException {
 		JSONObject.testValidity(value);
 		if (index < 0) {

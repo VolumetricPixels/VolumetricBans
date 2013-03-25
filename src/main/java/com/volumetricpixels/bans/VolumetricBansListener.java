@@ -36,9 +36,9 @@ public class VolumetricBansListener implements Listener {
 		if (pm.isBanned(name)) {
 			player.kick(pm.getBansForPlayer(name)[0].getReason());
 			event.setAllowed(false);
-			plugin.getLogger().info("Prevented banned player '" + name + "' from joining!");
+			plugin.getLogger().info("Prevented banned player '" + name + "' from logging in!");
 		} else {
-			if (plugin.canConnectToServers()) {
+			if (plugin.isOnlineMode()) {
 				checker.queue.add(name);
 			}
 		}

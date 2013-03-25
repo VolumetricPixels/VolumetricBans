@@ -36,24 +36,24 @@ public class PunishmentStorage {
 
 	public void loadBans() throws StorageException, DataLoadException {
 		JSONObject curJSONObject = null;
-		bans.setState(false);
+		bans.setCallEvents(false);
 		bjsh.startReading();
 		while ((curJSONObject = bjsh.read()) != null) {
 			bans.add(Ban.fromJSONObject(plugin, curJSONObject));
 		}
 		bjsh.stopReading();
-		bans.setState(true);
+		bans.setCallEvents(true);
 	}
 
 	public void loadMutes() throws StorageException, DataLoadException {
 		JSONObject curJSONObject = null;
-		mutes.setState(false);
+		mutes.setCallEvents(false);
 		mjsh.startReading();
 		while ((curJSONObject = mjsh.read()) != null) {
 			mutes.add(Mute.fromJSONObject(plugin, curJSONObject));
 		}
 		mjsh.stopReading();
-		mutes.setState(true);
+		mutes.setCallEvents(true);
 	}
 
 	public void saveBans() throws StorageException {
