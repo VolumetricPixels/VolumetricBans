@@ -17,7 +17,7 @@ public class FileManager {
 	private File muteStorage;
 
 	/**
-	 * VBFileSystem constructor
+	 * FileManager constructor
 	 * 
 	 * @param plugin
 	 *            The VolumetricBans plugin
@@ -26,14 +26,29 @@ public class FileManager {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Gets the VolumetricBans configuration File
+	 * 
+	 * @return The VolumetricBans configuration File
+	 */
 	public File getConfigFile() {
 		return config;
 	}
 
+	/**
+	 * Gets the VolumetricBans ban storage File
+	 * 
+	 * @return The VolumetricBans ban storage File
+	 */
 	public File getBanStorageFile() {
 		return banStorage;
 	}
 
+	/**
+	 * Gets the VolumetricBans mute storage File
+	 * 
+	 * @return The VolumetricBans mute storage File
+	 */
 	public File getMuteStorageFile() {
 		return muteStorage;
 	}
