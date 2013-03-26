@@ -66,7 +66,7 @@ public class VolumetricBansListener implements Listener {
 				String playerName = "";
 				try {
 					playerName = queue.take();
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					continue;
 				}
 				if (playerName != null) {

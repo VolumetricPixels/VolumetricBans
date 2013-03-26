@@ -4,9 +4,9 @@
 	<name>VolumetricBans</name>
 	<groupId>com.volumetricpixels</groupId>
 	<artifactId>bans</artifactId>
-	<version>1.0.0-BETA</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<url>http://volumetricpixels.com</url>
-	<description>VolumetricBans is a global ban system for the Spout engine. It is designed to make admins lives easier and grief-free</description>
+	<description>VolumetricBans is a global banning system for the Spout engine. It is designed to make admins lives easier and as grief and hack free as possible.</description>
 	
 	<organization>
 		<name>VolumetricPixels</name>

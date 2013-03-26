@@ -37,23 +37,20 @@ import com.volumetricpixels.bans.storage.PunishmentStorage;
 public final class VolumetricBans extends CommonPlugin {
 	public static final String LOGGER_TAG = "[VolumetricBans] ";
 
-	private FileManager fileSystem;
-	private PunishmentStorage storageHandler;
-	private PunishmentManager punishManager;
-
-	// Config / config values
+	// Config
 	private YamlConfiguration config;
 	private String apiKey = "";
 	private boolean onlineMode = true;
-
-	// Request stuff
-	private APIRequestHandler utilityRequestHandler;
+	// Requests
 	private boolean canConnectToServers = true;
-
-	// Command stuff
+	private APIRequestHandler utilityRequestHandler;
+	// Managers
+	private FileManager fileSystem;
+	private PunishmentStorage storageHandler;
+	private PunishmentManager punishManager;
+	// Helpers
 	private CommandHelper cmdHelper;
-
-	// Runnables / tasks / listeners
+	// Listeners / tasks / runnables
 	private VolumetricBansListener listener;
 	private BanSynchroniser banSync;
 	private Task banSyncTask;
@@ -127,7 +124,7 @@ public final class VolumetricBans extends CommonPlugin {
 				}
 			} else {
 				configurationUntouched = false;
-				getLogger().info("Running in offline mode!");
+				getLogger().info("Running in offline mode! Website-based functionality is disabled");
 			}
 
 			if (configurationUntouched) {
