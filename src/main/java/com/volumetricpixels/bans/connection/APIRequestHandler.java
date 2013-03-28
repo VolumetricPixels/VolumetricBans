@@ -94,4 +94,8 @@ public class APIRequestHandler {
 			throw new DataRetrievalException("System does not support UTF-8!", e);
 		}
 	}
+
+	public VolumetricBans getPlugin() {
+		return plugin;
+	}
 }

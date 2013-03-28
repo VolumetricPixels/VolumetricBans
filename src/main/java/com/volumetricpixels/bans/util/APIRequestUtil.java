@@ -25,6 +25,7 @@ public class APIRequestUtil {
 	public static boolean isPermaGlobalBanned(APIRequestHandler handler, String playerName) throws DataRetrievalException {
 		Map<String, String> postData = new HashMap<String, String>();
 		postData.put("action", "checkPermanentGlobalBan");
+		postData.put("strictGlobal", Boolean.toString(handler.getPlugin().isStrictGlobal()));
 		postData.put("playerName", playerName);
 		JSONObject response = handler.retrieveJSONObject(postData);
 		try {

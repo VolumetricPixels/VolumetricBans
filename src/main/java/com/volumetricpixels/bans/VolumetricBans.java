@@ -41,6 +41,7 @@ public final class VolumetricBans extends CommonPlugin {
 	private YamlConfiguration config;
 	private String apiKey = "";
 	private boolean onlineMode = true;
+	private boolean strictGlobal = false;
 	// Requests
 	private boolean canConnectToServers = true;
 	private APIRequestHandler utilityRequestHandler;
@@ -125,6 +126,12 @@ public final class VolumetricBans extends CommonPlugin {
 			} else {
 				configurationUntouched = false;
 				getLogger().info("Running in offline mode! Website-based functionality is disabled");
+			}
+
+			strictGlobal = config.getNode("strict-globals").getBoolean(false);
+			if (strictGlobal) {
+				getLogger().info("Running in strict global mode! This means that more players will be filtered from the server!");
+				configurationUntouched = false;
 			}
 
 			if (configurationUntouched) {
@@ -228,6 +235,10 @@ public final class VolumetricBans extends CommonPlugin {
 
 	public boolean isOnlineMode() {
 		return onlineMode;
+	}
+
+	public boolean isStrictGlobal() {
+		return strictGlobal;
 	}
 
 	public void setToOfflineMode() {
