@@ -12,19 +12,28 @@ import org.json.JSONObject;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
-import com.volumetricpixels.bans.util.Removable;
-import com.volumetricpixels.bans.util.RemovableTimer;
+import com.volumetricpixels.bans.util.Deletable;
+import com.volumetricpixels.bans.util.DeletableTimer;
 
-public class Mute implements Removable {
+/**
+ * Represents a Mute
+ */
+public class Mute implements Deletable {
+	/** The Calendar instance */
 	private static Calendar c = Calendar.getInstance();
 
+	/** VolumetricBans plugin, for timers and shit */
 	private final VolumetricBans plugin;
 
+	/** Reason for the ban */
 	private String reason;
+	/** Issuer of the ban */
 	private String admin;
+	/** Banned player */
 	private String player;
-	// Temporary mute only fields
+	/** How long the ban lasts */
 	private long time;
+	/** When the ban was issued */
 	private long issued;
 
 	/**
@@ -79,8 +88,11 @@ public class Mute implements Removable {
 		initTimer();
 	}
 
+	/**
+	 * Initialises the ban timer for temporary bans
+	 */
 	private void initTimer() {
-		plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, new RemovableTimer(issued + time, this), 0L, 60000L, TaskPriority.HIGH);
+		plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, new DeletableTimer(issued + time, this), 0L, 60000L, TaskPriority.HIGH);
 	}
 
 	/**
@@ -131,23 +143,46 @@ public class Mute implements Removable {
 		this.time = time;
 	}
 
+	/**
+	 * Gets the name of the muted player
+	 * 
+	 * @return The muted player's name
+	 */
 	public String getPlayerName() {
 		return player;
 	}
 
+	/**
+	 * The muted player's Player object
+	 * 
+	 * @return The Player object for the muted player
+	 */
 	public Player getPlayer() {
 		return plugin.getEngine().getPlayer(player, true);
 	}
 
+	/**
+	 * Gets the VolumetricBans plugin
+	 * 
+	 * @return The VolumetricBans plugin
+	 */
 	public VolumetricBans getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void remove() {
+	public void delete() {
 		plugin.getStorageHandler().getMutes().remove(this);
 	}
 
+	/**
+	 * Creates a JSONObject from the Mute
+	 * 
+	 * @return A JSONObject created from this Mute object
+	 */
 	public JSONObject toJSONObject() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("player", player);
@@ -158,6 +193,17 @@ public class Mute implements Removable {
 		return new JSONObject(map);
 	}
 
+	/**
+	 * Creates a Mute from the data in a JSONObject
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 * @param jo
+	 *            The JSONObject to use the data from
+	 * @return A Mute created from given JSONObject
+	 * @throws DataLoadException
+	 *             When we fail to parse the JSONObject
+	 */
 	public static Mute fromJSONObject(VolumetricBans plugin, JSONObject jo) throws DataLoadException {
 		try {
 			String player = jo.getString("player");

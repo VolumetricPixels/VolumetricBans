@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.command.commands;
+package com.volumetricpixels.bans.command;
 
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
@@ -7,18 +7,22 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.command.CommandHelper;
-import com.volumetricpixels.bans.command.VBCommand;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 import com.volumetricpixels.bans.util.TimeType;
 
+/**
+ * The /vb mute command
+ */
 public class VBMuteCommand extends VBCommand {
 	public VBMuteCommand(VolumetricBans plugin) {
 		super(plugin, "mute");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
 		for (String perm : getPermissions()) {
@@ -26,7 +30,7 @@ public class VBMuteCommand extends VBCommand {
 				throw new CommandException("You don't have permission!");
 			}
 		}
-		CommandHelper cmdHelper = plugin.getCommandHelper();
+		VBCommandHelper cmdHelper = plugin.getCommandHelper();
 		String[] args = cmdHelper.getRawArgs(context.getRawArgs());
 		try {
 			long time = -1;

@@ -1,5 +1,8 @@
 package com.volumetricpixels.bans.exception;
 
+/**
+ * Thrown when there is an error writing things to files / reading things from them
+ */
 public class StorageException extends Exception {
 	private static final long serialVersionUID = -4957422348531758013L;
 

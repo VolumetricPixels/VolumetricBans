@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.command.commands;
+package com.volumetricpixels.bans.command;
 
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
@@ -7,14 +7,18 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.command.CommandHelper;
-import com.volumetricpixels.bans.command.VBCommand;
 
-public class VBHelpCommand extends VBCommand {
-	public VBHelpCommand(VolumetricBans plugin) {
-		super(plugin, "help");
+/**
+ * The /vb status command
+ */
+public class VBStatusCommand extends VBCommand {
+	public VBStatusCommand(VolumetricBans plugin) {
+		super(plugin, "status");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
 		for (String perm : getPermissions()) {
@@ -22,7 +26,6 @@ public class VBHelpCommand extends VBCommand {
 				throw new CommandException("You don't have permission!");
 			}
 		}
-		CommandHelper cmdHelper = plugin.getCommandHelper();
-		cmdHelper.sendVBHelp(source, cmdHelper.getRawArgs(context.getRawArgs()));
+		source.sendMessage(ChatStyle.GRAY, "VolumetricBans is running in ", plugin.isOnlineMode() ? "online" : "offline", " mode");
 	}
 }

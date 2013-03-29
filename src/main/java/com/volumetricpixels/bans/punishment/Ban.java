@@ -12,24 +12,32 @@ import org.json.JSONObject;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
-import com.volumetricpixels.bans.util.Removable;
-import com.volumetricpixels.bans.util.RemovableTimer;
+import com.volumetricpixels.bans.util.Deletable;
+import com.volumetricpixels.bans.util.DeletableTimer;
 
 /**
  * Represents a Ban.
  */
-public class Ban implements Removable {
+public class Ban implements Deletable {
+	/** Calendar instance */
 	private static Calendar c = Calendar.getInstance();
 
+	/** VolumetricBans plugin, for timers and shit */
 	private final VolumetricBans plugin;
 
+	/** Is the ban global? */
 	private boolean global;
+	/** Reason for the ban */
 	private String reason;
+	/** Issuer of the ban */
 	private String admin;
+	/** Banned player */
 	private String player;
+	/** Is the ban temporary? */
 	private boolean temporary;
-	// Temporary ban only fields
+	/** How long the ban lasts */
 	private long time;
+	/** When the ban was issued */
 	private long issued;
 
 	/**
@@ -118,8 +126,11 @@ public class Ban implements Removable {
 		}
 	}
 
+	/**
+	 * Initialises the ban timer for temporary bans
+	 */
 	private void initTimer() {
-		plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, new RemovableTimer(issued + time, this), 0L, 60000L, TaskPriority.HIGH);
+		plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, new DeletableTimer(issued + time, this), 0L, 60000L, TaskPriority.HIGH);
 	}
 
 	/**
@@ -189,23 +200,46 @@ public class Ban implements Removable {
 		this.time = time;
 	}
 
+	/**
+	 * Gets the name of the banned player
+	 * 
+	 * @return The banned player's name
+	 */
 	public String getPlayerName() {
 		return player;
 	}
 
+	/**
+	 * Gets the banned player's Player object
+	 * 
+	 * @return The banned player's Player object
+	 */
 	public Player getPlayer() {
 		return plugin.getEngine().getPlayer(player, true);
 	}
 
+	/**
+	 * Gets the VolumetricBans plugin instance
+	 * 
+	 * @return
+	 */
 	public VolumetricBans getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void remove() {
+	public void delete() {
 		plugin.getStorageHandler().getBans().remove(this);
 	}
 
+	/**
+	 * Converts the ban into a JSONObject
+	 * 
+	 * @return A JSONObject representing the ban
+	 */
 	public JSONObject toJSONObject() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("player", player);
@@ -218,6 +252,17 @@ public class Ban implements Removable {
 		return new JSONObject(map);
 	}
 
+	/**
+	 * Creates a ban from a JSONObject
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 * @param jo
+	 *            The JSONObject to use for creation
+	 * @return A Ban created from the JSONObject
+	 * @throws DataLoadException
+	 *             When there is a problem parsing the JSONObject
+	 */
 	public static Ban fromJSONObject(VolumetricBans plugin, JSONObject jo) throws DataLoadException {
 		try {
 			String player = jo.getString("player");

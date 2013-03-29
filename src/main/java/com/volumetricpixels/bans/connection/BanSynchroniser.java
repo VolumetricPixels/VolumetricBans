@@ -12,19 +12,33 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
+/**
+ * Synchronises bans with the server every ~10 minutes
+ */
 public class BanSynchroniser implements Runnable {
-	// 10 minutes (1000 millis / sec, 60 secs / min, 10 mins)
+	/** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
 	private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
 
+	/** The VolumetricBans plugin */
 	private VolumetricBans plugin;
+	/** The APIRequestHandler we are using */
 	private APIRequestHandler arh;
 
+	/**
+	 * Creates a new BanSynchroniser
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 */
 	public BanSynchroniser(VolumetricBans plugin) {
 		this.plugin = plugin;
 
 		arh = new APIRequestHandler(plugin, "bans");
 	}
 
+	/**
+	 * Runs the ban synchronisation
+	 */
 	@Override
 	public void run() {
 		// TODO: This will probably be changed, seeing as we are currently

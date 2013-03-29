@@ -20,19 +20,39 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
  * Handles JSON sent by the VolumetricBans servers
  */
 public class APIRequestHandler {
+	/** The VolumetricBans plugin */
 	private final VolumetricBans plugin;
+	/** The server API key */
 	private final String apiKey;
-	private final StringBuilder b = new StringBuilder();
 
+	/** The address for the API server */
 	private String apiServerHostName;
+	/** The category of action this APIRequestHandler handles */
 	private String actionCategory;
 
+	/**
+	 * Creates a new APIRequestHandler
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 * @param actionCategory
+	 *            This APIRequestHandler's category
+	 */
 	public APIRequestHandler(VolumetricBans plugin, String actionCategory) {
 		this.plugin = plugin;
 		apiKey = plugin.getAPIKey();
 		this.actionCategory = actionCategory;
 	}
 
+	/**
+	 * Retrieves JSON data from the server
+	 * 
+	 * @param postData
+	 *            The post data to submit
+	 * @return A JSONObject parsed from data the server sent
+	 * @throws DataRetrievalException
+	 *             When we fail to retrieve data
+	 */
 	public JSONObject retrieveJSONObject(Map<String, String> postData) throws DataRetrievalException {
 		postData.put("key", apiKey);
 		String urlReq = parsePostItems(postData);
@@ -40,6 +60,15 @@ public class APIRequestHandler {
 		return getJSONObject(jText);
 	}
 
+	/**
+	 * Creates a JSONObject from given JSON text
+	 * 
+	 * @param jsonText
+	 *            A String of JSON data
+	 * @return A JSONObject created from the jsonText
+	 * @throws DataRetrievalException
+	 *             When a JSONObject can't be created
+	 */
 	public JSONObject getJSONObject(String jsonText) throws DataRetrievalException {
 		try {
 			return new JSONObject(jsonText);
@@ -48,6 +77,15 @@ public class APIRequestHandler {
 		}
 	}
 
+	/**
+	 * Performs an API request
+	 * 
+	 * @param data
+	 *            Post data to submit
+	 * @return The returned data from the server
+	 * @throws DataRetrievalException
+	 *             When we fail to retrieve data
+	 */
 	public String performAPIRequest(String data) throws DataRetrievalException {
 		try {
 			URL u = new URL(apiServerHostName + "/api/" + actionCategory);
@@ -59,6 +97,7 @@ public class APIRequestHandler {
 			osw.write(data);
 			osw.flush();
 			BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+			StringBuilder b = new StringBuilder();
 			String line;
 			while ((line = r.readLine()) != null) {
 				b.append(line);
@@ -70,13 +109,21 @@ public class APIRequestHandler {
 				r.close();
 			} catch (Exception ignore) {
 			}
-			b.setLength(0); // So we can keep reusing the same builder
 			return result;
 		} catch (Exception e) {
 			throw new DataRetrievalException("Error connecting to server!", e);
 		}
 	}
 
+	/**
+	 * Parses a Map of post items into a UTF-8 string
+	 * 
+	 * @param postData
+	 *            A Map of data to parse
+	 * @return A UTF-8 string of post data
+	 * @throws DataRetrievalException
+	 *             When the system doesn't support UTF-8
+	 */
 	public String parsePostItems(Map<String, String> postData) throws DataRetrievalException {
 		String data = null;
 		try {
@@ -95,6 +142,11 @@ public class APIRequestHandler {
 		}
 	}
 
+	/**
+	 * Gets the VolumetricBans plugin
+	 * 
+	 * @return The VolumetricBans plugin
+	 */
 	public VolumetricBans getPlugin() {
 		return plugin;
 	}

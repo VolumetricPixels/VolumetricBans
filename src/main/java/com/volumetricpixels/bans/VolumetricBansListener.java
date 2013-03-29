@@ -16,12 +16,25 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.punishment.PunishmentManager;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
-public class VolumetricBansListener implements Listener {
+/**
+ * Listens to various events for VolumetricBans
+ */
+public final class VolumetricBansListener implements Listener {
+	/** The VolumetricBans plugin */
 	private final VolumetricBans plugin;
+	/** The PlayerCheck instance */
 	private final PlayerChecker checker;
+	/** The APIRequestHandler we are using */
 	private final APIRequestHandler arh;
+	/** The PunishmentManager instance */
 	private final PunishmentManager pm;
 
+	/**
+	 * Creates a new VolumetricBansListener
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 */
 	protected VolumetricBansListener(VolumetricBans plugin) {
 		this.plugin = plugin;
 		arh = new APIRequestHandler(plugin, "players");
@@ -53,13 +66,25 @@ public class VolumetricBansListener implements Listener {
 		}
 	}
 
+	/**
+	 * Gets the PlayerCheck object
+	 * 
+	 * @return This listener's PlayerChecker
+	 */
 	protected PlayerChecker getChecker() {
 		return checker;
 	}
 
+	/**
+	 * Checks global bans on players, and kicks accordingly
+	 */
 	protected class PlayerChecker extends Thread {
+		/** Queue of players to check for a global ban */
 		BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
 
+		/**
+		 * Cycles through the queue and checks players for global bans
+		 */
 		@Override
 		public void run() {
 			while (!isInterrupted()) {

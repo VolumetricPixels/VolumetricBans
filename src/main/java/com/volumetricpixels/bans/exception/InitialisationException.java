@@ -1,5 +1,8 @@
 package com.volumetricpixels.bans.exception;
 
+/**
+ * Thrown when there is an error in initialisation of the plugin
+ */
 public class InitialisationException extends Exception {
 	private static final long serialVersionUID = 4677622847997443594L;
 

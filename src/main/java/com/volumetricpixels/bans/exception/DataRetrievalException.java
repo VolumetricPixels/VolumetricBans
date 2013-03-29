@@ -1,5 +1,8 @@
 package com.volumetricpixels.bans.exception;
 
+/**
+ * Thrown when there is an error retrieving data from the servers
+ */
 public class DataRetrievalException extends Exception {
 	private static final long serialVersionUID = -8492190312727224578L;
 

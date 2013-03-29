@@ -11,17 +11,39 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-public class CommandHelper {
-	private final int COMMANDS_PER_PAGE = 7;
+/**
+ * Helps out with command responses
+ */
+public class VBCommandHelper {
+	/** The amount of commands to display per page */
+	private static final int COMMANDS_PER_PAGE = 7;
+
+	/** Subcommands of /vbans */
 	private final List<String> vbansSubs;
 
-	public CommandHelper(VolumetricBans plugin) {
+	/**
+	 * Creates a new VBCommandHelper
+	 * 
+	 * @param plugin
+	 *            The VolumetricBans plugin
+	 */
+	public VBCommandHelper(VolumetricBans plugin) {
 		vbansSubs = new LinkedList<String>();
 		for (String s : plugin.getEngine().getRootCommand().getChild("vbans").getChildNames()) {
 			vbansSubs.add(s);
 		}
 	}
 
+	/**
+	 * Sends help for /vb to the sender
+	 * 
+	 * @param sender
+	 *            The CommandSource to send the help to
+	 * @param args
+	 *            The command arguments (if any)
+	 * @throws CommandException
+	 *             When there is a lack of good input
+	 */
 	public void sendVBHelp(CommandSource sender, String[] args) throws CommandException {
 		int numCommands = vbansSubs.size();
 		int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
@@ -52,6 +74,13 @@ public class CommandHelper {
 		}
 	}
 
+	/**
+	 * Gets a raw String[] of args from a List of ChatSections
+	 * 
+	 * @param chatSections
+	 *            The List of ChatSections to turn into raw args
+	 * @return The raw String[] for a List of ChatSections
+	 */
 	public String[] getRawArgs(List<ChatSection> chatSections) {
 		String[] array = new String[chatSections.size()];
 		for (int i = 0; i < array.length; i++) {

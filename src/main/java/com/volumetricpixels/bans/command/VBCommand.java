@@ -7,18 +7,17 @@ import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * Represents a command that can be run in VolumetricBans. Helps out with
- * command registration.
+ * command registration
  */
 public abstract class VBCommand implements CommandExecutor {
+	/** The VolumetricBans plugin */
 	protected final VolumetricBans plugin;
 
-	/**
-	 * The primary name of this command.
-	 */
+	/** The primary name of this command */
 	protected String primary = null;
 
 	/**
-	 * C'tor
+	 * Creates a new VBCommand
 	 * 
 	 * @param primary
 	 *            The primary name of the command
@@ -49,7 +48,7 @@ public abstract class VBCommand implements CommandExecutor {
 	}
 
 	/**
-	 * Gets the aliases for this command.
+	 * Gets the aliases for this command
 	 * 
 	 * @return A String[] of aliases for this command
 	 */
@@ -58,7 +57,7 @@ public abstract class VBCommand implements CommandExecutor {
 	}
 
 	/**
-	 * Gets the permissions required to execute this command.
+	 * Gets the permissions required to execute this command
 	 * 
 	 * @return A String[] of permissions for this command
 	 */
@@ -67,7 +66,7 @@ public abstract class VBCommand implements CommandExecutor {
 	}
 
 	/**
-	 * Sets up the command created.
+	 * Sets up the command created
 	 * 
 	 * @param cmd
 	 *            The command to set up

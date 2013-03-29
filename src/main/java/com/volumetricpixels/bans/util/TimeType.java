@@ -17,6 +17,12 @@ public enum TimeType {
 	private TimeType() {
 	}
 
+	/**
+	 * Converts the given amount of time to minutes
+	 * 
+	 * @param l The amount of time, in this TimeType
+	 * @return The amount of minutes in the given amount of time
+	 */
 	public long toMinutes(long l) {
 		switch (this) {
 		case MINUTES:
@@ -30,17 +36,21 @@ public enum TimeType {
 		}
 	}
 
+	/**
+	 * Parses a TimeType from a string
+	 * 
+	 * @param string The type of time as a string (e.g "hours")
+	 * @return The enum value for the given TimeType string
+	 */
 	public static TimeType parse(String string) {
 		String s = String.valueOf(string.toLowerCase().charAt(0));
-
 		if (s.equals("m")) {
-			return TimeType.MINUTES;
+			return MINUTES;
 		} else if (s.equals("h")) {
-			return TimeType.HOURS;
+			return HOURS;
 		} else if (s.equals("d")) {
-			return TimeType.DAYS;
+			return DAYS;
 		}
-
 		return null;
 	}
 }

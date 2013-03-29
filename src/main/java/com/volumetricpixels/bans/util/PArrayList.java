@@ -14,8 +14,8 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 
 /**
- * Basically an ArrayList, but checks some things for VB bans / mutes when
- * elements are added or removed
+ * Basically an ArrayList, but calls events for VB bans / mutes when elements
+ * are added or removed from the List
  * 
  * @param <T>
  *            The type to be stored in the ArrayList

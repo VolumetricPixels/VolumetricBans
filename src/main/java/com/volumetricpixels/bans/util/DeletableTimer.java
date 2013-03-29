@@ -4,22 +4,22 @@ import java.util.Calendar;
 
 import org.spout.api.scheduler.Task;
 
-public class RemovableTimer implements Runnable {
+public class DeletableTimer implements Runnable {
 	private static Calendar c = Calendar.getInstance();
 
 	private long endMinutesSinceEpoch;
-	private Removable timedRemovable;
+	private Deletable timedDeletable;
 	private Task spoutTaskObject;
 
-	public RemovableTimer(long end, Removable timed) {
+	public DeletableTimer(long end, Deletable timed) {
 		endMinutesSinceEpoch = end;
-		timedRemovable = timed;
+		timedDeletable = timed;
 	}
 
 	@Override
 	public void run() {
 		if (((c.getTimeInMillis() / 1000) / 60) >= endMinutesSinceEpoch) {
-			timedRemovable.remove();
+			timedDeletable.delete();
 			spoutTaskObject.cancel();
 		}
 	}

@@ -20,7 +20,7 @@ import org.spout.api.util.config.yaml.YamlConfiguration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.volumetricpixels.bans.command.CommandHelper;
+import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.command.VBCommands;
 import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.connection.BanSynchroniser;
@@ -34,7 +34,11 @@ import com.volumetricpixels.bans.punishment.PunishmentManager;
 import com.volumetricpixels.bans.storage.FileManager;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 
+/**
+ * The main class for the VolumetricBans plugin
+ */
 public final class VolumetricBans extends CommonPlugin {
+	/** The PluginLogger prefix (tag) */
 	public static final String LOGGER_TAG = "[VolumetricBans] ";
 
 	// Config
@@ -50,12 +54,15 @@ public final class VolumetricBans extends CommonPlugin {
 	private PunishmentStorage storageHandler;
 	private PunishmentManager punishManager;
 	// Helpers
-	private CommandHelper cmdHelper;
+	private VBCommandHelper cmdHelper;
 	// Listeners / tasks / runnables
 	private VolumetricBansListener listener;
 	private BanSynchroniser banSync;
 	private Task banSyncTask;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onEnable() {
 		Engine engine = getEngine();
@@ -159,7 +166,7 @@ public final class VolumetricBans extends CommonPlugin {
 			// Initialise / register commands
 			Command vbCmd = server.getRootCommand().addSubCommand(this, "vbans").addAlias("vb", "volumetricbans");
 
-			cmdHelper = new CommandHelper(this);
+			cmdHelper = new VBCommandHelper(this);
 			new VBCommands(this).register();
 
 			if (onlineMode && !canConnectToServers) {
@@ -183,6 +190,9 @@ public final class VolumetricBans extends CommonPlugin {
 		engine.getEventManager().callDelayedEvent(new VolumetricBansEnabledEvent(this));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onDisable() {
 		Engine engine = getEngine();
@@ -209,51 +219,103 @@ public final class VolumetricBans extends CommonPlugin {
 		engine.getEventManager().callDelayedEvent(new VolumetricBansDisabledEvent(this));
 	}
 
-	public FileManager getFileSystem() {
+	/**
+	 * Gets the FileManager
+	 * 
+	 * @return The FileManager for VolumetricBans
+	 */
+	public FileManager getFileManager() {
 		return fileSystem;
 	}
 
+	/**
+	 * Gets the PunishmentStorage
+	 * 
+	 * @return The PunishmentStorage instance
+	 */
 	public PunishmentStorage getStorageHandler() {
 		return storageHandler;
 	}
 
+	/**
+	 * Gets the VolumetricBans punishment manager
+	 * 
+	 * @return The PunishmentManager instance
+	 */
 	public PunishmentManager getPunishmentManager() {
 		return punishManager;
 	}
 
-	public APIRequestHandler getUtilityHandler() {
-		return utilityRequestHandler;
-	}
-
-	public CommandHelper getCommandHelper() {
+	/**
+	 * Gets the command helper
+	 * 
+	 * @return The VBCommandHelper instance
+	 */
+	public VBCommandHelper getCommandHelper() {
 		return cmdHelper;
 	}
 
+	/**
+	 * Gets the server's API key
+	 * 
+	 * @return The API key of the server the plugin is running on
+	 */
 	public String getAPIKey() {
 		return apiKey;
 	}
 
+	/**
+	 * Gets whether the plugin is running in online mode
+	 * 
+	 * @return Whether the plugin is in online mode
+	 */
 	public boolean isOnlineMode() {
 		return onlineMode;
 	}
 
+	/**
+	 * Gets whether the plugin is running in strict global mode
+	 * 
+	 * @return Whether the plugin is in strict global mode
+	 */
 	public boolean isStrictGlobal() {
 		return strictGlobal;
 	}
 
+	/**
+	 * Sets the plugin to offline mode
+	 */
 	public void setToOfflineMode() {
 		onlineMode = false;
 	}
 
+	/**
+	 * Sets the plugin to offline mode because of a DataRetrievalException
+	 * 
+	 * @param cause
+	 *            The cause of changing the plugin to offline mode
+	 */
 	public void setToOfflineMode(DataRetrievalException cause) {
 		setToOfflineMode();
+		getLogger().warning("Changing to offline mode because of exception:");
 		cause.printStackTrace();
 	}
 
+	/**
+	 * Sets the plugin to online mode
+	 */
 	public void setToOnlineMode() {
 		onlineMode = true;
 	}
 
+	/**
+	 * Sets the tag of the given PluginLogger to the given String
+	 * 
+	 * @param logger
+	 *            The PluginLogger to set the tag of
+	 * @param string
+	 *            The tag to set
+	 */
 	private void setTag(PluginLogger logger, String string) {
 		logger.setTag(ChatArguments.fromString(string));
 	}

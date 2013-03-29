@@ -15,20 +15,43 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.exception.StorageException;
 
 public class JSONFileHandler {
+	/** The File we are writing to / reading from */
 	private File file;
 
+	/** The BufferedWriter in use */
 	private BufferedWriter writer;
+	/** The BufferedReader in use */
 	private BufferedReader reader;
 
+	/**
+	 * Creates a new JSONFileHandler with the given File
+	 * 
+	 * @param file
+	 *            The File to write to / read from
+	 */
 	public JSONFileHandler(File file) {
 		this.file = file;
 	}
 
+	/**
+	 * Gets the File we are writing to / reading from
+	 * 
+	 * @return This JSONFileHandler's file
+	 */
 	public File getFile() {
 		return file;
 	}
 
+	/**
+	 * Gets ready to write to the file
+	 * 
+	 * @throws StorageException
+	 *             When we cannot initialise the BufferedWriter
+	 */
 	public void startWriting() throws StorageException {
+		if (writer != null) {
+			stopWriting();
+		}
 		try {
 			if (!file.exists()) {
 				create();
@@ -39,6 +62,12 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Closes the BufferedWriter we are writing with
+	 * 
+	 * @throws StorageException
+	 *             When we cannot flush or close the BufferedWriter
+	 */
 	public void stopWriting() throws StorageException {
 		try {
 			writer.flush();
@@ -49,7 +78,18 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Writes the given JSONObject to the file
+	 * 
+	 * @param jO
+	 *            The JSONObject to write to the file
+	 * @throws StorageException
+	 *             When we fail to write the JSONObject
+	 */
 	public void write(JSONObject jO) throws StorageException {
+		if (writer == null) {
+			throw new IllegalStateException("Cannot write before initialising the BufferedWriter!");
+		}
 		try {
 			writer.write(jO.toString());
 			writer.newLine();
@@ -58,7 +98,16 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Gets ready to read from the file
+	 * 
+	 * @throws StorageException
+	 *             When we fail to create the BufferedReader
+	 */
 	public void startReading() throws StorageException {
+		if (reader != null) {
+			stopReading();
+		}
 		try {
 			if (!file.exists()) {
 				create();
@@ -69,6 +118,12 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Closes the BufferedReader we are reading with
+	 * 
+	 * @throws StorageException
+	 *             When we fail to close the BufferedReader
+	 */
 	public void stopReading() throws StorageException {
 		try {
 			reader.close();
@@ -78,6 +133,13 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Reads a JSONObject from the file
+	 * 
+	 * @return The read and parsed JSONObject
+	 * @throws StorageException
+	 *             When we fail to read or parse the line
+	 */
 	public JSONObject read() throws StorageException {
 		try {
 			String line = reader.readLine();
@@ -93,6 +155,12 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Backs up the file in a file with the same name + ".bck"
+	 * 
+	 * @throws StorageException
+	 *             When we fail to back up the file
+	 */
 	public void backup() throws StorageException {
 		try {
 			File bck = new File(file.getAbsolutePath() + ".bck");
@@ -103,11 +171,23 @@ public class JSONFileHandler {
 		}
 	}
 
+	/**
+	 * Deletes the file
+	 */
 	public void delete() {
 		file.delete();
 	}
 
+	/**
+	 * Ensure the file is created
+	 * 
+	 * @throws StorageException
+	 *             When we cannot create the file
+	 */
 	public void create() throws StorageException {
+		if (file.exists()) {
+			return;
+		}
 		try {
 			file.createNewFile();
 		} catch (IOException e) {

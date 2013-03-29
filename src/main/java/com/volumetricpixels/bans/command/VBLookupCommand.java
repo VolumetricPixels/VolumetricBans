@@ -1,4 +1,4 @@
-package com.volumetricpixels.bans.command.commands;
+package com.volumetricpixels.bans.command;
 
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
@@ -7,11 +7,13 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.command.VBCommand;
 import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
+/**
+ * The /vb lookup command
+ */
 public class VBLookupCommand extends VBCommand {
 	private APIRequestHandler handler;
 
@@ -21,6 +23,9 @@ public class VBLookupCommand extends VBCommand {
 		handler = new APIRequestHandler(plugin, "players");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
 		for (String perm : getPermissions()) {
