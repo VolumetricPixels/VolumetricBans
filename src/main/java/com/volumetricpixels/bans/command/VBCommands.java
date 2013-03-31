@@ -16,8 +16,8 @@ public class VBCommands {
 	/**
 	 * C'tor
 	 * 
-	 * @param name
-	 *            The name of the base command
+	 * @param plugin
+	 *            The plugin object
 	 */
 	public VBCommands(VolumetricBans plugin) {
 		this.plugin = plugin;
