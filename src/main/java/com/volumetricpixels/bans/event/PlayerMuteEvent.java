@@ -1,20 +1,24 @@
 package com.volumetricpixels.bans.event;
 
+import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.punishment.Mute;
 import org.spout.api.event.Cancellable;
 import org.spout.api.event.Event;
 import org.spout.api.event.HandlerList;
 
-import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.punishment.Ban;
-import com.volumetricpixels.bans.punishment.Mute;
-
 public class PlayerMuteEvent extends Event implements Cancellable {
-	/** The event's HandlerList */
+	/**
+	 * The event's HandlerList
+	 */
 	private static HandlerList handlers = new HandlerList();
 
-	/** The VolumetricBans plugin */
+	/**
+	 * The VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
-	/** The added Mute object */
+	/**
+	 * The added Mute object
+	 */
 	private final Mute mute;
 
 	/**

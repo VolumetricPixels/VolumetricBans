@@ -30,13 +30,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external
@@ -54,21 +48,22 @@ import java.util.ResourceBundle;
  * returns a value if one can be found, and throws an exception if one cannot be
  * found. An <code>opt</code> method returns a default value instead of throwing
  * an exception, and so is useful for obtaining optional values.
- * <p>
+ * <p/>
  * The generic <code>get()</code> and <code>opt()</code> methods return an
  * object, which you can cast or query for type. There are also typed
  * <code>get</code> and <code>opt</code> methods that do type checking and type
  * coercion for you. The opt methods differ from the get methods in that they do
  * not throw. Instead, they return a specified value, such as null.
- * <p>
+ * <p/>
  * The <code>put</code> methods add or replace values in an object. For example,
+ * <p/>
  * 
  * <pre>
  * myString = new JSONObject().put(&quot;JSON&quot;, &quot;Hello, World!&quot;).toString();
  * </pre>
- * 
+ * <p/>
  * produces the string <code>{"JSON": "Hello, World"}</code>.
- * <p>
+ * <p/>
  * The texts produced by the <code>toString</code> methods strictly conform to
  * the JSON syntax rules. The constructors are more forgiving in the texts they
  * will accept:
@@ -166,9 +161,8 @@ public class JSONObject {
 	 * @param names
 	 *            An array of strings.
 	 * @throws JSONException
-	 * @exception JSONException
-	 *                If a value is a non-finite number or if a name is
-	 *                duplicated.
+	 * @throws JSONException
+	 *             If a value is a non-finite number or if a name is duplicated.
 	 */
 	public JSONObject(JSONObject jo, String[] names) {
 		this();
@@ -317,9 +311,9 @@ public class JSONObject {
 	 *            A string beginning with <code>{</code>&nbsp;<small>(left
 	 *            brace)</small> and ending with <code>}</code>
 	 *            &nbsp;<small>(right brace)</small>.
-	 * @exception JSONException
-	 *                If there is a syntax error in the source string or a
-	 *                duplicated key.
+	 * @throws JSONException
+	 *             If there is a syntax error in the source string or a
+	 *             duplicated key.
 	 */
 	public JSONObject(String source) throws JSONException {
 		this(new JSONTokener(source));
@@ -1351,7 +1345,7 @@ public class JSONObject {
 	 * Make a JSON text of this JSONObject. For compactness, no whitespace is
 	 * added. If this would not result in a syntactically correct JSON text,
 	 * then null will be returned instead.
-	 * <p>
+	 * <p/>
 	 * Warning: This method assumes that the data structure is acyclical.
 	 * 
 	 * @return a printable, displayable, portable, transmittable representation
@@ -1370,7 +1364,7 @@ public class JSONObject {
 
 	/**
 	 * Make a prettyprinted JSON text of this JSONObject.
-	 * <p>
+	 * <p/>
 	 * Warning: This method assumes that the data structure is acyclical.
 	 * 
 	 * @param indentFactor
@@ -1400,7 +1394,7 @@ public class JSONObject {
 	 * JSONObject will be made from it and its toJSONString method will be
 	 * called. Otherwise, the value's toString method will be called, and the
 	 * result will be quoted.
-	 * <p>
+	 * <p/>
 	 * Warning: This method assumes that the data structure is acyclical.
 	 * 
 	 * @param value
@@ -1492,7 +1486,7 @@ public class JSONObject {
 	/**
 	 * Write the contents of the JSONObject as JSON text to a writer. For
 	 * compactness, no whitespace is added.
-	 * <p>
+	 * <p/>
 	 * Warning: This method assumes that the data structure is acyclical.
 	 * 
 	 * @return The writer.
@@ -1542,7 +1536,7 @@ public class JSONObject {
 	/**
 	 * Write the contents of the JSONObject as JSON text to a writer. For
 	 * compactness, no whitespace is added.
-	 * <p>
+	 * <p/>
 	 * Warning: This method assumes that the data structure is acyclical.
 	 * 
 	 * @return The writer.

@@ -1,18 +1,22 @@
 package com.volumetricpixels.bans.punishment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages punishments in VolumetricBans
  */
 public class PunishmentManager {
-	/** The VolumetricBans plugin */
+	/**
+	 * The VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
-	/** The PunishmentStorage instance */
+	/**
+	 * The PunishmentStorage instance
+	 */
 	private final PunishmentStorage store;
 
 	/**

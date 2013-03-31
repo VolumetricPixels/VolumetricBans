@@ -31,7 +31,7 @@ import java.io.StringWriter;
  * texts produced strictly conform to JSON syntax rules. No whitespace is added,
  * so the results are ready for transmission or storage. Each instance of
  * JSONStringer can produce one JSON text.
- * <p>
+ * <p/>
  * A JSONStringer instance provides a <code>value</code> method for appending
  * values to the text, and a <code>key</code> method for adding keys before
  * values in objects. There are <code>array</code> and <code>endArray</code>
@@ -39,21 +39,23 @@ import java.io.StringWriter;
  * <code>endObject</code> methods which make and bound object values. All of
  * these methods return the JSONWriter instance, permitting cascade style. For
  * example,
+ * <p/>
  * 
  * <pre>
  * myString = new JSONStringer().object().key(&quot;JSON&quot;).value(&quot;Hello, World!&quot;).endObject().toString();
  * </pre>
- * 
+ * <p/>
  * which produces the string
+ * <p/>
  * 
  * <pre>
  * {"JSON":"Hello, World!"}
  * </pre>
- * <p>
+ * <p/>
  * The first method called must be <code>array</code> or <code>object</code>.
  * There are no methods for adding commas or colons. JSONStringer adds them for
  * you. Objects and arrays can be nested up to 20 levels deep.
- * <p>
+ * <p/>
  * This can sometimes be easier than using a JSONObject to build a string.
  * 
  * @author JSON.org

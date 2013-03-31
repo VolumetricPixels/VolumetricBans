@@ -1,16 +1,12 @@
 package com.volumetricpixels.bans.command;
 
-import org.spout.api.chat.style.ChatStyle;
+import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.punishment.Mute;
+import com.volumetricpixels.bans.util.TimeType;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
-
-import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.punishment.Ban;
-import com.volumetricpixels.bans.punishment.Mute;
-import com.volumetricpixels.bans.storage.PunishmentStorage;
-import com.volumetricpixels.bans.util.TimeType;
 
 /**
  * The /vb mute command

@@ -1,11 +1,6 @@
 package org.json;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 
 /*
  Copyright (c) 2002 JSON.org
@@ -222,8 +217,8 @@ public class JSONTokener {
 	/**
 	 * Get the next char in the string, skipping whitespace.
 	 * 
-	 * @throws JSONException
 	 * @return A character, or 0 if there are no more characters.
+	 * @throws JSONException
 	 */
 	public char nextClean() throws JSONException {
 		for (;;) {
@@ -346,9 +341,9 @@ public class JSONTokener {
 	 * Get the next value. The value can be a Boolean, Double, Integer,
 	 * JSONArray, JSONObject, Long, or String, or the JSONObject.NULL object.
 	 * 
+	 * @return An object.
 	 * @throws JSONException
 	 *             If syntax error.
-	 * @return An object.
 	 */
 	public Object nextValue() throws JSONException {
 		char c = nextClean();

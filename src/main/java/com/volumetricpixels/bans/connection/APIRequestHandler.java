@@ -1,5 +1,10 @@
 package com.volumetricpixels.bans.connection;
 
+import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.exception.DataRetrievalException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -10,24 +15,26 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.exception.DataRetrievalException;
-
 /**
  * Handles JSON sent by the VolumetricBans servers
  */
 public class APIRequestHandler {
-	/** The VolumetricBans plugin */
+	/**
+	 * The VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
-	/** The server API key */
+	/**
+	 * The server API key
+	 */
 	private final String apiKey;
 
-	/** The address for the API server */
+	/**
+	 * The address for the API server
+	 */
 	private String apiServerHostName;
-	/** The category of action this APIRequestHandler handles */
+	/**
+	 * The category of action this APIRequestHandler handles
+	 */
 	private String actionCategory;
 
 	/**

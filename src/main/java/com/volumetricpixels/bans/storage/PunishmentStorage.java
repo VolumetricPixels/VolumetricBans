@@ -1,37 +1,49 @@
 package com.volumetricpixels.bans.storage;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 import com.volumetricpixels.bans.util.PArrayList;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Handles storage of punishments (bans and mutes) in files by making use of
  * JSONObjects
  */
 public class PunishmentStorage {
-	/** VolumetricBans plugin */
+	/**
+	 * VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
-	/** The File we are storing bans in */
+	/**
+	 * The File we are storing bans in
+	 */
 	private final File banStorageFile;
-	/** The JSONFileHandler for the bans file */
+	/**
+	 * The JSONFileHandler for the bans file
+	 */
 	private final JSONFileHandler bjsh;
-	/** The File we are storing mutes in */
+	/**
+	 * The File we are storing mutes in
+	 */
 	private final File muteStorageFile;
-	/** The JSONFileHandler for the mutes file */
+	/**
+	 * The JSONFileHandler for the mutes file
+	 */
 	private final JSONFileHandler mjsh;
 
-	/** PArrayList of stored bans */
+	/**
+	 * PArrayList of stored bans
+	 */
 	private PArrayList<Ban> bans;
-	/** PArrayList of stored mutes */
+	/**
+	 * PArrayList of stored mutes
+	 */
 	private PArrayList<Mute> mutes;
 
 	/**

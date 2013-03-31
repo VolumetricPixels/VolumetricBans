@@ -1,14 +1,16 @@
 package com.volumetricpixels.bans.storage;
 
-import java.io.File;
-
 import com.volumetricpixels.bans.VolumetricBans;
+
+import java.io.File;
 
 /**
  * Manages all files in VolumetricBans.
  */
 public class FileManager {
-	/** Plugin instance */
+	/**
+	 * Plugin instance
+	 */
 	private final VolumetricBans plugin;
 
 	// Main files (config, data files, etc)

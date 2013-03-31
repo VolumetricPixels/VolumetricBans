@@ -1,26 +1,25 @@
 package com.volumetricpixels.bans.storage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
+import com.volumetricpixels.bans.exception.StorageException;
 import org.apache.commons.io.FileUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.volumetricpixels.bans.exception.StorageException;
+import java.io.*;
 
 public class JSONFileHandler {
-	/** The File we are writing to / reading from */
+	/**
+	 * The File we are writing to / reading from
+	 */
 	private File file;
 
-	/** The BufferedWriter in use */
+	/**
+	 * The BufferedWriter in use
+	 */
 	private BufferedWriter writer;
-	/** The BufferedReader in use */
+	/**
+	 * The BufferedReader in use
+	 */
 	private BufferedReader reader;
 
 	/**

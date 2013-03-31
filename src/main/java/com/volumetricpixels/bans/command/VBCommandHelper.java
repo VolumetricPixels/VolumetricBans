@@ -1,24 +1,27 @@
 package com.volumetricpixels.bans.command;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.volumetricpixels.bans.VolumetricBans;
 import org.spout.api.chat.ChatSection;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
-import com.volumetricpixels.bans.VolumetricBans;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Helps out with command responses
  */
 public class VBCommandHelper {
-	/** The amount of commands to display per page */
+	/**
+	 * The amount of commands to display per page
+	 */
 	private static final int COMMANDS_PER_PAGE = 7;
 
-	/** Subcommands of /vbans */
+	/**
+	 * Subcommands of /vbans
+	 */
 	private final List<String> vbansSubs;
 
 	/**

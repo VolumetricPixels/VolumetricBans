@@ -4,11 +4,17 @@ package com.volumetricpixels.bans.util;
  * Utility enum for time measurements, used in temp bans / mutes
  */
 public enum TimeType {
-	/** Represents minutes */
+	/**
+	 * Represents minutes
+	 */
 	MINUTES,
-	/** Represents hours */
+	/**
+	 * Represents hours
+	 */
 	HOURS,
-	/** Represents days */
+	/**
+	 * Represents days
+	 */
 	DAYS;
 
 	/**
@@ -20,7 +26,8 @@ public enum TimeType {
 	/**
 	 * Converts the given amount of time to minutes
 	 * 
-	 * @param l The amount of time, in this TimeType
+	 * @param l
+	 *            The amount of time, in this TimeType
 	 * @return The amount of minutes in the given amount of time
 	 */
 	public long toMinutes(long l) {
@@ -39,7 +46,8 @@ public enum TimeType {
 	/**
 	 * Parses a TimeType from a string
 	 * 
-	 * @param string The type of time as a string (e.g "hours")
+	 * @param string
+	 *            The type of time as a string (e.g "hours")
 	 * @return The enum value for the given TimeType string
 	 */
 	public static TimeType parse(String string) {

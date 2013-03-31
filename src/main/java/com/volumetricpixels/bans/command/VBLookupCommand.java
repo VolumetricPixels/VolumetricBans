@@ -1,15 +1,14 @@
 package com.volumetricpixels.bans.command;
 
+import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.connection.APIRequestHandler;
+import com.volumetricpixels.bans.exception.DataRetrievalException;
+import com.volumetricpixels.bans.util.APIRequestUtil;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
-
-import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.connection.APIRequestHandler;
-import com.volumetricpixels.bans.exception.DataRetrievalException;
-import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /**
  * The /vb lookup command

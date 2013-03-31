@@ -1,16 +1,19 @@
 package com.volumetricpixels.bans.command;
 
-import org.spout.api.command.Command;
-
 import com.volumetricpixels.bans.VolumetricBans;
+import org.spout.api.command.Command;
 
 /**
  * Registration for /vb commands
  */
 public class VBCommands {
-	/** The VolumetricBans plugin */
+	/**
+	 * The VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
-	/** The name of the command */
+	/**
+	 * The name of the command
+	 */
 	private final String name;
 
 	/**

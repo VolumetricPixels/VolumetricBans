@@ -1,27 +1,32 @@
 package com.volumetricpixels.bans.connection;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.util.APIRequestUtil;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Synchronises bans with the server every ~10 minutes
  */
 public class BanSynchroniser implements Runnable {
-	/** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
+	/**
+	 * 10 minutes (1000 millis / sec, 60 secs / min, 10 mins)
+	 */
 	private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
 
-	/** The VolumetricBans plugin */
+	/**
+	 * The VolumetricBans plugin
+	 */
 	private VolumetricBans plugin;
-	/** The APIRequestHandler we are using */
+	/**
+	 * The APIRequestHandler we are using
+	 */
 	private APIRequestHandler arh;
 
 	/**

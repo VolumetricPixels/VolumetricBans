@@ -1,43 +1,59 @@
 package com.volumetricpixels.bans.punishment;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.spout.api.entity.Player;
-import org.spout.api.scheduler.TaskPriority;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.util.Deletable;
 import com.volumetricpixels.bans.util.DeletableTimer;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.spout.api.entity.Player;
+import org.spout.api.scheduler.TaskPriority;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a Ban.
  */
 public class Ban implements Deletable {
-	/** Calendar instance */
+	/**
+	 * Calendar instance
+	 */
 	private static Calendar c = Calendar.getInstance();
 
-	/** VolumetricBans plugin, for timers and shit */
+	/**
+	 * VolumetricBans plugin, for timers and shit
+	 */
 	private final VolumetricBans plugin;
 
-	/** Is the ban global? */
+	/**
+	 * Is the ban global?
+	 */
 	private boolean global;
-	/** Reason for the ban */
+	/**
+	 * Reason for the ban
+	 */
 	private String reason;
-	/** Issuer of the ban */
+	/**
+	 * Issuer of the ban
+	 */
 	private String admin;
-	/** Banned player */
+	/**
+	 * Banned player
+	 */
 	private String player;
-	/** Is the ban temporary? */
+	/**
+	 * Is the ban temporary?
+	 */
 	private boolean temporary;
-	/** How long the ban lasts */
+	/**
+	 * How long the ban lasts
+	 */
 	private long time;
-	/** When the ban was issued */
+	/**
+	 * When the ban was issued
+	 */
 	private long issued;
 
 	/**

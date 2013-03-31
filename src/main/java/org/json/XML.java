@@ -35,35 +35,54 @@ import java.util.Iterator;
  */
 public class XML {
 
-	/** The Character '&'. */
+	/**
+	 * The Character '&'.
+	 */
 	public static final Character AMP = new Character('&');
 
-	/** The Character '''. */
+	/**
+	 * The Character '''.
+	 */
 	public static final Character APOS = new Character('\'');
 
-	/** The Character '!'. */
+	/**
+	 * The Character '!'.
+	 */
 	public static final Character BANG = new Character('!');
 
-	/** The Character '='. */
+	/**
+	 * The Character '='.
+	 */
 	public static final Character EQ = new Character('=');
 
-	/** The Character '>'. */
+	/**
+	 * The Character '>'.
+	 */
 	public static final Character GT = new Character('>');
 
-/** The Character '<'. */
+/**
+     * The Character '<'.
+     */
 	public static final Character LT = new Character('<');
 
-	/** The Character '?'. */
+	/**
+	 * The Character '?'.
+	 */
 	public static final Character QUEST = new Character('?');
 
-	/** The Character '"'. */
+	/**
+	 * The Character '"'.
+	 */
 	public static final Character QUOT = new Character('"');
 
-	/** The Character '/'. */
+	/**
+	 * The Character '/'.
+	 */
 	public static final Character SLASH = new Character('/');
 
 	/**
 	 * Replace special characters with XML escapes:
+	 * <p/>
 	 * 
 	 * <pre>
 	 * &amp; <small>(ampersand)</small> is replaced by &amp;amp;

@@ -1,10 +1,5 @@
 package com.volumetricpixels.bans.util;
 
-import java.util.ArrayList;
-
-import org.spout.api.event.Cancellable;
-import org.spout.api.event.EventManager;
-
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.event.PlayerBanEvent;
 import com.volumetricpixels.bans.event.PlayerMuteEvent;
@@ -12,6 +7,10 @@ import com.volumetricpixels.bans.event.PlayerUnbanEvent;
 import com.volumetricpixels.bans.event.PlayerUnmuteEvent;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
+import org.spout.api.event.Cancellable;
+import org.spout.api.event.EventManager;
+
+import java.util.ArrayList;
 
 /**
  * Basically an ArrayList, but calls events for VB bans / mutes when elements
@@ -23,10 +22,14 @@ import com.volumetricpixels.bans.punishment.Mute;
 public class PArrayList<T> extends ArrayList<T> {
 	private static final long serialVersionUID = 6649320621907259340L;
 
-	/** VolumetricBans plugin */
+	/**
+	 * VolumetricBans plugin
+	 */
 	private final VolumetricBans plugin;
 
-	/** Are we currently calling events for new additions / removals */
+	/**
+	 * Are we currently calling events for new additions / removals
+	 */
 	private boolean events = true;
 
 	/**

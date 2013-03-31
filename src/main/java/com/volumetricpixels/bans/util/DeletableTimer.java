@@ -1,8 +1,8 @@
 package com.volumetricpixels.bans.util;
 
-import java.util.Calendar;
-
 import org.spout.api.scheduler.Task;
+
+import java.util.Calendar;
 
 public class DeletableTimer implements Runnable {
 	private static Calendar c = Calendar.getInstance();
