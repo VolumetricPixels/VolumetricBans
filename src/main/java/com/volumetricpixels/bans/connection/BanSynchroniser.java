@@ -12,75 +12,64 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
-/**
- * Synchronises bans with the server every ~10 minutes
- */
+/** Synchronises bans with the server every ~10 minutes */
 public class BanSynchroniser implements Runnable {
-	/**
-	 * 10 minutes (1000 millis / sec, 60 secs / min, 10 mins)
-	 */
-	private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
+    /** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
+    private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
 
-	/**
-	 * The VolumetricBans plugin
-	 */
-	private VolumetricBans plugin;
-	/**
-	 * The APIRequestHandler we are using
-	 */
-	private APIRequestHandler arh;
+    /** The VolumetricBans plugin */
+    private VolumetricBans plugin;
+    /** The APIRequestHandler we are using */
+    private APIRequestHandler arh;
 
-	/**
-	 * Creates a new BanSynchroniser
-	 * 
-	 * @param plugin
-	 *            The VolumetricBans plugin
-	 */
-	public BanSynchroniser(VolumetricBans plugin) {
-		this.plugin = plugin;
+    /**
+     * Creates a new BanSynchroniser
+     *
+     * @param plugin The VolumetricBans plugin
+     */
+    public BanSynchroniser(VolumetricBans plugin) {
+        this.plugin = plugin;
 
-		arh = new APIRequestHandler(plugin, "bans");
-	}
+        arh = new APIRequestHandler(plugin, "bans");
+    }
 
-	/**
-	 * Runs the ban synchronisation
-	 */
-	@Override
-	public void run() {
-		// TODO: This will probably be changed, seeing as we are currently
-		// sending a banlist via post args. Probably not very efficient or fast,
-		// although depending on how website is done it might be fine. Anyhow
-		// this is just a temporary thing until we get everything sorted
-		while (true) {
-			JSONArray array = new JSONArray();
-			for (Ban ban : plugin.getStorageHandler().getBans()) {
-				array.put(APIRequestUtil.getMap(ban.toJSONObject()));
-			}
+    /** Runs the ban synchronisation */
+    @Override
+    public void run() {
+        // TODO: This will probably be changed, seeing as we are currently
+        // sending a banlist via post args. Probably not very efficient or fast,
+        // although depending on how website is done it might be fine. Anyhow
+        // this is just a temporary thing until we get everything sorted
+        while (true) {
+            JSONArray array = new JSONArray();
+            for (Ban ban : plugin.getStorageHandler().getBans()) {
+                array.put(APIRequestUtil.getMap(ban.toJSONObject()));
+            }
 
-			Map<String, String> postData = new HashMap<String, String>();
-			postData.put("action", "updateBans");
-			postData.put("jsonarray", array.toString());
-			JSONObject jo = null;
-			try {
-				jo = arh.retrieveJSONObject(postData);
-			} catch (DataRetrievalException e) {
-				plugin.setToOfflineMode(e);
-				return;
-			}
+            Map<String, String> postData = new HashMap<String, String>();
+            postData.put("action", "updateBans");
+            postData.put("jsonarray", array.toString());
+            JSONObject jo = null;
+            try {
+                jo = arh.retrieveJSONObject(postData);
+            } catch (DataRetrievalException e) {
+                plugin.setToOfflineMode(e);
+                return;
+            }
 
-			try {
-				if ((jo == null) || !jo.getBoolean("result")) {
-					plugin.getLogger().warning("Failed to synchronise bans with VolumetricBans servers!");
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+            try {
+                if ((jo == null) || !jo.getBoolean("result")) {
+                    plugin.getLogger().warning("Failed to synchronise bans with VolumetricBans servers!");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-			try {
-				Thread.sleep(SLEEP_MILLIS);
-			} catch (InterruptedException e) {
-				continue;
-			}
-		}
-	}
+            try {
+                Thread.sleep(SLEEP_MILLIS);
+            } catch (InterruptedException e) {
+                continue;
+            }
+        }
+    }
 }

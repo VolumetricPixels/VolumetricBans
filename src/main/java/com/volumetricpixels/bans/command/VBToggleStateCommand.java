@@ -8,29 +8,25 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-/**
- * The /vb togglestate command
- */
+/** The /vb togglestate command */
 public class VBToggleStateCommand extends VBCommand {
-	public VBToggleStateCommand(VolumetricBans plugin) {
-		super(plugin, "togglestate");
-	}
+    public VBToggleStateCommand(VolumetricBans plugin) {
+        super(plugin, "togglestate");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
-		for (String perm : getPermissions()) {
-			if (!source.hasPermission(perm)) {
-				throw new CommandException("You don't have permission!");
-			}
-		}
-		if (plugin.isOnlineMode()) {
-			plugin.setToOfflineMode();
-		} else {
-			plugin.setToOnlineMode();
-		}
-		source.sendMessage(ChatStyle.GRAY, "VolumetricBans is now running in ", plugin.isOnlineMode() ? "online" : "offline", " mode");
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
+        for (String perm : getPermissions()) {
+            if (!source.hasPermission(perm)) {
+                throw new CommandException("You don't have permission!");
+            }
+        }
+        if (plugin.isOnlineMode()) {
+            plugin.setToOfflineMode();
+        } else {
+            plugin.setToOnlineMode();
+        }
+        source.sendMessage(ChatStyle.GRAY, "VolumetricBans is now running in ", plugin.isOnlineMode() ? "online" : "offline", " mode");
+    }
 }
