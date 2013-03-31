@@ -1,9 +1,8 @@
 package com.volumetricpixels.bans;
 
-import com.volumetricpixels.bans.connection.APIRequestHandler;
-import com.volumetricpixels.bans.exception.DataRetrievalException;
-import com.volumetricpixels.bans.punishment.PunishmentManager;
-import com.volumetricpixels.bans.util.APIRequestUtil;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
@@ -12,8 +11,10 @@ import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerChatEvent;
 import org.spout.api.event.player.PlayerLoginEvent;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import com.volumetricpixels.bans.connection.APIRequestHandler;
+import com.volumetricpixels.bans.exception.DataRetrievalException;
+import com.volumetricpixels.bans.punishment.PunishmentManager;
+import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /**
  * Listens to various events for VolumetricBans

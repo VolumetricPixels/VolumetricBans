@@ -1,8 +1,9 @@
 package com.volumetricpixels.bans.command;
 
-import com.volumetricpixels.bans.VolumetricBans;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandExecutor;
+
+import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * Represents a command that can be run in VolumetricBans. Helps out with

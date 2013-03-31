@@ -1,10 +1,11 @@
 package com.volumetricpixels.bans.event;
 
-import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.punishment.Mute;
 import org.spout.api.event.Cancellable;
 import org.spout.api.event.Event;
 import org.spout.api.event.HandlerList;
+
+import com.volumetricpixels.bans.VolumetricBans;
+import com.volumetricpixels.bans.punishment.Mute;
 
 public class PlayerUnmuteEvent extends Event implements Cancellable {
 	/**

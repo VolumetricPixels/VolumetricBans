@@ -1,15 +1,16 @@
 package com.volumetricpixels.bans.storage;
 
+import java.io.File;
+import java.util.List;
+
+import org.json.JSONObject;
+
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 import com.volumetricpixels.bans.util.PArrayList;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Handles storage of punishments (bans and mutes) in files by making use of

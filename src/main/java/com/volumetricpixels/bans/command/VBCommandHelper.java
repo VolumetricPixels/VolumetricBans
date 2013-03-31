@@ -1,14 +1,15 @@
 package com.volumetricpixels.bans.command;
 
-import com.volumetricpixels.bans.VolumetricBans;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.spout.api.chat.ChatSection;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * Helps out with command responses

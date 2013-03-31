@@ -1,8 +1,9 @@
 package com.volumetricpixels.bans.event;
 
-import com.volumetricpixels.bans.VolumetricBans;
 import org.spout.api.event.Event;
 import org.spout.api.event.HandlerList;
+
+import com.volumetricpixels.bans.VolumetricBans;
 
 public class VolumetricBansDisabledEvent extends Event {
 	/**

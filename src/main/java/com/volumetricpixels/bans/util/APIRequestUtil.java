@@ -1,12 +1,13 @@
 package com.volumetricpixels.bans.util;
 
-import com.volumetricpixels.bans.connection.APIRequestHandler;
-import com.volumetricpixels.bans.exception.DataRetrievalException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.volumetricpixels.bans.connection.APIRequestHandler;
+import com.volumetricpixels.bans.exception.DataRetrievalException;
 
 /**
  * Utility methods for API requests

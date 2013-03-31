@@ -1,5 +1,23 @@
 package com.volumetricpixels.bans;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.spout.api.Engine;
+import org.spout.api.Platform;
+import org.spout.api.Server;
+import org.spout.api.chat.ChatArguments;
+import org.spout.api.exception.ConfigurationException;
+import org.spout.api.plugin.CommonPlugin;
+import org.spout.api.plugin.PluginLogger;
+import org.spout.api.scheduler.Scheduler;
+import org.spout.api.scheduler.Task;
+import org.spout.api.util.config.yaml.YamlConfiguration;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.command.VBCommands;
 import com.volumetricpixels.bans.connection.APIRequestHandler;
@@ -13,22 +31,6 @@ import com.volumetricpixels.bans.exception.VolumetricBansInitialisationException
 import com.volumetricpixels.bans.punishment.PunishmentManager;
 import com.volumetricpixels.bans.storage.FileManager;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.spout.api.Engine;
-import org.spout.api.Platform;
-import org.spout.api.Server;
-import org.spout.api.chat.ChatArguments;
-import org.spout.api.exception.ConfigurationException;
-import org.spout.api.plugin.CommonPlugin;
-import org.spout.api.plugin.PluginLogger;
-import org.spout.api.scheduler.Scheduler;
-import org.spout.api.scheduler.Task;
-import org.spout.api.util.config.yaml.YamlConfiguration;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * The main class for the VolumetricBans plugin

@@ -1,7 +1,8 @@
 package com.volumetricpixels.bans.command;
 
-import com.volumetricpixels.bans.VolumetricBans;
 import org.spout.api.command.Command;
+
+import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * Registration for /vb commands

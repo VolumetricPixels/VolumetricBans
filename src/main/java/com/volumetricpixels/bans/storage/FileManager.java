@@ -1,8 +1,8 @@
 package com.volumetricpixels.bans.storage;
 
-import com.volumetricpixels.bans.VolumetricBans;
-
 import java.io.File;
+
+import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * Manages all files in VolumetricBans.

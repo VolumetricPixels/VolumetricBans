@@ -1,11 +1,12 @@
 package com.volumetricpixels.bans.command;
 
-import com.volumetricpixels.bans.VolumetricBans;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
+
+import com.volumetricpixels.bans.VolumetricBans;
 
 /**
  * The /vb status command
