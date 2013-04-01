@@ -9,19 +9,19 @@ import com.volumetricpixels.bans.VolumetricBans;
 
 /** The /vb help command */
 public class VBHelpCommand extends VBCommand {
-	public VBHelpCommand(VolumetricBans plugin) {
-		super(plugin, "help");
-	}
+    public VBHelpCommand(VolumetricBans plugin) {
+        super(plugin, "help");
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
-		for (String perm : getPermissions()) {
-			if (!source.hasPermission(perm)) {
-				throw new CommandException("You don't have permission!");
-			}
-		}
-		VBCommandHelper cmdHelper = plugin.getCommandHelper();
-		cmdHelper.sendVBHelp(source, cmdHelper.getRawArgs(context.getRawArgs()));
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
+        for (String perm : getPermissions()) {
+            if (!source.hasPermission(perm)) {
+                throw new CommandException("You don't have permission!");
+            }
+        }
+        VBCommandHelper cmdHelper = plugin.getCommandHelper();
+        cmdHelper.sendVBHelp(source, cmdHelper.getRawArgs(context.getRawArgs()));
+    }
 }
