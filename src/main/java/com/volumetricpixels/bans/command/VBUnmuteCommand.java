@@ -10,26 +10,26 @@ import com.volumetricpixels.bans.VolumetricBans;
 
 /** The /vb unmute command */
 public class VBUnmuteCommand extends VBCommand {
-    public VBUnmuteCommand(VolumetricBans plugin) {
-        super(plugin, "unmute");
-    }
+	public VBUnmuteCommand(VolumetricBans plugin) {
+		super(plugin, "unmute");
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
-        for (String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
-                throw new CommandException("You don't have permission!");
-            }
-        }
-        VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        String[] arguments = cmdHelper.getRawArgs(args.getRawArgs());
-        try {
-            String target = arguments[0];
-            plugin.getPunishmentManager().removeMutesOnPlayer(target);
-            source.sendMessage(ChatStyle.GRAY, "Unmuted " + target);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new CommandException("Invalid syntax, /unmute <player>");
-        }
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
+		for (String perm : getPermissions()) {
+			if (!source.hasPermission(perm)) {
+				throw new CommandException("You don't have permission!");
+			}
+		}
+		VBCommandHelper cmdHelper = plugin.getCommandHelper();
+		String[] arguments = cmdHelper.getRawArgs(args.getRawArgs());
+		try {
+			String target = arguments[0];
+			plugin.getPunishmentManager().removeMutesOnPlayer(target);
+			source.sendMessage(ChatStyle.GRAY, "Unmuted " + target);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new CommandException("Invalid syntax, /unmute <player>");
+		}
+	}
 }
