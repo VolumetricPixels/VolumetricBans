@@ -22,6 +22,7 @@ import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.command.VBCommands;
 import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.connection.BanSynchroniser;
+import com.volumetricpixels.bans.connection.UpdateRequester;
 import com.volumetricpixels.bans.event.VolumetricBansDisabledEvent;
 import com.volumetricpixels.bans.event.VolumetricBansEnabledEvent;
 import com.volumetricpixels.bans.exception.DataLoadException;
@@ -52,6 +53,7 @@ public final class VolumetricBans extends CommonPlugin {
 	// Listeners / tasks / runnables
 	private VolumetricBansListener listener;
 	private Task banSyncTask;
+	private Task updateReqTask;
 
 	/** {@inheritDoc} */
 	@Override
@@ -75,6 +77,10 @@ public final class VolumetricBans extends CommonPlugin {
 		if (platform == Platform.SERVER || platform == Platform.PROXY) {
 			if (banSyncTask != null) {
 				banSyncTask.cancel();
+			}
+
+			if (updateReqTask != null) {
+				updateReqTask.cancel();
 			}
 
 			if ((listener != null) && (listener.getChecker() != null)) {
@@ -201,6 +207,8 @@ public final class VolumetricBans extends CommonPlugin {
 			if (onlineMode) {
 				BanSynchroniser banSync = new BanSynchroniser(this);
 				banSyncTask = scheduler.scheduleAsyncTask(this, banSync);
+				UpdateRequester updateReq = new UpdateRequester(this);
+				updateReqTask = scheduler.scheduleAsyncTask(this, updateReq);
 			}
 
 			server.getEventManager().callDelayedEvent(new VolumetricBansEnabledEvent(this));
