@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -27,6 +28,9 @@ public class APIRequestHandler {
     private String apiServerHostName;
     /** The category of action this APIRequestHandler handles */
     private String actionCategory;
+
+    /** Util Map */
+    private final Map<String, String> postMap = new HashMap<String, String>();
 
     /**
      * Creates a new APIRequestHandler
@@ -54,8 +58,14 @@ public class APIRequestHandler {
      *             When we fail to retrieve data
      */
     public JSONObject retrieveJSONObject(Map<String, String> postData) throws DataRetrievalException {
-        postData.put("key", apiKey);
-        String urlReq = parsePostItems(postData);
+        String urlReq = null;
+        synchronized (postMap) {
+            postMap.put("actionType", actionCategory);
+            postMap.putAll(postData);
+            postMap.put("key", apiKey);
+            urlReq = parsePostItems(postMap);
+            postMap.clear();
+        }
         String jText = performAPIRequest(urlReq);
         return getJSONObject(jText);
     }
