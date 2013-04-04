@@ -12,6 +12,7 @@ public final class FileManager {
     private final File config;
     private final File banStorage;
     private final File muteStorage;
+    private final File banSync;
 
     /**
      * FileManager constructor
@@ -25,6 +26,7 @@ public final class FileManager {
         config = getFile("config.yml");
         banStorage = getFile("data" + File.separator + "bans.json");
         muteStorage = getFile("data" + File.separator + "mutes.json");
+        banSync = getFile("data" + File.separator + "bansync.json");
     }
 
     /**
@@ -52,6 +54,15 @@ public final class FileManager {
      */
     public File getMuteStorageFile() {
         return muteStorage;
+    }
+
+    /**
+     * Gets the VolumetricBans ban sync File
+     * 
+     * @return The VolumetricBans ban sync File
+     */
+    public File getBanSyncFile() {
+        return banSync;
     }
 
     /**
