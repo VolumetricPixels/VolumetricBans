@@ -7,7 +7,7 @@ import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 
 /** Manages punishments in VolumetricBans */
-public class PunishmentManager {
+public final class PunishmentManager {
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;
     /** The PunishmentStorage instance */

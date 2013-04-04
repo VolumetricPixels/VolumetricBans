@@ -74,18 +74,18 @@ public final class VolumetricBansListener implements Listener {
     }
 
     /** Checks global bans on players, and kicks accordingly */
-    protected class PlayerChecker extends Thread {
+    public final class PlayerChecker extends Thread {
         /** Queue of players to check for a global ban */
-        BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
+        private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
 
         /** Cycles through the queue and checks players for global bans */
         @Override
         public void run() {
             while (!isInterrupted()) {
-                String playerName = "";
+                String playerName = null;
                 try {
                     playerName = queue.take();
-                } catch (Exception e) {
+                } catch (InterruptedException e) {
                     continue;
                 }
                 if (playerName != null) {

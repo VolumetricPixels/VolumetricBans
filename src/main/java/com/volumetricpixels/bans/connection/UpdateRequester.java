@@ -13,12 +13,12 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
-public class UpdateRequester implements Runnable {
+public final class UpdateRequester implements Runnable {
     /** 5 minutes (1000 millis / sec, 60 secs / min, 5 mins) */
     private static final int SLEEP_MILLIS = ((1000 * 60) * 5);
 
-    private VolumetricBans plugin;
-    private APIRequestHandler arh;
+    private final VolumetricBans plugin;
+    private final APIRequestHandler arh;
 
     public UpdateRequester(VolumetricBans plugin) {
         this.plugin = plugin;
@@ -33,7 +33,7 @@ public class UpdateRequester implements Runnable {
             postData.put("action", "update");
             postData.put("amtOnline", "" + ((Server) plugin.getEngine()).getOnlinePlayers().length);
             try {
-                JSONObject jo = arh.retrieveJSONObject(postData);
+                JSONObject jo = arh.submitRequest(postData);
                 Iterator<String> it = jo.keys();
                 while (it.hasNext()) {
                     String key = it.next();

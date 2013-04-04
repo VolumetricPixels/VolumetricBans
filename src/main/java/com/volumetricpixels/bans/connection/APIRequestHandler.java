@@ -18,19 +18,17 @@ import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
 /** Handles JSON sent by the VolumetricBans servers */
-public class APIRequestHandler {
+public final class APIRequestHandler {
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;
     /** The server API key */
     private final String apiKey;
-
-    /** The address for the API server */
-    private String apiServerHostName;
     /** The category of action this APIRequestHandler handles */
-    private String actionCategory;
-
+    private final String actionCategory;
     /** Util Map */
     private final Map<String, String> postMap = new HashMap<String, String>();
+    /** The address for the API server */
+    private String apiServerHostName;
 
     /**
      * Creates a new APIRequestHandler
@@ -57,7 +55,7 @@ public class APIRequestHandler {
      * @throws DataRetrievalException
      *             When we fail to retrieve data
      */
-    public JSONObject retrieveJSONObject(Map<String, String> postData) throws DataRetrievalException {
+    public JSONObject submitRequest(Map<String, String> postData) throws DataRetrievalException {
         String urlReq = null;
         synchronized (postMap) {
             postMap.put("actionType", actionCategory);
@@ -81,7 +79,7 @@ public class APIRequestHandler {
      * @throws DataRetrievalException
      *             When a JSONObject can't be created
      */
-    public JSONObject getJSONObject(String jsonText) throws DataRetrievalException {
+    private JSONObject getJSONObject(String jsonText) throws DataRetrievalException {
         try {
             return new JSONObject(jsonText);
         } catch (JSONException e) {
@@ -100,7 +98,7 @@ public class APIRequestHandler {
      * @throws DataRetrievalException
      *             When we fail to retrieve data
      */
-    public String performAPIRequest(String data) throws DataRetrievalException {
+    private String performAPIRequest(String data) throws DataRetrievalException {
         try {
             URL u = new URL(apiServerHostName + "/api/" + actionCategory);
             URLConnection uc = u.openConnection();
@@ -140,7 +138,7 @@ public class APIRequestHandler {
      * @throws DataRetrievalException
      *             When the system doesn't support UTF-8
      */
-    public String parsePostItems(Map<String, String> postData) throws DataRetrievalException {
+    private String parsePostItems(Map<String, String> postData) throws DataRetrievalException {
         String data = null;
         try {
             for (Entry<String, String> entry : postData.entrySet()) {

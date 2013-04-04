@@ -4,11 +4,15 @@ import java.util.Calendar;
 
 import org.spout.api.scheduler.Task;
 
+/**
+ * A timer to delete any Deletable object
+ */
 public class DeletableTimer implements Runnable {
     private static Calendar c = Calendar.getInstance();
 
-    private long endMinutesSinceEpoch;
-    private Deletable timedDeletable;
+    private final long endMinutesSinceEpoch;
+    private final Deletable timedDeletable;
+
     private Task spoutTaskObject;
 
     public DeletableTimer(long end, Deletable timed) {

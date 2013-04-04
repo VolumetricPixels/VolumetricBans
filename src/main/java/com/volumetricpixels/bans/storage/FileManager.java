@@ -5,14 +5,13 @@ import java.io.File;
 import com.volumetricpixels.bans.VolumetricBans;
 
 /** Manages all files in VolumetricBans. */
-public class FileManager {
+public final class FileManager {
     /** Plugin instance */
     private final VolumetricBans plugin;
-
     // Main files (config, data files, etc)
-    private File config;
-    private File banStorage;
-    private File muteStorage;
+    private final File config;
+    private final File banStorage;
+    private final File muteStorage;
 
     /**
      * FileManager constructor
@@ -22,6 +21,10 @@ public class FileManager {
      */
     public FileManager(VolumetricBans plugin) {
         this.plugin = plugin;
+
+        config = getFile("config.yml");
+        banStorage = getFile("data" + File.separator + "bans.json");
+        muteStorage = getFile("data" + File.separator + "mutes.json");
     }
 
     /**

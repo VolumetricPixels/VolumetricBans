@@ -16,9 +16,9 @@ import com.volumetricpixels.bans.util.Deletable;
 import com.volumetricpixels.bans.util.DeletableTimer;
 
 /** Represents a Mute */
-public class Mute implements Deletable {
+public final class Mute implements Deletable {
     /** The Calendar instance */
-    private static Calendar c = Calendar.getInstance();
+    private static final Calendar c = Calendar.getInstance();
 
     /** VolumetricBans plugin, for timers and shit */
     private final VolumetricBans plugin;

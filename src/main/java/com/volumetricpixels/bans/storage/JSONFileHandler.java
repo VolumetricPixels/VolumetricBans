@@ -9,9 +9,9 @@ import org.json.JSONObject;
 
 import com.volumetricpixels.bans.exception.StorageException;
 
-public class JSONFileHandler {
+public final class JSONFileHandler {
     /** The File we are writing to / reading from */
-    private File file;
+    private final File file;
 
     /** The BufferedWriter in use */
     private BufferedWriter writer;

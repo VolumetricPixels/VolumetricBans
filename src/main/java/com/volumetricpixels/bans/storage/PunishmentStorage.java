@@ -16,7 +16,7 @@ import com.volumetricpixels.bans.util.PArrayList;
  * Handles storage of punishments (bans and mutes) in files by making use of
  * JSONObjects
  */
-public class PunishmentStorage {
+public final class PunishmentStorage {
     /** VolumetricBans plugin */
     private final VolumetricBans plugin;
     /** The File we are storing bans in */
@@ -29,9 +29,9 @@ public class PunishmentStorage {
     private final JSONFileHandler mjsh;
 
     /** PArrayList of stored bans */
-    private PArrayList<Ban> bans;
+    private final PArrayList<Ban> bans;
     /** PArrayList of stored mutes */
-    private PArrayList<Mute> mutes;
+    private final PArrayList<Mute> mutes;
 
     /**
      * Creates a new instance of PunishmentStorage with the given plugin

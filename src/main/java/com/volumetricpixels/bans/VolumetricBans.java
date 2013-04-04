@@ -78,15 +78,12 @@ public final class VolumetricBans extends CommonPlugin {
             if (banSyncTask != null) {
                 banSyncTask.cancel();
             }
-
             if (updateReqTask != null) {
                 updateReqTask.cancel();
             }
-
             if ((listener != null) && (listener.getChecker() != null)) {
                 listener.getChecker().interrupt();
             }
-
             try {
                 storageHandler.saveBans();
                 storageHandler.saveMutes();
@@ -141,7 +138,7 @@ public final class VolumetricBans extends CommonPlugin {
                     postData.put("action", "checkValidity");
                     JSONObject jO;
                     try {
-                        jO = utilityRequestHandler.retrieveJSONObject(postData);
+                        jO = utilityRequestHandler.submitRequest(postData);
 
                         if (!jO.getBoolean("result")) {
                             getLogger().severe("Invalid API key");

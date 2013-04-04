@@ -13,14 +13,14 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /** Synchronises bans with the server every ~10 minutes */
-public class BanSynchroniser implements Runnable {
+public final class BanSynchroniser implements Runnable {
     /** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
     private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
 
     /** The VolumetricBans plugin */
-    private VolumetricBans plugin;
+    private final VolumetricBans plugin;
     /** The APIRequestHandler we are using */
-    private APIRequestHandler arh;
+    private final APIRequestHandler arh;
 
     /**
      * Creates a new BanSynchroniser
@@ -30,7 +30,6 @@ public class BanSynchroniser implements Runnable {
      */
     public BanSynchroniser(VolumetricBans plugin) {
         this.plugin = plugin;
-
         arh = new APIRequestHandler(plugin, "bans");
     }
 
@@ -52,7 +51,7 @@ public class BanSynchroniser implements Runnable {
             postData.put("jsonarray", array.toString());
             JSONObject jo = null;
             try {
-                jo = arh.retrieveJSONObject(postData);
+                jo = arh.submitRequest(postData);
             } catch (DataRetrievalException e) {
                 plugin.setToOfflineMode(e);
                 return;
