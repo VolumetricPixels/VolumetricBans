@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.volumetricpixels.bans.VolumetricBans;
@@ -17,7 +15,6 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.storage.JSONFileHandler;
-import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /** Synchronises bans with the server every ~10 minutes */
 public final class BanSynchroniser implements Runnable {
@@ -71,14 +68,13 @@ public final class BanSynchroniser implements Runnable {
             }
             List<Ban> list = plugin.getStorageHandler().getBans();
             for (Ban ban : list) {
-                boolean found = false;
+                boolean found1 = false;
                 for (Ban ban1 : lastList) {
                     if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
-                        found = true;
-                        break;
+                        found1 = true;
                     }
                 }
-                if (!found) {
+                if (!found1) {
                     sendBan(ban, true);
                 }
             }

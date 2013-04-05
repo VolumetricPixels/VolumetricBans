@@ -1,9 +1,7 @@
 package com.volumetricpixels.bans;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.entity.Player;
