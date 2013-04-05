@@ -76,7 +76,6 @@ public final class VolumetricBansListener implements Listener {
             this.player = player;
         }
 
-        /** Cycles through the queue and checks players for global bans */
         @Override
         public void run() {
             if (player != null) {
