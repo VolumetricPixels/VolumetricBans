@@ -1,6 +1,8 @@
 package com.volumetricpixels.bans;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.spout.api.chat.style.ChatStyle;
@@ -20,12 +22,12 @@ import com.volumetricpixels.bans.util.APIRequestUtil;
 public final class VolumetricBansListener implements Listener {
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;
-    /** The PlayerCheck instance */
-    private final PlayerChecker checker;
     /** The APIRequestHandler we are using */
     private final APIRequestHandler arh;
     /** The PunishmentManager instance */
     private final PunishmentManager pm;
+    /** The checking thread pool */
+    private final ExecutorService threadPool;
 
     /**
      * Creates a new VolumetricBansListener
@@ -37,7 +39,7 @@ public final class VolumetricBansListener implements Listener {
         this.plugin = plugin;
         arh = new APIRequestHandler(plugin, "players");
         pm = plugin.getPunishmentManager();
-        (checker = new PlayerChecker()).start();
+        threadPool = Executors.newCachedThreadPool();
     }
 
     @EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
@@ -50,7 +52,7 @@ public final class VolumetricBansListener implements Listener {
             plugin.getLogger().info("Prevented banned player '" + name + "' from logging in!");
         } else {
             if (plugin.isOnlineMode()) {
-                checker.queue.add(name);
+                threadPool.submit(new PlayerChecker(name));
             }
         }
     }
@@ -64,43 +66,32 @@ public final class VolumetricBansListener implements Listener {
         }
     }
 
-    /**
-     * Gets the PlayerCheck object
-     * 
-     * @return This listener's PlayerChecker
-     */
-    protected PlayerChecker getChecker() {
-        return checker;
+    public ExecutorService getThreadPool() {
+        return threadPool;
     }
 
     /** Checks global bans on players, and kicks accordingly */
-    public final class PlayerChecker extends Thread {
-        /** Queue of players to check for a global ban */
-        private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
+    public final class PlayerChecker implements Runnable {
+        private final String player;
+
+        private PlayerChecker(String player) {
+            this.player = player;
+        }
 
         /** Cycles through the queue and checks players for global bans */
         @Override
         public void run() {
-            while (!isInterrupted()) {
-                String playerName = null;
+            if (player != null) {
                 try {
-                    playerName = queue.take();
-                } catch (InterruptedException e) {
-                    continue;
-                }
-                if (playerName != null) {
-                    try {
-                        if (APIRequestUtil.isPermaGlobalBanned(arh, playerName)) {
-                            Player player = plugin.getEngine().getPlayer(playerName, true);
-                            if (player != null) {
-                                player.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
-                                plugin.getLogger().info("Kicked globally permabanned player " + playerName + "!");
-                            }
+                    if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
+                        Player p = plugin.getEngine().getPlayer(player, true);
+                        if (p != null) {
+                            p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
+                            plugin.getLogger().info("Kicked globally permabanned player " + player + "!");
                         }
-                    } catch (DataRetrievalException e) {
-                        e.printStackTrace();
-                        continue;
                     }
+                } catch (DataRetrievalException e) {
+                    e.printStackTrace();
                 }
             }
         }

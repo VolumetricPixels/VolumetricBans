@@ -81,8 +81,8 @@ public final class VolumetricBans extends CommonPlugin {
             if (updateReqTask != null) {
                 updateReqTask.cancel();
             }
-            if ((listener != null) && (listener.getChecker() != null)) {
-                listener.getChecker().interrupt();
+            if ((listener != null) && (listener.getThreadPool() != null)) {
+                listener.getThreadPool().shutdownNow();
             }
             try {
                 storageHandler.saveBans();
