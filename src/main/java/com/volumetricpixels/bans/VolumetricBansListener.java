@@ -1,7 +1,9 @@
 package com.volumetricpixels.bans;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.entity.Player;
@@ -24,8 +26,10 @@ public final class VolumetricBansListener implements Listener {
     private final APIRequestHandler arh;
     /** The PunishmentManager instance */
     private final PunishmentManager pm;
+
     /** The checking thread pool */
-    private final ExecutorService threadPool;
+    private ExecutorService threadPool;
+    private PlayerCheckThread checker;
 
     /**
      * Creates a new VolumetricBansListener
@@ -37,7 +41,11 @@ public final class VolumetricBansListener implements Listener {
         this.plugin = plugin;
         arh = new APIRequestHandler(plugin, "players");
         pm = plugin.getPunishmentManager();
-        threadPool = Executors.newCachedThreadPool();
+        if (plugin.isPremium()) {
+            threadPool = Executors.newFixedThreadPool(5);
+        } else {
+            checker = new PlayerCheckThread();
+        }
     }
 
     @EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
@@ -50,7 +58,11 @@ public final class VolumetricBansListener implements Listener {
             plugin.getLogger().info("Prevented banned player '" + name + "' from logging in!");
         } else {
             if (plugin.isOnlineMode()) {
-                threadPool.submit(new PlayerChecker(name));
+                if (plugin.isPremium()) {
+                    threadPool.submit(new PlayerChecker(name));
+                } else {
+                    checker.queue.add(name);
+                }
             }
         }
     }
@@ -66,6 +78,32 @@ public final class VolumetricBansListener implements Listener {
 
     public ExecutorService getThreadPool() {
         return threadPool;
+    }
+
+    public final class PlayerCheckThread extends Thread {
+        private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
+
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                try {
+                    String player = queue.take();
+                    try {
+                        if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
+                            Player p = plugin.getEngine().getPlayer(player, true);
+                            if (p != null) {
+                                p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
+                                plugin.getLogger().info("Kicked globally permabanned player " + player + "!");
+                            }
+                        }
+                    } catch (DataRetrievalException e) {
+                        e.printStackTrace();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /** Checks global bans on players, and kicks accordingly */

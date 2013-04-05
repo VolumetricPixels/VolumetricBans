@@ -44,6 +44,7 @@ public final class VolumetricBans extends CommonPlugin {
     private boolean strictGlobal = false;
     // Requests
     private boolean canConnectToServers = true;
+    private boolean premium = false;
     // Managers
     private FileManager fileSystem;
     private PunishmentStorage storageHandler;
@@ -128,17 +129,17 @@ public final class VolumetricBans extends CommonPlugin {
                 return;
             }
 
+            APIRequestHandler handler = new APIRequestHandler(this, "data");
             onlineMode = config.getNode("online-mode").getBoolean(true);
             if (onlineMode) {
                 getLogger().info("Running in online mode!");
-                APIRequestHandler utilityRequestHandler = new APIRequestHandler(this, "data");
                 try {
                     // Check api key validity
                     Map<String, String> postData = new HashMap<String, String>();
                     postData.put("action", "checkValidity");
                     JSONObject jO;
                     try {
-                        jO = utilityRequestHandler.submitRequest(postData);
+                        jO = handler.submitRequest(postData);
 
                         if (!jO.getBoolean("result")) {
                             getLogger().severe("Invalid API key");
@@ -152,14 +153,14 @@ public final class VolumetricBans extends CommonPlugin {
                         getLogger().severe("This means bans made will not be synchronised to the website until the plugin is in online mode");
                         getLogger().severe("You should still be able to use the plugin normally");
                         onlineMode = false;
-                        throw new VolumetricBansInitialisationException("Could not connect to servers!", e, false);
+                        new VolumetricBansInitialisationException("Could not connect to servers!", e, false).printStackTrace();
                     }
                 } catch (JSONException e) {
                     getLogger().severe("Could not check API key validity");
                     getLogger().severe("Disabling all web-based functionality");
                     canConnectToServers = false;
                     onlineMode = false;
-                    throw new VolumetricBansInitialisationException("Invalid data received from servers, or error in parsing!", e, false);
+                    new VolumetricBansInitialisationException("Invalid data received from servers, or error in parsing!", e, false).printStackTrace();
                 }
             } else {
                 configurationUntouched = false;
@@ -206,6 +207,21 @@ public final class VolumetricBans extends CommonPlugin {
                 banSyncTask = scheduler.scheduleAsyncTask(this, banSync);
                 UpdateRequester updateReq = new UpdateRequester(this);
                 updateReqTask = scheduler.scheduleAsyncTask(this, updateReq);
+
+                Map<String, String> postData = new HashMap<String, String>();
+                postData.put("action", "checkPremiumServer");
+                try {
+                    JSONObject response = handler.submitRequest(postData);
+                    premium = response.getBoolean("result");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    getLogger().warning("Could not check if server is premium!");
+                    getLogger().warning("If your server is premium, you will not have premium features until you restart");
+                } catch (DataRetrievalException e) {
+                    e.printStackTrace();
+                    getLogger().warning("Could not check if server is premium!");
+                    getLogger().warning("If your server is premium, you will not have premium features until you restart");
+                }
             }
 
             server.getEventManager().callDelayedEvent(new VolumetricBansEnabledEvent(this));
@@ -316,5 +332,9 @@ public final class VolumetricBans extends CommonPlugin {
      */
     private void setTag(PluginLogger logger, String string) {
         logger.setTag(ChatArguments.fromString(string));
+    }
+
+    public boolean isPremium() {
+        return premium;
     }
 }
