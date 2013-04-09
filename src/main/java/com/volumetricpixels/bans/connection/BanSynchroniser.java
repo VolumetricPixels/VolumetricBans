@@ -19,7 +19,7 @@ import com.volumetricpixels.bans.storage.JSONFileHandler;
 /** Synchronises bans with the server every ~10 minutes */
 public final class BanSynchroniser implements Runnable {
     /** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
-    private static final int SLEEP_MILLIS = ((1000 * 60) * 10);
+    private static final int SLEEP_MILLIS = 1000 * 60 * 10;
 
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;
@@ -35,7 +35,7 @@ public final class BanSynchroniser implements Runnable {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    public BanSynchroniser(VolumetricBans plugin) {
+    public BanSynchroniser(final VolumetricBans plugin) {
         this.plugin = plugin;
         arh = new APIRequestHandler(plugin, "bans");
     }
@@ -46,30 +46,30 @@ public final class BanSynchroniser implements Runnable {
         while (true) {
             hi: if (lastList == null) {
                 lastList = new ArrayList<Ban>();
-                File lastListFile = plugin.getFileManager().getBanSyncFile();
+                final File lastListFile = plugin.getFileManager().getBanSyncFile();
                 if (!lastListFile.exists()) {
                     try {
                         lastListFile.createNewFile();
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         e.printStackTrace();
                     }
                     break hi;
                 }
-                JSONFileHandler j = new JSONFileHandler(lastListFile);
+                final JSONFileHandler j = new JSONFileHandler(lastListFile);
                 JSONObject curJObj = null;
                 try {
                     while ((curJObj = j.read()) != null) {
                         lastList.add(Ban.fromJSONObject(plugin, curJObj));
                     }
-                } catch (StorageException e) {
-                } catch (DataLoadException e) {
+                } catch (final StorageException e) {
+                } catch (final DataLoadException e) {
                     e.printStackTrace();
                 }
             }
-            List<Ban> list = plugin.getStorageHandler().getBans();
-            for (Ban ban : list) {
+            final List<Ban> list = plugin.getStorageHandler().getBans();
+            for (final Ban ban : list) {
                 boolean found1 = false;
-                for (Ban ban1 : lastList) {
+                for (final Ban ban1 : lastList) {
                     if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
                         found1 = true;
                     }
@@ -78,9 +78,9 @@ public final class BanSynchroniser implements Runnable {
                     sendBan(ban, true);
                 }
             }
-            for (Ban ban : lastList) {
+            for (final Ban ban : lastList) {
                 boolean found = false;
-                for (Ban ban1 : list) {
+                for (final Ban ban1 : list) {
                     if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
                         found = true;
                         break;
@@ -92,20 +92,20 @@ public final class BanSynchroniser implements Runnable {
             }
             try {
                 Thread.sleep(SLEEP_MILLIS);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 break;
             }
         }
     }
 
-    private void sendBan(Ban ban, boolean add) {
+    private void sendBan(final Ban ban, final boolean add) {
         try {
-            Map<String, String> post = new HashMap<String, String>();
+            final Map<String, String> post = new HashMap<String, String>();
             post.put("action", "ban");
             post.put("ban", ban.toJSONObject().toString());
             post.put("add", Boolean.toString(add));
             arh.submitRequest(post);
-        } catch (DataRetrievalException e) {
+        } catch (final DataRetrievalException e) {
             e.printStackTrace();
         }
     }

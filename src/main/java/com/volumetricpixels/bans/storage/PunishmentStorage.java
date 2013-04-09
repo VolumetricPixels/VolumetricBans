@@ -40,7 +40,7 @@ public final class PunishmentStorage {
      * @param plugin
      *            The VolumetricBans plugin instance
      */
-    public PunishmentStorage(VolumetricBans plugin) {
+    public PunishmentStorage(final VolumetricBans plugin) {
         this.plugin = plugin;
 
         banStorageFile = plugin.getFileManager().getBanStorageFile();
@@ -100,11 +100,11 @@ public final class PunishmentStorage {
         bjsh.delete();
         try {
             bjsh.startWriting();
-            for (Ban ban : bans) {
+            for (final Ban ban : bans) {
                 bjsh.write(ban.toJSONObject());
             }
             bjsh.stopWriting();
-        } catch (StorageException e) {
+        } catch (final StorageException e) {
             throw new StorageException("Error writing bans to file! A backup of your old bans should be found in /plugins/VolumetricBans/data/!", e);
         }
     }
@@ -120,11 +120,11 @@ public final class PunishmentStorage {
         mjsh.delete();
         try {
             mjsh.startWriting();
-            for (Mute mute : mutes) {
+            for (final Mute mute : mutes) {
                 mjsh.write(mute.toJSONObject());
             }
             mjsh.stopWriting();
-        } catch (StorageException e) {
+        } catch (final StorageException e) {
             throw new StorageException("Error writing mutes to file! A backup of your old mutes should be found in /plugins/VolumetricBans/data/!", e);
         }
     }

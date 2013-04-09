@@ -13,9 +13,9 @@ import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /** The /vb lookup command */
 public class VBLookupCommand extends VBCommand {
-    private APIRequestHandler handler;
+    private final APIRequestHandler handler;
 
-    public VBLookupCommand(VolumetricBans plugin) {
+    public VBLookupCommand(final VolumetricBans plugin) {
         super(plugin, "lookup");
 
         handler = new APIRequestHandler(plugin, "players");
@@ -23,8 +23,8 @@ public class VBLookupCommand extends VBCommand {
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(CommandSource source, Command cmd, CommandContext args) throws CommandException {
-        for (String perm : getPermissions()) {
+    public void processCommand(final CommandSource source, final Command cmd, final CommandContext args) throws CommandException {
+        for (final String perm : getPermissions()) {
             if (!source.hasPermission(perm)) {
                 throw new CommandException("You don't have permission!");
             }
@@ -32,12 +32,12 @@ public class VBLookupCommand extends VBCommand {
         String target = null;
         try {
             target = plugin.getCommandHelper().getRawArgs(args.getRawArgs())[0];
-            boolean globalPermaBan = APIRequestUtil.isPermaGlobalBanned(handler, target);
+            final boolean globalPermaBan = APIRequestUtil.isPermaGlobalBanned(handler, target);
             source.sendMessage(ChatStyle.GRAY, "VolumetricBans", ChatStyle.RESET, " - ", ChatStyle.GOLD, "Statistics for " + target);
             source.sendMessage(ChatStyle.GRAY, "Is globally permabanned: " + globalPermaBan);
-        } catch (DataRetrievalException e) {
+        } catch (final DataRetrievalException e) {
             throw new CommandException("Could not retrieve data for " + target);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
             throw new CommandException("Invalid syntax, /vb lookup <player>");
         }
     }

@@ -32,7 +32,7 @@ public final class VolumetricBansListener implements Listener {
     /** The checking thread pool */
     private ExecutorService threadPool;
     private PlayerCheckThread checker;
-    private SafePlayerCache cache;
+    private final SafePlayerCache cache;
 
     /**
      * Creates a new VolumetricBansListener
@@ -40,7 +40,7 @@ public final class VolumetricBansListener implements Listener {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    protected VolumetricBansListener(VolumetricBans plugin) {
+    protected VolumetricBansListener(final VolumetricBans plugin) {
         this.plugin = plugin;
         arh = new APIRequestHandler(plugin, "players");
         pm = plugin.getPunishmentManager();
@@ -54,9 +54,9 @@ public final class VolumetricBansListener implements Listener {
     }
 
     @EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
-    public void onPlayerJoin(PlayerLoginEvent event) {
-        Player player = event.getPlayer();
-        String name = player.getName();
+    public void onPlayerJoin(final PlayerLoginEvent event) {
+        final Player player = event.getPlayer();
+        final String name = player.getName();
         if (pm.isBanned(name)) {
             player.kick(pm.getBansForPlayer(name)[0].getReason());
             event.setAllowed(false);
@@ -84,9 +84,9 @@ public final class VolumetricBansListener implements Listener {
     }
 
     @EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
-    public void onPlayerChat(PlayerChatEvent event) {
-        Player player = event.getPlayer();
-        String name = player.getName();
+    public void onPlayerChat(final PlayerChatEvent event) {
+        final Player player = event.getPlayer();
+        final String name = player.getName();
         if (pm.isMuted(name)) {
             event.setCancelled(true);
         }
@@ -103,11 +103,11 @@ public final class VolumetricBansListener implements Listener {
         public void run() {
             while (!isInterrupted()) {
                 try {
-                    String player = queue.take();
+                    final String player = queue.take();
                     try {
                         if (cache.recent.containsKey(player)) {
                             if (cache.recent.get(player)) {
-                                Player p = plugin.getEngine().getPlayer(player, true);
+                                final Player p = plugin.getEngine().getPlayer(player, true);
                                 if (p != null) {
                                     p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
                                     plugin.getLogger().info("Kicked globally permabanned player " + player + "!");
@@ -116,7 +116,7 @@ public final class VolumetricBansListener implements Listener {
                             continue;
                         } else {
                             if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
-                                Player p = plugin.getEngine().getPlayer(player, true);
+                                final Player p = plugin.getEngine().getPlayer(player, true);
                                 if (p != null) {
                                     p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
                                     plugin.getLogger().info("Kicked globally permabanned player " + player + "!");
@@ -126,10 +126,10 @@ public final class VolumetricBansListener implements Listener {
                                 cache.recent.put(player, false);
                             }
                         }
-                    } catch (DataRetrievalException e) {
+                    } catch (final DataRetrievalException e) {
                         e.printStackTrace();
                     }
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -140,7 +140,7 @@ public final class VolumetricBansListener implements Listener {
     public final class PlayerChecker implements Runnable {
         private final String player;
 
-        private PlayerChecker(String player) {
+        private PlayerChecker(final String player) {
             this.player = player;
         }
 
@@ -149,13 +149,13 @@ public final class VolumetricBansListener implements Listener {
             if (player != null) {
                 try {
                     if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
-                        Player p = plugin.getEngine().getPlayer(player, true);
+                        final Player p = plugin.getEngine().getPlayer(player, true);
                         if (p != null) {
                             p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
                             plugin.getLogger().info("Kicked globally permabanned player " + player + "!");
                         }
                     }
-                } catch (DataRetrievalException e) {
+                } catch (final DataRetrievalException e) {
                     e.printStackTrace();
                 }
             }
@@ -163,7 +163,7 @@ public final class VolumetricBansListener implements Listener {
     }
 
     public final class SafePlayerCache implements Runnable {
-        private static final int SLEEP_MILLIS = ((1000 * 60) * 20);
+        private static final int SLEEP_MILLIS = 1000 * 60 * 20;
 
         private final Map<String, Boolean> recent = new HashMap<String, Boolean>();
 
@@ -174,7 +174,7 @@ public final class VolumetricBansListener implements Listener {
 
                 try {
                     Thread.sleep(SLEEP_MILLIS);
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     break;
                 }
             }

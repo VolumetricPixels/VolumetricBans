@@ -11,38 +11,38 @@ import com.volumetricpixels.bans.util.TimeType;
 
 /** The /vb mute command */
 public class VBMuteCommand extends VBCommand {
-    public VBMuteCommand(VolumetricBans plugin) {
+    public VBMuteCommand(final VolumetricBans plugin) {
         super(plugin, "mute");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
-        for (String perm : getPermissions()) {
+    public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
+        for (final String perm : getPermissions()) {
             if (!source.hasPermission(perm)) {
                 throw new CommandException("You don't have permission!");
             }
         }
-        VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        String[] args = cmdHelper.getRawArgs(context.getRawArgs());
+        final VBCommandHelper cmdHelper = plugin.getCommandHelper();
+        final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
         try {
             long time = -1;
             TimeType tt = null;
-            StringBuilder reason = new StringBuilder();
+            final StringBuilder reason = new StringBuilder();
 
-            String target = args[0];
+            final String target = args[0];
             for (int i = 1; i < args.length; i++) {
-                String argument = args[i].toLowerCase();
+                final String argument = args[i].toLowerCase();
                 if (argument.equals("t") || argument.equals("-t") || argument.equals("time") || argument.equals("-time")) {
                     String timeArg = args[++i];
                     long l = 0;
                     try {
                         l = Long.parseLong(timeArg.substring(0, timeArg.length() - 1));
-                    } catch (NumberFormatException e) {
+                    } catch (final NumberFormatException e) {
                         l = 6;
                         timeArg = "6h";
                     }
-                    String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
+                    final String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
                     tt = TimeType.parse(unit);
                     time = tt.toMinutes(l);
                     continue;
@@ -53,7 +53,7 @@ public class VBMuteCommand extends VBCommand {
                 }
             }
             plugin.getStorageHandler().getMutes().add(new Mute(plugin, target, reason.toString(), source.getName(), time));
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
             throw new CommandException("Invalid syntax, /vb mute <player> [-t(ime) time] [mute reason]\n" + "<> = Required argument, [] = Optional argument");
         }
     }

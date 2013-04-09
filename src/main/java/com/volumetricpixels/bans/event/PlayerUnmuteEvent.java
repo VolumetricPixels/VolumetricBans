@@ -25,8 +25,8 @@ public class PlayerUnmuteEvent extends Event implements Cancellable {
      * @param mute
      *            The removed Mute
      */
-    public PlayerUnmuteEvent(Mute mute) {
-        this.plugin = mute.getPlugin();
+    public PlayerUnmuteEvent(final Mute mute) {
+        plugin = mute.getPlugin();
         this.mute = mute;
     }
 
@@ -56,7 +56,7 @@ public class PlayerUnmuteEvent extends Event implements Cancellable {
 
     /** {@inheritDoc} */
     @Override
-    public void setCancelled(boolean cancelled) {
+    public void setCancelled(final boolean cancelled) {
         super.setCancelled(cancelled);
     }
 

@@ -22,7 +22,7 @@ public abstract class VBCommand implements CommandExecutor {
      * @param primary
      *            The primary name of the command
      */
-    protected VBCommand(VolumetricBans plugin, String primary) {
+    protected VBCommand(final VolumetricBans plugin, final String primary) {
         this.plugin = plugin;
         this.primary = primary;
     }
@@ -35,11 +35,11 @@ public abstract class VBCommand implements CommandExecutor {
      * 
      * @return A Command object representing this command
      */
-    public final Command register(Command parent) {
+    public final Command register(final Command parent) {
         if (primary == null) {
             return null; // Don't register
         }
-        Command cmd = parent.addSubCommand(plugin, primary);
+        final Command cmd = parent.addSubCommand(plugin, primary);
         cmd.setExecutor(this);
         cmd.addAlias(getAliases());
         cmd.setPermissions(true, getPermissions());
@@ -72,7 +72,7 @@ public abstract class VBCommand implements CommandExecutor {
      * @param cmd
      *            The command to set up
      */
-    public void setupCommand(Command cmd) {
+    public void setupCommand(final Command cmd) {
         cmd.setArgBounds(0, -1);
     }
 }

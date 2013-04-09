@@ -61,7 +61,7 @@ public final class VolumetricBans extends CommonPlugin {
     public void onEnable() {
         try {
             enableVolumetricBans();
-        } catch (VolumetricBansInitialisationException e) {
+        } catch (final VolumetricBansInitialisationException e) {
             getLogger().log(Level.SEVERE, "Initialisation exception!", e);
             if (e.isFatal()) {
                 getLogger().severe("Fatal exception, disabling!");
@@ -73,8 +73,8 @@ public final class VolumetricBans extends CommonPlugin {
     /** {@inheritDoc} */
     @Override
     public void onDisable() {
-        Engine engine = getEngine();
-        Platform platform = engine.getPlatform();
+        final Engine engine = getEngine();
+        final Platform platform = engine.getPlatform();
         if (platform == Platform.SERVER || platform == Platform.PROXY) {
             if (banSyncTask != null) {
                 banSyncTask.cancel();
@@ -82,13 +82,13 @@ public final class VolumetricBans extends CommonPlugin {
             if (updateReqTask != null) {
                 updateReqTask.cancel();
             }
-            if ((listener != null) && (listener.getThreadPool() != null)) {
+            if (listener != null && listener.getThreadPool() != null) {
                 listener.getThreadPool().shutdownNow();
             }
             try {
                 storageHandler.saveBans();
                 storageHandler.saveMutes();
-            } catch (StorageException e) {
+            } catch (final StorageException e) {
                 getLogger().log(Level.SEVERE, "Could not save punishments!", e);
             }
         } else if (platform == Platform.CLIENT) {
@@ -98,24 +98,24 @@ public final class VolumetricBans extends CommonPlugin {
     }
 
     private void enableVolumetricBans() throws VolumetricBansInitialisationException {
-        Engine engine = getEngine();
-        Platform platform = engine.getPlatform();
+        final Engine engine = getEngine();
+        final Platform platform = engine.getPlatform();
         setTag((PluginLogger) getLogger(), LOGGER_TAG);
-        if ((platform == Platform.SERVER) || (platform == Platform.PROXY)) {
-            Server server = (Server) engine;
-            Scheduler scheduler = server.getScheduler();
+        if (platform == Platform.SERVER || platform == Platform.PROXY) {
+            final Server server = (Server) engine;
+            final Scheduler scheduler = server.getScheduler();
 
             fileSystem = new FileManager(this);
             storageHandler = new PunishmentStorage(this);
             punishManager = new PunishmentManager(this);
 
-            YamlConfiguration config = new YamlConfiguration(fileSystem.getConfigFile());
+            final YamlConfiguration config = new YamlConfiguration(fileSystem.getConfigFile());
             config.setWritesDefaults(true);
 
             try {
                 config.load();
                 config.save();
-            } catch (ConfigurationException e) {
+            } catch (final ConfigurationException e) {
                 throw new VolumetricBansInitialisationException("Could not load configuration!", e, true);
             }
 
@@ -129,13 +129,13 @@ public final class VolumetricBans extends CommonPlugin {
                 return;
             }
 
-            APIRequestHandler handler = new APIRequestHandler(this, "data");
+            final APIRequestHandler handler = new APIRequestHandler(this, "data");
             onlineMode = config.getNode("online-mode").getBoolean(true);
             if (onlineMode) {
                 getLogger().info("Running in online mode!");
                 try {
                     // Check api key validity
-                    Map<String, String> postData = new HashMap<String, String>();
+                    final Map<String, String> postData = new HashMap<String, String>();
                     postData.put("action", "checkValidity");
                     JSONObject jO;
                     try {
@@ -148,14 +148,14 @@ public final class VolumetricBans extends CommonPlugin {
                             getEngine().getPluginManager().disablePlugin(this);
                             return;
                         }
-                    } catch (DataRetrievalException e) {
+                    } catch (final DataRetrievalException e) {
                         getLogger().severe("As we could not connect to the servers, the plugin is now running in offline mode");
                         getLogger().severe("This means bans made will not be synchronised to the website until the plugin is in online mode");
                         getLogger().severe("You should still be able to use the plugin normally");
                         onlineMode = false;
                         new VolumetricBansInitialisationException("Could not connect to servers!", e, false).printStackTrace();
                     }
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     getLogger().severe("Could not check API key validity");
                     getLogger().severe("Disabling all web-based functionality");
                     canConnectToServers = false;
@@ -177,7 +177,7 @@ public final class VolumetricBans extends CommonPlugin {
                 try {
                     // Save so default config is written
                     config.save();
-                } catch (ConfigurationException e) {
+                } catch (final ConfigurationException e) {
                     e.printStackTrace();
                 }
             }
@@ -185,9 +185,9 @@ public final class VolumetricBans extends CommonPlugin {
             try {
                 storageHandler.loadBans();
                 storageHandler.loadMutes();
-            } catch (StorageException e) {
+            } catch (final StorageException e) {
                 throw new VolumetricBansInitialisationException("Could not load punishments!", e, true);
-            } catch (DataLoadException e) {
+            } catch (final DataLoadException e) {
                 throw new VolumetricBansInitialisationException("Could not load punishments!", e, true);
             }
 
@@ -203,21 +203,21 @@ public final class VolumetricBans extends CommonPlugin {
                 onlineMode = canConnectToServers;
             }
             if (onlineMode) {
-                BanSynchroniser banSync = new BanSynchroniser(this);
+                final BanSynchroniser banSync = new BanSynchroniser(this);
                 banSyncTask = scheduler.scheduleAsyncTask(this, banSync);
-                UpdateRequester updateReq = new UpdateRequester(this);
+                final UpdateRequester updateReq = new UpdateRequester(this);
                 updateReqTask = scheduler.scheduleAsyncTask(this, updateReq);
 
-                Map<String, String> postData = new HashMap<String, String>();
+                final Map<String, String> postData = new HashMap<String, String>();
                 postData.put("action", "checkPremiumServer");
                 try {
-                    JSONObject response = handler.submitRequest(postData);
+                    final JSONObject response = handler.submitRequest(postData);
                     premium = response.getBoolean("result");
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
                     getLogger().warning("Could not check if server is premium!");
                     getLogger().warning("If your server is premium, you will not have premium features until you restart");
-                } catch (DataRetrievalException e) {
+                } catch (final DataRetrievalException e) {
                     e.printStackTrace();
                     getLogger().warning("Could not check if server is premium!");
                     getLogger().warning("If your server is premium, you will not have premium features until you restart");
@@ -311,7 +311,7 @@ public final class VolumetricBans extends CommonPlugin {
      * @param cause
      *            The cause of changing the plugin to offline mode
      */
-    public void setToOfflineMode(DataRetrievalException cause) {
+    public void setToOfflineMode(final DataRetrievalException cause) {
         setToOfflineMode();
         getLogger().warning("Changing to offline mode because of exception:");
         cause.printStackTrace();
@@ -330,7 +330,7 @@ public final class VolumetricBans extends CommonPlugin {
      * @param string
      *            The tag to set
      */
-    private void setTag(PluginLogger logger, String string) {
+    private void setTag(final PluginLogger logger, final String string) {
         logger.setTag(ChatArguments.fromString(string));
     }
 

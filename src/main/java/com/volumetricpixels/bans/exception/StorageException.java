@@ -11,15 +11,15 @@ public class StorageException extends Exception {
         super();
     }
 
-    public StorageException(String arg0, Throwable arg1) {
+    public StorageException(final String arg0, final Throwable arg1) {
         super(arg0, arg1);
     }
 
-    public StorageException(String arg0) {
+    public StorageException(final String arg0) {
         super(arg0);
     }
 
-    public StorageException(Throwable arg0) {
+    public StorageException(final Throwable arg0) {
         super(arg0);
     }
 }

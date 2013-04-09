@@ -24,7 +24,7 @@ public final class JSONFileHandler {
      * @param file
      *            The File to write to / read from
      */
-    public JSONFileHandler(File file) {
+    public JSONFileHandler(final File file) {
         this.file = file;
     }
 
@@ -52,7 +52,7 @@ public final class JSONFileHandler {
                 create();
             }
             writer = new BufferedWriter(new FileWriter(file));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not start writing to file!", e);
         }
     }
@@ -68,7 +68,7 @@ public final class JSONFileHandler {
             writer.flush();
             writer.close();
             writer = null;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not flush or close file!", e);
         }
     }
@@ -82,14 +82,14 @@ public final class JSONFileHandler {
      * @throws StorageException
      *             When we fail to write the JSONObject
      */
-    public void write(JSONObject jO) throws StorageException {
+    public void write(final JSONObject jO) throws StorageException {
         if (writer == null) {
             throw new IllegalStateException("Cannot write before initialising the BufferedWriter!");
         }
         try {
             writer.write(jO.toString());
             writer.newLine();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not write JSONObject to file (or could not add new line)!", e);
         }
     }
@@ -109,7 +109,7 @@ public final class JSONFileHandler {
                 create();
             }
             reader = new BufferedReader(new FileReader(file));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not start reading from file!", e);
         }
     }
@@ -124,7 +124,7 @@ public final class JSONFileHandler {
         try {
             reader.close();
             reader = null;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not close BufferedReader!", e);
         }
     }
@@ -139,15 +139,15 @@ public final class JSONFileHandler {
      */
     public JSONObject read() throws StorageException {
         try {
-            String line = reader.readLine();
-            if ((line != null) && !line.equals("")) {
+            final String line = reader.readLine();
+            if (line != null && !line.equals("")) {
                 return new JSONObject(line);
             } else {
                 return null;
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new StorageException("Could not create JSONObject from line!", e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not read line from file!", e);
         }
     }
@@ -160,10 +160,10 @@ public final class JSONFileHandler {
      */
     public void backup() throws StorageException {
         try {
-            File bck = new File(file.getAbsolutePath() + ".bck");
+            final File bck = new File(file.getAbsolutePath() + ".bck");
             bck.delete();
             FileUtils.copyFile(file, bck);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not back up file!", e);
         }
     }
@@ -185,7 +185,7 @@ public final class JSONFileHandler {
         }
         try {
             file.createNewFile();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new StorageException("Could not create file!", e);
         }
     }

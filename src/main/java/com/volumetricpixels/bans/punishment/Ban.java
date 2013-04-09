@@ -28,15 +28,15 @@ public final class Ban implements Deletable {
     /** Reason for the ban */
     private String reason;
     /** Issuer of the ban */
-    private String admin;
+    private final String admin;
     /** Banned player */
-    private String player;
+    private final String player;
     /** Is the ban temporary? */
-    private boolean temporary;
+    private final boolean temporary;
     /** How long the ban lasts */
     private long time;
     /** When the ban was issued */
-    private long issued;
+    private final long issued;
 
     /**
      * Ban constuctor for non-temp bans
@@ -52,7 +52,7 @@ public final class Ban implements Deletable {
      * @param admin
      *            The admin who issued the ban
      */
-    public Ban(VolumetricBans plugin, String player, boolean global, String reason, String admin) {
+    public Ban(final VolumetricBans plugin, final String player, final boolean global, final String reason, final String admin) {
         this.plugin = plugin;
         this.player = player;
         temporary = false;
@@ -61,7 +61,7 @@ public final class Ban implements Deletable {
         this.reason = reason;
         this.admin = admin;
 
-        issued = (c.getTimeInMillis() / 1000) / 60;
+        issued = c.getTimeInMillis() / 1000 / 60;
     }
 
     /**
@@ -78,7 +78,7 @@ public final class Ban implements Deletable {
      * @param timeMins
      *            How long the ban should last in minutes
      */
-    public Ban(VolumetricBans plugin, String player, String reason, String admin, long timeMins) {
+    public Ban(final VolumetricBans plugin, final String player, final String reason, final String admin, final long timeMins) {
         this.plugin = plugin;
         this.player = player;
         temporary = true;
@@ -86,7 +86,7 @@ public final class Ban implements Deletable {
         this.admin = admin;
         time = timeMins;
         global = false;
-        issued = (c.getTimeInMillis() / 1000) / 60;
+        issued = c.getTimeInMillis() / 1000 / 60;
         initTimer();
     }
 
@@ -110,7 +110,7 @@ public final class Ban implements Deletable {
      * @param temp
      *            Temporary
      */
-    private Ban(VolumetricBans plugin, String player, String reason, String admin, long time, long issued, boolean global, boolean temp) {
+    private Ban(final VolumetricBans plugin, final String player, final String reason, final String admin, final long time, final long issued, final boolean global, final boolean temp) {
         this.plugin = plugin;
         this.player = player;
         temporary = temp;
@@ -172,7 +172,7 @@ public final class Ban implements Deletable {
      * @param global
      *            Whether the ban is global
      */
-    public void setGlobal(boolean global) {
+    public void setGlobal(final boolean global) {
         this.global = global;
     }
 
@@ -182,7 +182,7 @@ public final class Ban implements Deletable {
      * @param reason
      *            The new ban reason
      */
-    public void setReason(String reason) {
+    public void setReason(final String reason) {
         this.reason = reason;
     }
 
@@ -192,7 +192,7 @@ public final class Ban implements Deletable {
      * @param time
      *            Time in minutes the ban will last
      */
-    public void setTime(long time) {
+    public void setTime(final long time) {
         this.time = time;
     }
 
@@ -231,7 +231,7 @@ public final class Ban implements Deletable {
      * @return A JSONObject representing the ban
      */
     public JSONObject toJSONObject() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new HashMap<String, Object>();
         map.put("player", player);
         map.put("temp", temporary);
         map.put("global", global);
@@ -255,17 +255,17 @@ public final class Ban implements Deletable {
      * @throws DataLoadException
      *             When there is a problem parsing the JSONObject
      */
-    public static Ban fromJSONObject(VolumetricBans plugin, JSONObject jo) throws DataLoadException {
+    public static Ban fromJSONObject(final VolumetricBans plugin, final JSONObject jo) throws DataLoadException {
         try {
-            String player = jo.getString("player");
-            boolean temp = jo.getBoolean("temp");
-            boolean global = jo.getBoolean("global");
-            String reason = jo.getString("reason");
-            String admin = jo.getString("admin");
-            long time = jo.getLong("time");
-            long issued = jo.getLong("issued");
+            final String player = jo.getString("player");
+            final boolean temp = jo.getBoolean("temp");
+            final boolean global = jo.getBoolean("global");
+            final String reason = jo.getString("reason");
+            final String admin = jo.getString("admin");
+            final long time = jo.getLong("time");
+            final long issued = jo.getLong("issued");
             return new Ban(plugin, player, reason, admin, time, issued, global, temp);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new DataLoadException("Could not create a Ban object from given JSONObject", e);
         }
     }

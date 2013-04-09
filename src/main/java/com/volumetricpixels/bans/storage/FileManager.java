@@ -20,7 +20,7 @@ public final class FileManager {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    public FileManager(VolumetricBans plugin) {
+    public FileManager(final VolumetricBans plugin) {
         this.plugin = plugin;
 
         config = getFile("config.yml");
@@ -73,7 +73,7 @@ public final class FileManager {
      * 
      * @return The file inside the VB data folder with given name
      */
-    public File getFile(String name) {
+    public File getFile(final String name) {
         return new File(plugin.getDataFolder(), name);
     }
 }

@@ -39,7 +39,7 @@ public class HTTPTokener extends JSONTokener {
      * @param string
      *            A source string.
      */
-    public HTTPTokener(String string) {
+    public HTTPTokener(final String string) {
         super(string);
     }
 
@@ -53,11 +53,11 @@ public class HTTPTokener extends JSONTokener {
     public String nextToken() throws JSONException {
         char c;
         char q;
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         do {
             c = next();
         } while (Character.isWhitespace(c));
-        if ((c == '"') || (c == '\'')) {
+        if (c == '"' || c == '\'') {
             q = c;
             for (;;) {
                 c = next();
@@ -71,7 +71,7 @@ public class HTTPTokener extends JSONTokener {
             }
         }
         for (;;) {
-            if ((c == 0) || Character.isWhitespace(c)) {
+            if (c == 0 || Character.isWhitespace(c)) {
                 return sb.toString();
             }
             sb.append(c);

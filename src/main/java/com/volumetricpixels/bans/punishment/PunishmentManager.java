@@ -8,8 +8,6 @@ import com.volumetricpixels.bans.storage.PunishmentStorage;
 
 /** Manages punishments in VolumetricBans */
 public final class PunishmentManager {
-    /** The VolumetricBans plugin */
-    private final VolumetricBans plugin;
     /** The PunishmentStorage instance */
     private final PunishmentStorage store;
 
@@ -19,8 +17,7 @@ public final class PunishmentManager {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    public PunishmentManager(VolumetricBans plugin) {
-        this.plugin = plugin;
+    public PunishmentManager(final VolumetricBans plugin) {
         store = plugin.getStorageHandler();
     }
 
@@ -32,7 +29,7 @@ public final class PunishmentManager {
      * 
      * @return Whether we added the ban successfully
      */
-    public boolean addBan(Ban ban) {
+    public boolean addBan(final Ban ban) {
         return store.getBans().add(ban);
     }
 
@@ -44,7 +41,7 @@ public final class PunishmentManager {
      * 
      * @return Whether we removed the ban successfully
      */
-    public boolean removeBan(Ban ban) {
+    public boolean removeBan(final Ban ban) {
         return store.getBans().remove(ban);
     }
 
@@ -56,7 +53,7 @@ public final class PunishmentManager {
      * 
      * @return Whether we added the mute successfully
      */
-    public boolean addMute(Mute mute) {
+    public boolean addMute(final Mute mute) {
         return store.getMutes().add(mute);
     }
 
@@ -68,7 +65,7 @@ public final class PunishmentManager {
      * 
      * @return Whether we removed the mute successfully
      */
-    public boolean removeMute(Mute mute) {
+    public boolean removeMute(final Mute mute) {
         return store.getMutes().remove(mute);
     }
 
@@ -80,9 +77,9 @@ public final class PunishmentManager {
      * 
      * @return A Ban[] of bans the given player has received
      */
-    public Ban[] getBansForPlayer(String player) {
-        List<Ban> bans = new ArrayList<Ban>();
-        for (Ban ban : store.getBans()) {
+    public Ban[] getBansForPlayer(final String player) {
+        final List<Ban> bans = new ArrayList<Ban>();
+        for (final Ban ban : store.getBans()) {
             if (ban.getPlayerName().equals(player)) {
                 bans.add(ban);
             }
@@ -96,8 +93,8 @@ public final class PunishmentManager {
      * @param player
      *            The player to remove bans on
      */
-    public void removeBansOnPlayer(String player) {
-        for (Ban ban : store.getBans()) {
+    public void removeBansOnPlayer(final String player) {
+        for (final Ban ban : store.getBans()) {
             if (ban.getPlayerName().equalsIgnoreCase(player)) {
                 store.getBans().remove(ban);
             }
@@ -110,8 +107,8 @@ public final class PunishmentManager {
      * @param player
      *            The player to remove mutes on
      */
-    public void removeMutesOnPlayer(String player) {
-        for (Mute mute : store.getMutes()) {
+    public void removeMutesOnPlayer(final String player) {
+        for (final Mute mute : store.getMutes()) {
             if (mute.getPlayerName().equalsIgnoreCase(player)) {
                 store.getMutes().remove(mute);
             }
@@ -126,8 +123,8 @@ public final class PunishmentManager {
      * 
      * @return Whether the given player is banned
      */
-    public boolean isBanned(String player) {
-        for (Ban ban : store.getBans()) {
+    public boolean isBanned(final String player) {
+        for (final Ban ban : store.getBans()) {
             if (ban.getPlayerName().equalsIgnoreCase(player)) {
                 return true;
             }
@@ -143,8 +140,8 @@ public final class PunishmentManager {
      * 
      * @return Whether the given player is muted
      */
-    public boolean isMuted(String player) {
-        for (Mute mute : store.getMutes()) {
+    public boolean isMuted(final String player) {
+        for (final Mute mute : store.getMutes()) {
             if (mute.getPlayerName().equalsIgnoreCase(player)) {
                 return true;
             }

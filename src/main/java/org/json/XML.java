@@ -79,10 +79,10 @@ public class XML {
      * 
      * @return The escaped string.
      */
-    public static String escape(String string) {
-        StringBuffer sb = new StringBuffer();
+    public static String escape(final String string) {
+        final StringBuffer sb = new StringBuffer();
         for (int i = 0, length = string.length(); i < length; i++) {
-            char c = string.charAt(i);
+            final char c = string.charAt(i);
             switch (c) {
                 case '&':
                     sb.append("&amp;");
@@ -114,8 +114,9 @@ public class XML {
      * 
      * @throws JSONException
      */
-    public static void noSpace(String string) throws JSONException {
-        int i, length = string.length();
+    public static void noSpace(final String string) throws JSONException {
+        int i;
+        final int length = string.length();
         if (length == 0) {
             throw new JSONException("Empty string.");
         }
@@ -140,7 +141,7 @@ public class XML {
      * 
      * @throws JSONException
      */
-    private static boolean parse(XMLTokener x, JSONObject context, String name) throws JSONException {
+    private static boolean parse(final XMLTokener x, final JSONObject context, final String name) throws JSONException {
         char c;
         int i;
         JSONObject jsonobject = null;
@@ -282,7 +283,7 @@ public class XML {
                             if (parse(x, jsonobject, tagName)) {
                                 if (jsonobject.length() == 0) {
                                     context.accumulate(tagName, "");
-                                } else if ((jsonobject.length() == 1) && (jsonobject.opt("content") != null)) {
+                                } else if (jsonobject.length() == 1 && jsonobject.opt("content") != null) {
                                     context.accumulate(tagName, jsonobject.opt("content"));
                                 } else {
                                     context.accumulate(tagName, jsonobject);
@@ -310,7 +311,7 @@ public class XML {
      * 
      * @return A simple JSON value.
      */
-    public static Object stringToValue(String string) {
+    public static Object stringToValue(final String string) {
         if ("".equals(string)) {
             return string;
         }
@@ -337,14 +338,14 @@ public class XML {
                 initial = string.charAt(1);
                 negative = true;
             }
-            if ((initial == '0') && (string.charAt(negative ? 2 : 1) == '0')) {
+            if (initial == '0' && string.charAt(negative ? 2 : 1) == '0') {
                 return string;
             }
-            if (((initial >= '0') && (initial <= '9'))) {
+            if (initial >= '0' && initial <= '9') {
                 if (string.indexOf('.') >= 0) {
                     return Double.valueOf(string);
-                } else if ((string.indexOf('e') < 0) && (string.indexOf('E') < 0)) {
-                    Long myLong = new Long(string);
+                } else if (string.indexOf('e') < 0 && string.indexOf('E') < 0) {
+                    final Long myLong = new Long(string);
                     if (myLong.longValue() == myLong.intValue()) {
                         return new Integer(myLong.intValue());
                     } else {
@@ -352,7 +353,7 @@ public class XML {
                     }
                 }
             }
-        } catch (Exception ignore) {
+        } catch (final Exception ignore) {
         }
         return string;
     }
@@ -375,9 +376,9 @@ public class XML {
      * 
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
-        JSONObject jo = new JSONObject();
-        XMLTokener x = new XMLTokener(string);
+    public static JSONObject toJSONObject(final String string) throws JSONException {
+        final JSONObject jo = new JSONObject();
+        final XMLTokener x = new XMLTokener(string);
         while (x.more() && x.skipPast("<")) {
             parse(x, jo, null);
         }
@@ -394,7 +395,7 @@ public class XML {
      * 
      * @throws JSONException
      */
-    public static String toString(Object object) throws JSONException {
+    public static String toString(final Object object) throws JSONException {
         return toString(object, null);
     }
 
@@ -410,8 +411,8 @@ public class XML {
      * 
      * @throws JSONException
      */
-    public static String toString(Object object, String tagName) throws JSONException {
-        StringBuffer sb = new StringBuffer();
+    public static String toString(Object object, final String tagName) throws JSONException {
+        final StringBuffer sb = new StringBuffer();
         int i;
         JSONArray ja;
         JSONObject jo;
@@ -518,8 +519,8 @@ public class XML {
                 }
                 return sb.toString();
             } else {
-                string = (object == null) ? "null" : escape(object.toString());
-                return (tagName == null) ? "\"" + string + "\"" : (string.length() == 0) ? "<" + tagName + "/>" : "<" + tagName + ">" + string + "</" + tagName + ">";
+                string = object == null ? "null" : escape(object.toString());
+                return tagName == null ? "\"" + string + "\"" : string.length() == 0 ? "<" + tagName + "/>" : "<" + tagName + ">" + string + "</" + tagName + ">";
             }
         }
     }

@@ -51,7 +51,7 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    private static Object parse(XMLTokener x, boolean arrayForm, JSONArray ja) throws JSONException {
+    private static Object parse(final XMLTokener x, final boolean arrayForm, final JSONArray ja) throws JSONException {
         String attribute;
         char c;
         String closeTag = null;
@@ -100,7 +100,7 @@ public class JSONML {
                             }
                         } else if (c == '[') {
                             token = x.nextToken();
-                            if (token.equals("CDATA") && (x.next() == '[')) {
+                            if (token.equals("CDATA") && x.next() == '[') {
                                 if (ja != null) {
                                     ja.put(x.nextCDATA());
                                 }
@@ -179,7 +179,7 @@ public class JSONML {
                             newjo.accumulate(attribute, "");
                         }
                     }
-                    if (arrayForm && (newjo.length() > 0)) {
+                    if (arrayForm && newjo.length() > 0) {
                         newja.put(newjo);
                     }
 
@@ -209,7 +209,7 @@ public class JSONML {
                                 throw x.syntaxError("Mismatched '" + tagName + "' and '" + closeTag + "'");
                             }
                             tagName = null;
-                            if (!arrayForm && (newja.length() > 0)) {
+                            if (!arrayForm && newja.length() > 0) {
                                 newjo.put("childNodes", newja);
                             }
                             if (ja == null) {
@@ -246,7 +246,7 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static JSONArray toJSONArray(String string) throws JSONException {
+    public static JSONArray toJSONArray(final String string) throws JSONException {
         return toJSONArray(new XMLTokener(string));
     }
 
@@ -266,7 +266,7 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static JSONArray toJSONArray(XMLTokener x) throws JSONException {
+    public static JSONArray toJSONArray(final XMLTokener x) throws JSONException {
         return (JSONArray) parse(x, true, null);
     }
 
@@ -286,7 +286,7 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(XMLTokener x) throws JSONException {
+    public static JSONObject toJSONObject(final XMLTokener x) throws JSONException {
         return (JSONObject) parse(x, false, null);
     }
 
@@ -306,7 +306,7 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
+    public static JSONObject toJSONObject(final String string) throws JSONException {
         return toJSONObject(new XMLTokener(string));
     }
 
@@ -320,14 +320,14 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static String toString(JSONArray ja) throws JSONException {
+    public static String toString(final JSONArray ja) throws JSONException {
         int i;
         JSONObject jo;
         String key;
         Iterator keys;
         int length;
         Object object;
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         String tagName;
         String value;
 
@@ -406,8 +406,8 @@ public class JSONML {
      * 
      * @throws JSONException
      */
-    public static String toString(JSONObject jo) throws JSONException {
-        StringBuffer sb = new StringBuffer();
+    public static String toString(final JSONObject jo) throws JSONException {
+        final StringBuffer sb = new StringBuffer();
         int i;
         JSONArray ja;
         String key;

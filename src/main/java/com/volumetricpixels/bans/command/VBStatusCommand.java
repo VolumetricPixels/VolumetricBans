@@ -10,14 +10,14 @@ import com.volumetricpixels.bans.VolumetricBans;
 
 /** The /vb status command */
 public class VBStatusCommand extends VBCommand {
-    public VBStatusCommand(VolumetricBans plugin) {
+    public VBStatusCommand(final VolumetricBans plugin) {
         super(plugin, "status");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
-        for (String perm : getPermissions()) {
+    public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
+        for (final String perm : getPermissions()) {
             if (!source.hasPermission(perm)) {
                 throw new CommandException("You don't have permission!");
             }

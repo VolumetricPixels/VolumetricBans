@@ -55,7 +55,7 @@ public class XMLTokener extends JSONTokener {
      * @param s
      *            A source string.
      */
-    public XMLTokener(String s) {
+    public XMLTokener(final String s) {
         super(s);
     }
 
@@ -70,7 +70,7 @@ public class XMLTokener extends JSONTokener {
     public String nextCDATA() throws JSONException {
         char c;
         int i;
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         for (;;) {
             c = next();
             if (end()) {
@@ -78,7 +78,7 @@ public class XMLTokener extends JSONTokener {
             }
             sb.append(c);
             i = sb.length() - 3;
-            if ((i >= 0) && (sb.charAt(i) == ']') && (sb.charAt(i + 1) == ']') && (sb.charAt(i + 2) == '>')) {
+            if (i >= 0 && sb.charAt(i) == ']' && sb.charAt(i + 1) == ']' && sb.charAt(i + 2) == '>') {
                 sb.setLength(i);
                 return sb.toString();
             }
@@ -109,7 +109,7 @@ public class XMLTokener extends JSONTokener {
         }
         sb = new StringBuffer();
         for (;;) {
-            if ((c == '<') || (c == 0)) {
+            if (c == '<' || c == 0) {
                 back();
                 return sb.toString().trim();
             }
@@ -134,11 +134,11 @@ public class XMLTokener extends JSONTokener {
      * @throws JSONException
      *             If missing ';' in XML entity.
      */
-    public Object nextEntity(char ampersand) throws JSONException {
-        StringBuffer sb = new StringBuffer();
+    public Object nextEntity(final char ampersand) throws JSONException {
+        final StringBuffer sb = new StringBuffer();
         for (;;) {
-            char c = next();
-            if (Character.isLetterOrDigit(c) || (c == '#')) {
+            final char c = next();
+            if (Character.isLetterOrDigit(c) || c == '#') {
                 sb.append(Character.toLowerCase(c));
             } else if (c == ';') {
                 break;
@@ -146,8 +146,8 @@ public class XMLTokener extends JSONTokener {
                 throw syntaxError("Missing ';' in XML entity: &" + sb);
             }
         }
-        String string = sb.toString();
-        Object object = entity.get(string);
+        final String string = sb.toString();
+        final Object object = entity.get(string);
         return object != null ? object : ampersand + string + ";";
     }
 
@@ -313,14 +313,14 @@ public class XMLTokener extends JSONTokener {
      * 
      * @throws JSONException
      */
-    public boolean skipPast(String to) throws JSONException {
+    public boolean skipPast(final String to) throws JSONException {
         boolean b;
         char c;
         int i;
         int j;
         int offset = 0;
-        int length = to.length();
-        char[] circle = new char[length];
+        final int length = to.length();
+        final char[] circle = new char[length];
 
         /*
          * First fill the circle buffer with as many characters as are in the to

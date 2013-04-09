@@ -8,15 +8,15 @@ public class DataRetrievalException extends Exception {
         super();
     }
 
-    public DataRetrievalException(String arg0, Throwable arg1) {
+    public DataRetrievalException(final String arg0, final Throwable arg1) {
         super(arg0, arg1);
     }
 
-    public DataRetrievalException(String arg0) {
+    public DataRetrievalException(final String arg0) {
         super(arg0);
     }
 
-    public DataRetrievalException(Throwable arg0) {
+    public DataRetrievalException(final Throwable arg0) {
         super(arg0);
     }
 }

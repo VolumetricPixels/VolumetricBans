@@ -19,12 +19,12 @@ public final class APIRequestUtil {
      * 
      * @return The Map created from the JSONObject's values
      */
-    public static Map<String, Object> getMap(JSONObject json) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        for (String name : JSONObject.getNames(json)) {
+    public static Map<String, Object> getMap(final JSONObject json) {
+        final Map<String, Object> map = new HashMap<String, Object>();
+        for (final String name : JSONObject.getNames(json)) {
             try {
                 map.put(name, json.get(name));
-            } catch (JSONException e) {
+            } catch (final JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -45,15 +45,15 @@ public final class APIRequestUtil {
      * @throws DataRetrievalException
      *             When something goes wrong retrieving or parsing data
      */
-    public static boolean isPermaGlobalBanned(APIRequestHandler handler, String playerName) throws DataRetrievalException {
-        Map<String, String> postData = new HashMap<String, String>();
+    public static boolean isPermaGlobalBanned(final APIRequestHandler handler, final String playerName) throws DataRetrievalException {
+        final Map<String, String> postData = new HashMap<String, String>();
         postData.put("action", "checkPermanentGlobalBan");
         postData.put("strictGlobal", Boolean.toString(handler.getPlugin().isStrictGlobal()));
         postData.put("playerName", playerName);
-        JSONObject response = handler.submitRequest(postData);
+        final JSONObject response = handler.submitRequest(postData);
         try {
             return response.getBoolean("result");
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new DataRetrievalException("Could not check if player was permabanned globally!", e);
         }
     }

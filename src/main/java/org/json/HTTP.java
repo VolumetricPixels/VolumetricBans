@@ -97,9 +97,9 @@ public class HTTP {
      * 
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
-        JSONObject jo = new JSONObject();
-        HTTPTokener x = new HTTPTokener(string);
+    public static JSONObject toJSONObject(final String string) throws JSONException {
+        final JSONObject jo = new JSONObject();
+        final HTTPTokener x = new HTTPTokener(string);
         String token;
 
         token = x.nextToken();
@@ -124,7 +124,7 @@ public class HTTP {
         // Fields
 
         while (x.more()) {
-            String name = x.nextTo(':');
+            final String name = x.nextTo(':');
             x.next(':');
             jo.put(name, x.nextTo('\0'));
             x.next();
@@ -168,10 +168,10 @@ public class HTTP {
      * @throws JSONException
      *             if the object does not contain enough information.
      */
-    public static String toString(JSONObject jo) throws JSONException {
-        Iterator keys = jo.keys();
+    public static String toString(final JSONObject jo) throws JSONException {
+        final Iterator keys = jo.keys();
         String string;
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         if (jo.has("Status-Code") && jo.has("Reason-Phrase")) {
             sb.append(jo.getString("HTTP-Version"));
             sb.append(' ');

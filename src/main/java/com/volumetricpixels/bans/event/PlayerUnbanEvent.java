@@ -25,8 +25,8 @@ public class PlayerUnbanEvent extends Event implements Cancellable {
      * @param ban
      *            The removed Ban
      */
-    public PlayerUnbanEvent(Ban ban) {
-        this.plugin = ban.getPlugin();
+    public PlayerUnbanEvent(final Ban ban) {
+        plugin = ban.getPlugin();
         this.ban = ban;
     }
 
@@ -56,7 +56,7 @@ public class PlayerUnbanEvent extends Event implements Cancellable {
 
     /** {@inheritDoc} */
     @Override
-    public void setCancelled(boolean cancelled) {
+    public void setCancelled(final boolean cancelled) {
         super.setCancelled(cancelled);
     }
 

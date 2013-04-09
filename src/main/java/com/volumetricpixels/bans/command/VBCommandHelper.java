@@ -25,9 +25,9 @@ public class VBCommandHelper {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    public VBCommandHelper(VolumetricBans plugin) {
+    public VBCommandHelper(final VolumetricBans plugin) {
         vbansSubs = new LinkedList<String>();
-        for (String s : plugin.getEngine().getRootCommand().getChild("vbans").getChildNames()) {
+        for (final String s : plugin.getEngine().getRootCommand().getChild("vbans").getChildNames()) {
             vbansSubs.add(s);
         }
     }
@@ -43,9 +43,9 @@ public class VBCommandHelper {
      * @throws CommandException
      *             When there is a lack of good input
      */
-    public void sendVBHelp(CommandSource sender, String[] args) throws CommandException {
-        int numCommands = vbansSubs.size();
-        int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
+    public void sendVBHelp(final CommandSource sender, final String[] args) throws CommandException {
+        final int numCommands = vbansSubs.size();
+        final int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
         int page = 1;
 
         if (args.length > 0) {
@@ -54,7 +54,7 @@ public class VBCommandHelper {
                 if (page > pages) {
                     throw new CommandException("Invalid page number!");
                 }
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 throw new CommandException("Invalid page number!");
             }
         }
@@ -64,9 +64,9 @@ public class VBCommandHelper {
         } else {
             sender.sendMessage(ChatStyle.GOLD + "[Commands]");
         }
-        int orig = 7 * (page - 1);
+        final int orig = 7 * (page - 1);
         for (int cmdNo = orig; cmdNo < orig + 7; cmdNo++) {
-            List<Object> list = new ArrayList<Object>();
+            final List<Object> list = new ArrayList<Object>();
             list.add(ChatStyle.CYAN);
             list.add("/vb " + vbansSubs.get(cmdNo));
             sender.sendMessage(list);
@@ -81,8 +81,8 @@ public class VBCommandHelper {
      * 
      * @return The raw String[] for a List of ChatSections
      */
-    public String[] getRawArgs(List<ChatSection> chatSections) {
-        String[] array = new String[chatSections.size()];
+    public String[] getRawArgs(final List<ChatSection> chatSections) {
+        final String[] array = new String[chatSections.size()];
         for (int i = 0; i < array.length; i++) {
             array[i] = chatSections.get(i).getPlainString();
         }

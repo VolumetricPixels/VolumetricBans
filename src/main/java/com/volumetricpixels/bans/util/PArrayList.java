@@ -35,14 +35,14 @@ public class PArrayList<T> extends ArrayList<T> {
      * @param plugin
      *            VolumetricBans plugin instance for event calling
      */
-    public PArrayList(VolumetricBans plugin) {
+    public PArrayList(final VolumetricBans plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean add(T o) {
+    public boolean add(final T o) {
         if (events) {
-            EventManager em = plugin.getEngine().getEventManager();
+            final EventManager em = plugin.getEngine().getEventManager();
             Cancellable c = null;
             if (o instanceof Ban) {
                 c = em.callEvent(new PlayerBanEvent((Ban) o));
@@ -57,9 +57,9 @@ public class PArrayList<T> extends ArrayList<T> {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(final Object o) {
         if (events) {
-            EventManager em = plugin.getEngine().getEventManager();
+            final EventManager em = plugin.getEngine().getEventManager();
             Cancellable c = null;
             if (o instanceof Ban) {
                 c = em.callEvent(new PlayerUnbanEvent((Ban) o));
@@ -90,7 +90,7 @@ public class PArrayList<T> extends ArrayList<T> {
      * @param callEvents
      *            Whether events should be called
      */
-    public void setCallEvents(boolean callEvents) {
+    public void setCallEvents(final boolean callEvents) {
         events = callEvents;
     }
 }

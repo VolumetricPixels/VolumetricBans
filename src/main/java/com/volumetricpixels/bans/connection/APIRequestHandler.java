@@ -38,7 +38,7 @@ public final class APIRequestHandler {
      * @param actionCategory
      *            This APIRequestHandler's category
      */
-    public APIRequestHandler(VolumetricBans plugin, String actionCategory) {
+    public APIRequestHandler(final VolumetricBans plugin, final String actionCategory) {
         this.plugin = plugin;
         apiKey = plugin.getAPIKey();
         this.actionCategory = actionCategory;
@@ -55,7 +55,7 @@ public final class APIRequestHandler {
      * @throws DataRetrievalException
      *             When we fail to retrieve data
      */
-    public JSONObject submitRequest(Map<String, String> postData) throws DataRetrievalException {
+    public JSONObject submitRequest(final Map<String, String> postData) throws DataRetrievalException {
         String urlReq = null;
         synchronized (postMap) {
             postMap.put("actionType", actionCategory);
@@ -64,7 +64,7 @@ public final class APIRequestHandler {
             urlReq = parsePostItems(postMap);
             postMap.clear();
         }
-        String jText = performAPIRequest(urlReq);
+        final String jText = performAPIRequest(urlReq);
         return getJSONObject(jText);
     }
 
@@ -79,10 +79,10 @@ public final class APIRequestHandler {
      * @throws DataRetrievalException
      *             When a JSONObject can't be created
      */
-    private JSONObject getJSONObject(String jsonText) throws DataRetrievalException {
+    private JSONObject getJSONObject(final String jsonText) throws DataRetrievalException {
         try {
             return new JSONObject(jsonText);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new DataRetrievalException("Invalid data received!", e);
         }
     }
@@ -98,31 +98,31 @@ public final class APIRequestHandler {
      * @throws DataRetrievalException
      *             When we fail to retrieve data
      */
-    private String performAPIRequest(String data) throws DataRetrievalException {
+    private String performAPIRequest(final String data) throws DataRetrievalException {
         try {
-            URL u = new URL(apiServerHostName + "/api/" + actionCategory);
-            URLConnection uc = u.openConnection();
+            final URL u = new URL(apiServerHostName + "/api/" + actionCategory);
+            final URLConnection uc = u.openConnection();
             uc.setConnectTimeout(5500);
             uc.setReadTimeout(5500);
             uc.setDoOutput(true);
-            OutputStreamWriter osw = new OutputStreamWriter(uc.getOutputStream());
+            final OutputStreamWriter osw = new OutputStreamWriter(uc.getOutputStream());
             osw.write(data);
             osw.flush();
-            BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-            StringBuilder b = new StringBuilder();
+            final BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            final StringBuilder b = new StringBuilder();
             String line;
             while ((line = r.readLine()) != null) {
                 b.append(line);
             }
-            String result = b.toString();
+            final String result = b.toString();
             // Separate try-catch so close failing doesn't disrupt request
             try {
                 osw.close();
                 r.close();
-            } catch (Exception ignore) {
+            } catch (final Exception ignore) {
             }
             return result;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new DataRetrievalException("Error connecting to server!", e);
         }
     }
@@ -138,12 +138,12 @@ public final class APIRequestHandler {
      * @throws DataRetrievalException
      *             When the system doesn't support UTF-8
      */
-    private String parsePostItems(Map<String, String> postData) throws DataRetrievalException {
+    private String parsePostItems(final Map<String, String> postData) throws DataRetrievalException {
         String data = null;
         try {
-            for (Entry<String, String> entry : postData.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+            for (final Entry<String, String> entry : postData.entrySet()) {
+                final String key = entry.getKey();
+                final String value = entry.getValue();
                 if (data == null || data.equals("")) {
                     data = URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8");
                 } else {
@@ -151,7 +151,7 @@ public final class APIRequestHandler {
                 }
             }
             return data;
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             throw new DataRetrievalException("System does not support UTF-8!", e);
         }
     }

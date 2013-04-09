@@ -17,7 +17,7 @@ public class VBCommands {
      * @param plugin
      *            The plugin object
      */
-    public VBCommands(VolumetricBans plugin) {
+    public VBCommands(final VolumetricBans plugin) {
         this.plugin = plugin;
         name = "vbans";
     }
@@ -28,7 +28,7 @@ public class VBCommands {
      * @return The registered command.
      */
     public final Command register() {
-        Command command = plugin.getEngine().getRootCommand().addSubCommand(plugin, name);
+        final Command command = plugin.getEngine().getRootCommand().addSubCommand(plugin, name);
         setup(command);
         command.closeSubCommand();
         return command;
@@ -40,7 +40,7 @@ public class VBCommands {
      * @param cmd
      *            The Command to add this command to as a subcommand
      */
-    public void setup(Command cmd) {
+    public void setup(final Command cmd) {
         new VBBanCommand(plugin).register(cmd);
         new VBHelpCommand(plugin).register(cmd);
         new VBLookupCommand(plugin).register(cmd);

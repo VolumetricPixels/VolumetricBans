@@ -48,16 +48,16 @@ public class Cookie {
      * 
      * @return The escaped result.
      */
-    public static String escape(String string) {
+    public static String escape(final String string) {
         char c;
-        String s = string.trim();
-        StringBuffer sb = new StringBuffer();
-        int length = s.length();
+        final String s = string.trim();
+        final StringBuffer sb = new StringBuffer();
+        final int length = s.length();
         for (int i = 0; i < length; i += 1) {
             c = s.charAt(i);
-            if ((c < ' ') || (c == '+') || (c == '%') || (c == '=') || (c == ';')) {
+            if (c < ' ' || c == '+' || c == '%' || c == '=' || c == ';') {
                 sb.append('%');
-                sb.append(Character.forDigit((char) ((c >>> 4) & 0x0f), 16));
+                sb.append(Character.forDigit((char) (c >>> 4 & 0x0f), 16));
                 sb.append(Character.forDigit((char) (c & 0x0f), 16));
             } else {
                 sb.append(c);
@@ -84,11 +84,11 @@ public class Cookie {
      * 
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
+    public static JSONObject toJSONObject(final String string) throws JSONException {
         String name;
-        JSONObject jo = new JSONObject();
+        final JSONObject jo = new JSONObject();
         Object value;
-        JSONTokener x = new JSONTokener(string);
+        final JSONTokener x = new JSONTokener(string);
         jo.put("name", x.nextTo('='));
         x.next('=');
         jo.put("value", x.nextTo(';'));
@@ -123,8 +123,8 @@ public class Cookie {
      * 
      * @throws JSONException
      */
-    public static String toString(JSONObject jo) throws JSONException {
-        StringBuffer sb = new StringBuffer();
+    public static String toString(final JSONObject jo) throws JSONException {
+        final StringBuffer sb = new StringBuffer();
 
         sb.append(escape(jo.getString("name")));
         sb.append("=");
@@ -158,18 +158,18 @@ public class Cookie {
      * 
      * @return The unescaped string.
      */
-    public static String unescape(String string) {
-        int length = string.length();
-        StringBuffer sb = new StringBuffer();
+    public static String unescape(final String string) {
+        final int length = string.length();
+        final StringBuffer sb = new StringBuffer();
         for (int i = 0; i < length; ++i) {
             char c = string.charAt(i);
             if (c == '+') {
                 c = ' ';
-            } else if ((c == '%') && ((i + 2) < length)) {
-                int d = JSONTokener.dehexchar(string.charAt(i + 1));
-                int e = JSONTokener.dehexchar(string.charAt(i + 2));
-                if ((d >= 0) && (e >= 0)) {
-                    c = (char) ((d * 16) + e);
+            } else if (c == '%' && i + 2 < length) {
+                final int d = JSONTokener.dehexchar(string.charAt(i + 1));
+                final int e = JSONTokener.dehexchar(string.charAt(i + 2));
+                if (d >= 0 && e >= 0) {
+                    c = (char) (d * 16 + e);
                     i += 2;
                 }
             }

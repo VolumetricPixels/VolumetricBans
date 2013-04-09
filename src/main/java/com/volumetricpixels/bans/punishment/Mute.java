@@ -26,13 +26,13 @@ public final class Mute implements Deletable {
     /** Reason for the ban */
     private String reason;
     /** Issuer of the ban */
-    private String admin;
+    private final String admin;
     /** Banned player */
-    private String player;
+    private final String player;
     /** How long the ban lasts */
     private long time;
     /** When the ban was issued */
-    private long issued;
+    private final long issued;
 
     /**
      * Mute constructor
@@ -48,13 +48,13 @@ public final class Mute implements Deletable {
      * @param timeMins
      *            How long the mute should last in minutes
      */
-    public Mute(VolumetricBans plugin, String player, String reason, String admin, long timeMins) {
+    public Mute(final VolumetricBans plugin, final String player, final String reason, final String admin, final long timeMins) {
         this.plugin = plugin;
         this.player = player;
         this.reason = reason;
         this.admin = admin;
         time = timeMins;
-        issued = (c.getTimeInMillis() / 1000) / 60;
+        issued = c.getTimeInMillis() / 1000 / 60;
         initTimer();
     }
 
@@ -76,7 +76,7 @@ public final class Mute implements Deletable {
      * @param global
      *            Global
      */
-    private Mute(VolumetricBans plugin, String player, String reason, String admin, long time, long issued) {
+    private Mute(final VolumetricBans plugin, final String player, final String reason, final String admin, final long time, final long issued) {
         this.plugin = plugin;
         this.player = player;
         this.reason = reason;
@@ -125,7 +125,7 @@ public final class Mute implements Deletable {
      * @param reason
      *            The new mute reason
      */
-    public void setReason(String reason) {
+    public void setReason(final String reason) {
         this.reason = reason;
     }
 
@@ -135,7 +135,7 @@ public final class Mute implements Deletable {
      * @param time
      *            Time in minutes the mute will last
      */
-    public void setTime(long time) {
+    public void setTime(final long time) {
         this.time = time;
     }
 
@@ -178,7 +178,7 @@ public final class Mute implements Deletable {
      * @return A JSONObject created from this Mute object
      */
     public JSONObject toJSONObject() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new HashMap<String, Object>();
         map.put("player", player);
         map.put("reason", reason);
         map.put("admin", admin);
@@ -200,15 +200,15 @@ public final class Mute implements Deletable {
      * @throws DataLoadException
      *             When we fail to parse the JSONObject
      */
-    public static Mute fromJSONObject(VolumetricBans plugin, JSONObject jo) throws DataLoadException {
+    public static Mute fromJSONObject(final VolumetricBans plugin, final JSONObject jo) throws DataLoadException {
         try {
-            String player = jo.getString("player");
-            String reason = jo.getString("reason");
-            String admin = jo.getString("admin");
-            long time = jo.getLong("time");
-            long issued = jo.getLong("issued");
+            final String player = jo.getString("player");
+            final String reason = jo.getString("reason");
+            final String admin = jo.getString("admin");
+            final long time = jo.getLong("time");
+            final long issued = jo.getLong("issued");
             return new Mute(plugin, player, reason, admin, time, issued);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new DataLoadException("Could not create a Mute object from given JSONObject", e);
         }
     }

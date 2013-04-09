@@ -21,7 +21,7 @@ public class VolumetricBansDisabledEvent extends Event {
      * @param plugin
      *            The VolumetricBans plugin
      */
-    public VolumetricBansDisabledEvent(VolumetricBans plugin) {
+    public VolumetricBansDisabledEvent(final VolumetricBans plugin) {
         this.plugin = plugin;
     }
 

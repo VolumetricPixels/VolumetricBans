@@ -15,20 +15,20 @@ public class DeletableTimer implements Runnable {
 
     private Task spoutTaskObject;
 
-    public DeletableTimer(long end, Deletable timed) {
+    public DeletableTimer(final long end, final Deletable timed) {
         endMinutesSinceEpoch = end;
         timedDeletable = timed;
     }
 
     @Override
     public void run() {
-        if (((c.getTimeInMillis() / 1000) / 60) >= endMinutesSinceEpoch) {
+        if (c.getTimeInMillis() / 1000 / 60 >= endMinutesSinceEpoch) {
             timedDeletable.delete();
             spoutTaskObject.cancel();
         }
     }
 
-    public void setTask(Task task) {
+    public void setTask(final Task task) {
         spoutTaskObject = task;
     }
 }
