@@ -28,7 +28,7 @@ public final class APIRequestHandler {
     /** Util Map */
     private final Map<String, String> postMap = new HashMap<String, String>();
     /** The address for the API server */
-    private String apiServerHostName;
+    private final String apiServerHostName = "TODO";
 
     /**
      * Creates a new APIRequestHandler
@@ -57,33 +57,24 @@ public final class APIRequestHandler {
      */
     public JSONObject submitRequest(final Map<String, String> postData) throws DataRetrievalException {
         String urlReq = null;
-        synchronized (postMap) {
+        String json = null;
+        synchronized (this) {
             postMap.put("actionType", actionCategory);
             postMap.putAll(postData);
             postMap.put("key", apiKey);
             urlReq = parsePostItems(postMap);
             postMap.clear();
+            if (!plugin.isPremium()) {
+                json = doPerformRequest(urlReq);
+            }
         }
-        final String jText = performAPIRequest(urlReq);
-        return getJSONObject(jText);
-    }
-
-    /**
-     * Creates a JSONObject from given JSON text
-     * 
-     * @param jsonText
-     *            A String of JSON data
-     * 
-     * @return A JSONObject created from the jsonText
-     * 
-     * @throws DataRetrievalException
-     *             When a JSONObject can't be created
-     */
-    private JSONObject getJSONObject(final String jsonText) throws DataRetrievalException {
+        if (plugin.isPremium()) {
+            json = doPerformRequest(urlReq);
+        }
         try {
-            return new JSONObject(jsonText);
-        } catch (final JSONException e) {
-            throw new DataRetrievalException("Invalid data received!", e);
+            return new JSONObject(json);
+        } catch (JSONException e) {
+            throw new DataRetrievalException("Invalid data retrieved!", e);
         }
     }
 
@@ -98,7 +89,7 @@ public final class APIRequestHandler {
      * @throws DataRetrievalException
      *             When we fail to retrieve data
      */
-    private String performAPIRequest(final String data) throws DataRetrievalException {
+    private String doPerformRequest(final String data) throws DataRetrievalException {
         try {
             final URL u = new URL(apiServerHostName + "/api/" + actionCategory);
             final URLConnection uc = u.openConnection();

@@ -28,10 +28,11 @@ public final class VolumetricBansListener implements Listener {
     private final APIRequestHandler arh;
     /** The PunishmentManager instance */
     private final PunishmentManager pm;
-
     /** The checking thread pool */
-    private ExecutorService threadPool;
-    private PlayerCheckThread checker;
+    private final ExecutorService threadPool;
+    /** Player checker for non-premium services */
+    private final PlayerCheckThread checker;
+    /** Cache of safe and banned players */
     private final SafePlayerCache cache;
 
     /**
@@ -42,13 +43,10 @@ public final class VolumetricBansListener implements Listener {
      */
     protected VolumetricBansListener(final VolumetricBans plugin) {
         this.plugin = plugin;
-        arh = new APIRequestHandler(plugin, "players");
+        arh = plugin.getPlayerReqHandler();
         pm = plugin.getPunishmentManager();
-        if (plugin.isPremium()) {
-            threadPool = Executors.newFixedThreadPool(5);
-        } else {
-            checker = new PlayerCheckThread();
-        }
+        threadPool = plugin.isPremium() ? Executors.newFixedThreadPool(5) : null;
+        checker = plugin.isPremium() ? null : new PlayerCheckThread();
         cache = new SafePlayerCache();
         plugin.getEngine().getScheduler().scheduleAsyncTask(plugin, cache, true);
     }
@@ -92,10 +90,18 @@ public final class VolumetricBansListener implements Listener {
         }
     }
 
+    /**
+     * Gets the thread pool used by the listener
+     * 
+     * @return This listener's thread pool
+     */
     public ExecutorService getThreadPool() {
         return threadPool;
     }
 
+    /**
+     * Checks players for global bans
+     */
     public final class PlayerCheckThread extends Thread {
         private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
 

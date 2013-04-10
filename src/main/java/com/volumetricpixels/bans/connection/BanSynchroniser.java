@@ -37,7 +37,7 @@ public final class BanSynchroniser implements Runnable {
      */
     public BanSynchroniser(final VolumetricBans plugin) {
         this.plugin = plugin;
-        arh = new APIRequestHandler(plugin, "bans");
+        arh = plugin.getBanReqHandler();
     }
 
     /** Runs the ban synchronisation */

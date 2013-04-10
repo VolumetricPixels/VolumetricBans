@@ -110,7 +110,8 @@ public final class Ban implements Deletable {
      * @param temp
      *            Temporary
      */
-    private Ban(final VolumetricBans plugin, final String player, final String reason, final String admin, final long time, final long issued, final boolean global, final boolean temp) {
+    private Ban(final VolumetricBans plugin, final String player, final String reason, final String admin, final long time, final long issued, final boolean global,
+            final boolean temp) {
         this.plugin = plugin;
         this.player = player;
         temporary = temp;

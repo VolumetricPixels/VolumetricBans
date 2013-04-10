@@ -11,14 +11,15 @@ import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
-/** The /vb lookup command */
+/**
+ * The /vb lookup command 
+ */
 public class VBLookupCommand extends VBCommand {
     private final APIRequestHandler handler;
 
     public VBLookupCommand(final VolumetricBans plugin) {
         super(plugin, "lookup");
-
-        handler = new APIRequestHandler(plugin, "players");
+        handler = plugin.getPlayerReqHandler();
     }
 
     /** {@inheritDoc} */

@@ -55,6 +55,11 @@ public final class VolumetricBans extends CommonPlugin {
     private VolumetricBansListener listener;
     private Task banSyncTask;
     private Task updateReqTask;
+    // Request handlers
+    private APIRequestHandler dataReqHandler;
+    private APIRequestHandler playerReqHandler;
+    private APIRequestHandler banReqHandler;
+    private APIRequestHandler serverReqHandler;
 
     /** {@inheritDoc} */
     @Override
@@ -129,7 +134,11 @@ public final class VolumetricBans extends CommonPlugin {
                 return;
             }
 
-            final APIRequestHandler handler = new APIRequestHandler(this, "data");
+            dataReqHandler = new APIRequestHandler(this, "data");
+            playerReqHandler = new APIRequestHandler(this, "players");
+            banReqHandler = new APIRequestHandler(this, "bans");
+            serverReqHandler = new APIRequestHandler(this, "server");
+
             onlineMode = config.getNode("online-mode").getBoolean(true);
             if (onlineMode) {
                 getLogger().info("Running in online mode!");
@@ -139,7 +148,7 @@ public final class VolumetricBans extends CommonPlugin {
                     postData.put("action", "checkValidity");
                     JSONObject jO;
                     try {
-                        jO = handler.submitRequest(postData);
+                        jO = dataReqHandler.submitRequest(postData);
 
                         if (!jO.getBoolean("result")) {
                             getLogger().severe("Invalid API key");
@@ -211,7 +220,7 @@ public final class VolumetricBans extends CommonPlugin {
                 final Map<String, String> postData = new HashMap<String, String>();
                 postData.put("action", "checkPremiumServer");
                 try {
-                    final JSONObject response = handler.submitRequest(postData);
+                    final JSONObject response = serverReqHandler.submitRequest(postData);
                     premium = response.getBoolean("result");
                 } catch (final JSONException e) {
                     e.printStackTrace();
@@ -235,6 +244,22 @@ public final class VolumetricBans extends CommonPlugin {
              */
         }
         engine.getEventManager().callDelayedEvent(new VolumetricBansEnabledEvent(this));
+    }
+
+    public APIRequestHandler getDataReqHandler() {
+        return dataReqHandler;
+    }
+
+    public APIRequestHandler getBanReqHandler() {
+        return banReqHandler;
+    }
+
+    public APIRequestHandler getServerReqHandler() {
+        return serverReqHandler;
+    }
+
+    public APIRequestHandler getPlayerReqHandler() {
+        return playerReqHandler;
     }
 
     /**
