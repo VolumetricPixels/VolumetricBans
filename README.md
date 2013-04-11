@@ -19,12 +19,12 @@ VolumetricBans features include, but are not limited to, the following:
 -----------------
 The VolumetricBans plugin is largely finished, although we intend to add quite a few more features to it before full release. The plugin 
 itself is pretty much at a beta phase. However, we cannot currently release the plugin even as a beta beause the website is currently 
-unfinished, and mostly unstarted. If you would like to join the team and help out with web development and bugfixing and testing later 
+unfinished. If you would like to join the team and help out with website / web API development and bugfixing and testing later 
 on, get in contact with us!
 
 ![VP Bullet] Contact
 -----------------
-There are various different ways to contact the VolumetricBans team (VolumetricBans is developed by VolumetricPixels). The best way is 
+There are multiple different ways to contact the VolumetricBans team (VolumetricBans is developed by VolumetricPixels). One way is 
 to contact us on IRC. Join our channel on EsperNet (irc.esper.net/6667 #volumetricbans and #volumetricpixels). If no operators are online, 
 just leave a message in the channel and we'll see it next time we're on.
 
