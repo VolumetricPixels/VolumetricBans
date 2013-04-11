@@ -8,7 +8,7 @@ by developers, as it is easy to extend, and has various events and lots of JavaD
 ![VP Bullet] Features?
 -----------------
 VolumetricBans features include, but are not limited to, the following:
-* Local bans (temporary)
+* Local bans
 * Temporary bans
 * Global bans
 * Mutes (timed)
