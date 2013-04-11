@@ -45,8 +45,15 @@ public final class VolumetricBansListener implements Listener {
         this.plugin = plugin;
         arh = plugin.getPlayerReqHandler();
         pm = plugin.getPunishmentManager();
-        threadPool = plugin.isPremium() ? Executors.newFixedThreadPool(5) : null;
-        checker = plugin.isPremium() ? null : new PlayerCheckThread();
+
+        if (plugin.isPremium()) {
+            threadPool = Executors.newFixedThreadPool(5);
+            checker = null;
+        } else {
+            checker = new PlayerCheckThread();
+            threadPool = null;
+        }
+
         cache = new SafePlayerCache();
         plugin.getEngine().getScheduler().scheduleAsyncTask(plugin, cache, true);
     }
@@ -121,7 +128,8 @@ public final class VolumetricBansListener implements Listener {
                             }
                             continue;
                         } else {
-                            if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
+                            boolean banned = APIRequestUtil.isPermaGlobalBanned(arh, player);
+                            if (banned) {
                                 final Player p = plugin.getEngine().getPlayer(player, true);
                                 if (p != null) {
                                     p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
