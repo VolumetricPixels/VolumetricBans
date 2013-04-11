@@ -67,11 +67,8 @@ public final class VolumetricBans extends CommonPlugin {
         try {
             enableVolumetricBans();
         } catch (final VolumetricBansInitialisationException e) {
-            getLogger().log(Level.SEVERE, "Initialisation exception!", e);
-            if (e.isFatal()) {
-                getLogger().severe("Fatal exception, disabling!");
-                getEngine().getPluginManager().disablePlugin(this);
-            }
+            getLogger().log(Level.SEVERE, "Fatal initialisation exception! Disabling plugin!", e);
+            getEngine().getPluginManager().disablePlugin(this);
         }
     }
 
@@ -97,7 +94,7 @@ public final class VolumetricBans extends CommonPlugin {
                 getLogger().log(Level.SEVERE, "Could not save punishments!", e);
             }
         } else if (platform == Platform.CLIENT) {
-            // TODO:
+            // TODO: Disable client shizzle
         }
         engine.getEventManager().callDelayedEvent(new VolumetricBansDisabledEvent(this));
     }
@@ -121,7 +118,7 @@ public final class VolumetricBans extends CommonPlugin {
                 config.load();
                 config.save();
             } catch (final ConfigurationException e) {
-                throw new VolumetricBansInitialisationException("Could not load configuration!", e, true);
+                throw new VolumetricBansInitialisationException("Could not load configuration!", e);
             }
 
             boolean configurationUntouched = true;
@@ -134,6 +131,7 @@ public final class VolumetricBans extends CommonPlugin {
                 return;
             }
 
+            // Initialise request handlers
             dataReqHandler = new APIRequestHandler(this, "data");
             playerReqHandler = new APIRequestHandler(this, "players");
             banReqHandler = new APIRequestHandler(this, "bans");
@@ -158,18 +156,17 @@ public final class VolumetricBans extends CommonPlugin {
                             return;
                         }
                     } catch (final DataRetrievalException e) {
+                        e.printStackTrace();
                         getLogger().severe("As we could not connect to the servers, the plugin is now running in offline mode");
                         getLogger().severe("This means bans made will not be synchronised to the website until the plugin is in online mode");
                         getLogger().severe("You should still be able to use the plugin normally");
-                        onlineMode = false;
-                        new VolumetricBansInitialisationException("Could not connect to servers!", e, false).printStackTrace();
+                        canConnectToServers = false;
                     }
                 } catch (final JSONException e) {
+                    e.printStackTrace();
                     getLogger().severe("Could not check API key validity");
                     getLogger().severe("Disabling all web-based functionality");
                     canConnectToServers = false;
-                    onlineMode = false;
-                    new VolumetricBansInitialisationException("Invalid data received from servers, or error in parsing!", e, false).printStackTrace();
                 }
             } else {
                 configurationUntouched = false;
@@ -195,9 +192,9 @@ public final class VolumetricBans extends CommonPlugin {
                 storageHandler.loadBans();
                 storageHandler.loadMutes();
             } catch (final StorageException e) {
-                throw new VolumetricBansInitialisationException("Could not load punishments!", e, true);
+                throw new VolumetricBansInitialisationException("Could not load punishments!", e);
             } catch (final DataLoadException e) {
-                throw new VolumetricBansInitialisationException("Could not load punishments!", e, true);
+                throw new VolumetricBansInitialisationException("Could not load punishments!", e);
             }
 
             // Initialise / register listener
@@ -209,8 +206,9 @@ public final class VolumetricBans extends CommonPlugin {
             new VBCommands(this).register();
 
             if (onlineMode && !canConnectToServers) {
-                onlineMode = canConnectToServers;
+                onlineMode = false;
             }
+
             if (onlineMode) {
                 final BanSynchroniser banSync = new BanSynchroniser(this);
                 banSyncTask = scheduler.scheduleAsyncTask(this, banSync);
@@ -237,7 +235,7 @@ public final class VolumetricBans extends CommonPlugin {
         } else if (platform == Platform.CLIENT) {
             // Client client = (Client) engine;
             /*
-             * TODO: Client side of the plugin Ideas for the client side so far
+             * TODO: Client side of the plugin. Ideas for the client side so far
              * include:
              * 
              * GUI for admins
@@ -246,18 +244,38 @@ public final class VolumetricBans extends CommonPlugin {
         engine.getEventManager().callDelayedEvent(new VolumetricBansEnabledEvent(this));
     }
 
+    /**
+     * Gets the request handler for data requests
+     * 
+     * @return The APIRequestHandler for data requests
+     */
     public APIRequestHandler getDataReqHandler() {
         return dataReqHandler;
     }
 
+    /**
+     * Gets the request handler for ban requests
+     * 
+     * @return The APIRequestHandler for ban requests
+     */
     public APIRequestHandler getBanReqHandler() {
         return banReqHandler;
     }
 
+    /**
+     * Gets the request handler for server requests
+     * 
+     * @return The APIRequestHandler for server requests
+     */
     public APIRequestHandler getServerReqHandler() {
         return serverReqHandler;
     }
 
+    /**
+     * Gets the request handler for player requests
+     * 
+     * @return The APIRequestHandler for player requests
+     */
     public APIRequestHandler getPlayerReqHandler() {
         return playerReqHandler;
     }
@@ -325,7 +343,18 @@ public final class VolumetricBans extends CommonPlugin {
         return strictGlobal;
     }
 
-    /** Sets the plugin to offline mode */
+    /**
+     * Gets whether the server running the plugin is premium
+     * 
+     * @return Whether the server running the plugin has premium features
+     */
+    public boolean isPremium() {
+        return premium;
+    }
+
+    /**
+     * Sets the plugin to offline mode
+     */
     public void setToOfflineMode() {
         onlineMode = false;
     }
@@ -342,7 +371,9 @@ public final class VolumetricBans extends CommonPlugin {
         cause.printStackTrace();
     }
 
-    /** Sets the plugin to online mode */
+    /**
+     * Sets the plugin to online mode
+     */
     public void setToOnlineMode() {
         onlineMode = true;
     }
@@ -357,9 +388,5 @@ public final class VolumetricBans extends CommonPlugin {
      */
     private void setTag(final PluginLogger logger, final String string) {
         logger.setTag(ChatArguments.fromString(string));
-    }
-
-    public boolean isPremium() {
-        return premium;
     }
 }

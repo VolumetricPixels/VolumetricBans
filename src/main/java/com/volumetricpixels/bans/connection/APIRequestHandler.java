@@ -73,7 +73,7 @@ public final class APIRequestHandler {
         }
         try {
             return new JSONObject(json);
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new DataRetrievalException("Invalid data retrieved!", e);
         }
     }
