@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
-/** Utility methods for API requests */
+/**
+ * Utility methods for API requests, such as performing operations on JSONObjects
+ */
 public final class APIRequestUtil {
     /**
      * Gets the Map of data inside a JSONObject

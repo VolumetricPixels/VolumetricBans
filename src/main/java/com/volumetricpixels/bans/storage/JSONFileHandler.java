@@ -9,6 +9,9 @@ import org.json.JSONObject;
 
 import com.volumetricpixels.bans.exception.StorageException;
 
+/**
+ * A utility for storing JSON data in a File
+ */
 public final class JSONFileHandler {
     /** The File we are writing to / reading from */
     private final File file;

@@ -4,7 +4,9 @@ import java.io.File;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-/** Manages all files in VolumetricBans. */
+/**
+ * Manages all files in VolumetricBans
+ */
 public final class FileManager {
     /** Plugin instance */
     private final VolumetricBans plugin;

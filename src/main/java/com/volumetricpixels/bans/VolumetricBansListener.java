@@ -128,7 +128,7 @@ public final class VolumetricBansListener implements Listener {
                             }
                             continue;
                         } else {
-                            boolean banned = APIRequestUtil.isPermaGlobalBanned(arh, player);
+                            final boolean banned = APIRequestUtil.isPermaGlobalBanned(arh, player);
                             if (banned) {
                                 final Player p = plugin.getEngine().getPlayer(player, true);
                                 if (p != null) {

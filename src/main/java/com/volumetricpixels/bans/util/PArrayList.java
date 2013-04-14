@@ -14,7 +14,7 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 
 /**
- * Basically an ArrayList, but calls events for VB bans / mutes when elements
+ * An ArrayList, modifed for VolumetricBans to call events for VB bans / mutes when elements
  * are added or removed from the List
  * 
  * @param <T>
@@ -26,7 +26,7 @@ public class PArrayList<T> extends ArrayList<T> {
     /** VolumetricBans plugin */
     private final VolumetricBans plugin;
 
-    /** Are we currently calling events for new additions / removals */
+    /** Whether we are currently calling events for new additions / removals */
     private boolean events = true;
 
     /**
@@ -39,6 +39,7 @@ public class PArrayList<T> extends ArrayList<T> {
         this.plugin = plugin;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean add(final T o) {
         if (events) {
@@ -56,6 +57,7 @@ public class PArrayList<T> extends ArrayList<T> {
         return super.add(o);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean remove(final Object o) {
         if (events) {

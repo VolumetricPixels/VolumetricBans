@@ -15,7 +15,9 @@ import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.util.Deletable;
 import com.volumetricpixels.bans.util.DeletableTimer;
 
-/** Represents a Ban. */
+/**
+ * Represents a Ban
+ */
 public final class Ban implements Deletable {
     /** Calendar instance */
     private static final Calendar c = Calendar.getInstance();

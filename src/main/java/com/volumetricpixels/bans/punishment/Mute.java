@@ -15,7 +15,9 @@ import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.util.Deletable;
 import com.volumetricpixels.bans.util.DeletableTimer;
 
-/** Represents a Mute */
+/**
+ * Represents a Mute
+ */
 public final class Mute implements Deletable {
     /** The Calendar instance */
     private static final Calendar c = Calendar.getInstance();

@@ -6,7 +6,9 @@ import java.util.List;
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 
-/** Manages punishments in VolumetricBans */
+/**
+ * Manages punishments in VolumetricBans
+ */
 public final class PunishmentManager {
     /** The PunishmentStorage instance */
     private final PunishmentStorage store;

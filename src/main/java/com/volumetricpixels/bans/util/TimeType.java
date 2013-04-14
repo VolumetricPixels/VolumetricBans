@@ -1,6 +1,8 @@
 package com.volumetricpixels.bans.util;
 
-/** Utility enum for time measurements, used in temp bans / mutes */
+/**
+ * Utility enum for time measurements, used in temp bans / mutes
+ */
 public enum TimeType {
     /** Represents minutes */
     MINUTES,

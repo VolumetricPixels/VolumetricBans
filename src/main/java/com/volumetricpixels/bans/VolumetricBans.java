@@ -38,27 +38,42 @@ public final class VolumetricBans extends CommonPlugin {
     /** The PluginLogger prefix (tag) */
     public static final String LOGGER_TAG = "[VolumetricBans] ";
 
-    // Config
+    /** The server's API key */
     private String apiKey = "";
+    /** Whether the plugin is in online mode */
     private boolean onlineMode = true;
+    /** Whether global ban checking is strict */
     private boolean strictGlobal = false;
-    // Requests
+    /** Whether we can connect to the VB servers */
     private boolean canConnectToServers = true;
+    /** Whether the server is premium */
     private boolean premium = false;
-    // Managers
+
+    /** Keeps track of files used by the plugin */
     private FileManager fileSystem;
+    /** The punishment storage handler */
     private PunishmentStorage storageHandler;
+    /** The punishment manager */
     private PunishmentManager punishManager;
-    // Helpers
+
+    /** Helper for command parsing / responses */
     private VBCommandHelper cmdHelper;
-    // Listeners / tasks / runnables
+
+    /** Main plugin listener */
     private VolumetricBansListener listener;
+
+    /** Ban synchronisation task */
     private Task banSyncTask;
+    /** Update request task */
     private Task updateReqTask;
-    // Request handlers
+
+    /** APIRequestHandler for general data requests */
     private APIRequestHandler dataReqHandler;
+    /** APIRequestHandler for player data requests */
     private APIRequestHandler playerReqHandler;
+    /** APIRequestHandler for ban data requests / ban submission */
     private APIRequestHandler banReqHandler;
+    /** APIRequestHandler for server data requests */
     private APIRequestHandler serverReqHandler;
 
     /** {@inheritDoc} */
@@ -149,11 +164,7 @@ public final class VolumetricBans extends CommonPlugin {
                         jO = dataReqHandler.submitRequest(postData);
 
                         if (!jO.getBoolean("result")) {
-                            getLogger().severe("Invalid API key");
-                            getLogger().severe("This means the key was never valid, or your server has been disabled by VolumetricBans staff");
-                            getLogger().severe("Disabling VolumetricBans because of invalid API key");
-                            getEngine().getPluginManager().disablePlugin(this);
-                            return;
+                            throw new VolumetricBansInitialisationException("Invalid API key! You entered an invalid key or your server is disabled!");
                         }
                     } catch (final DataRetrievalException e) {
                         e.printStackTrace();
