@@ -20,8 +20,10 @@ public class DeletableTimer implements Runnable {
     /**
      * Constructs a new DeletableTimer
      * 
-     * @param end The time when the Deletable should be deleted
-     * @param timed The Deletable to time the deletion of
+     * @param end
+     *            The time when the Deletable should be deleted
+     * @param timed
+     *            The Deletable to time the deletion of
      */
     public DeletableTimer(final long end, final Deletable timed) {
         endMinutesSinceEpoch = end;
@@ -36,6 +38,12 @@ public class DeletableTimer implements Runnable {
         }
     }
 
+    /**
+     * Sets the Task object for this DeletableTimer
+     * 
+     * @param task
+     *            The Spout Task object for this DeletableTimer
+     */
     public void setTask(final Task task) {
         spoutTaskObject = task;
     }

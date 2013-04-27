@@ -14,8 +14,8 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 
 /**
- * An ArrayList, modifed for VolumetricBans to call events for VB bans / mutes when elements
- * are added or removed from the List
+ * An ArrayList, modifed for VolumetricBans to call events for VB bans / mutes
+ * when elements are added or removed from the List
  * 
  * @param <T>
  *            The type to be stored in the ArrayList

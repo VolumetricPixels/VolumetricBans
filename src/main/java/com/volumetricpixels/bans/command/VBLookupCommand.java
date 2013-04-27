@@ -12,7 +12,7 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.util.APIRequestUtil;
 
 /**
- * The /vb lookup command 
+ * The /vb lookup command
  */
 public class VBLookupCommand extends VBCommand {
     private final APIRequestHandler handler;

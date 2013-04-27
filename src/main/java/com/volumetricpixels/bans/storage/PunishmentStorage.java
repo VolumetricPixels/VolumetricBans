@@ -97,7 +97,11 @@ public final class PunishmentStorage {
      */
     public void saveBans() throws StorageException {
         bjsh.backup();
-        bjsh.delete();
+        try {
+            bjsh.delete();
+        } catch (final Exception e) {
+            throw new StorageException(e);
+        }
         try {
             bjsh.startWriting();
             for (final Ban ban : bans) {
@@ -117,7 +121,11 @@ public final class PunishmentStorage {
      */
     public void saveMutes() throws StorageException {
         mjsh.backup();
-        mjsh.delete();
+        try {
+            mjsh.delete();
+        } catch (final Exception e) {
+            throw new StorageException(e);
+        }
         try {
             mjsh.startWriting();
             for (final Mute mute : mutes) {

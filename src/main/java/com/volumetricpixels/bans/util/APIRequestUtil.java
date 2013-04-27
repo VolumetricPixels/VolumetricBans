@@ -10,7 +10,8 @@ import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
 /**
- * Utility methods for API requests, such as performing operations on JSONObjects
+ * Utility methods for API requests, such as performing operations on
+ * JSONObjects
  */
 public final class APIRequestUtil {
     /**
@@ -50,7 +51,7 @@ public final class APIRequestUtil {
     public static boolean isPermaGlobalBanned(final APIRequestHandler handler, final String playerName) throws DataRetrievalException {
         final Map<String, String> postData = new HashMap<String, String>();
         postData.put("action", "checkPermanentGlobalBan");
-        postData.put("strictGlobal", Boolean.toString(handler.getPlugin().isStrictGlobal()));
+        postData.put("strictGlobal", handler.getPlugin().isStrictGlobal() ? "true" : "false");
         postData.put("playerName", playerName);
         final JSONObject response = handler.submitRequest(postData);
         try {
