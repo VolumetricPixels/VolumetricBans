@@ -16,7 +16,10 @@ import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.storage.JSONFileHandler;
 
-/** Synchronises bans with the server every ~10 minutes */
+/**
+ * Synchronises bans with the server every ~10 minutes (differs slightly because
+ * of time taken to synchronise)
+ */
 public final class BanSynchroniser implements Runnable {
     /** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
     private static final int SLEEP_MILLIS = 1000 * 60 * 10;
@@ -40,56 +43,55 @@ public final class BanSynchroniser implements Runnable {
         arh = plugin.getBanReqHandler();
     }
 
-    /** Runs the ban synchronisation */
+    /**
+     * Runs the ban synchronisation
+     */
     @Override
     public void run() {
         while (true) {
-            hi: if (lastList == null) {
+            if (lastList == null) {
                 lastList = new ArrayList<Ban>();
                 final File lastListFile = plugin.getFileManager().getBanSyncFile();
-                if (!lastListFile.exists()) {
+                if (!lastListFile.exists())
                     try {
                         lastListFile.createNewFile();
                     } catch (final IOException e) {
                         e.printStackTrace();
                     }
-                    break hi;
-                }
-                final JSONFileHandler j = new JSONFileHandler(lastListFile);
-                JSONObject curJObj = null;
-                try {
-                    while ((curJObj = j.read()) != null) {
-                        lastList.add(Ban.fromJSONObject(plugin, curJObj));
+                else {
+                    final JSONFileHandler j = new JSONFileHandler(lastListFile);
+                    JSONObject curJObj = null;
+                    try {
+                        while ((curJObj = j.read()) != null) {
+                            lastList.add(Ban.fromJSONObject(plugin, curJObj));
+                        }
+                    } catch (final StorageException e) {
+                    } catch (final DataLoadException e) {
+                        e.printStackTrace();
                     }
-                } catch (final StorageException e) {
-                } catch (final DataLoadException e) {
-                    e.printStackTrace();
                 }
             }
+
             final List<Ban> list = plugin.getStorageHandler().getBans();
             for (final Ban ban : list) {
                 boolean found1 = false;
-                for (final Ban ban1 : lastList) {
-                    if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
+                for (final Ban ban1 : lastList)
+                    if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName()))
                         found1 = true;
-                    }
-                }
-                if (!found1) {
+                if (!found1)
                     sendBan(ban, true);
-                }
             }
             for (final Ban ban : lastList) {
                 boolean found = false;
-                for (final Ban ban1 : list) {
+                for (final Ban ban1 : list)
                     if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
                         found = true;
                         break;
                     }
-                }
-                if (!found) {
+                if (!found)
                     sendBan(ban, false);
-                }
             }
+
             try {
                 Thread.sleep(SLEEP_MILLIS);
             } catch (final InterruptedException e) {

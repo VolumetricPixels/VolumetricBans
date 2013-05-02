@@ -25,16 +25,14 @@ public class VBLookupCommand extends VBCommand {
     /** {@inheritDoc} */
     @Override
     public void processCommand(final CommandSource source, final Command cmd, final CommandContext args) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
+        for (final String perm : getPermissions())
+            if (!source.hasPermission(perm))
                 throw new CommandException("You don't have permission!");
-            }
-        }
-        String target = null;
+
+        String target = plugin.getCommandHelper().getRawArgs(args.getRawArgs())[0];
         try {
-            target = plugin.getCommandHelper().getRawArgs(args.getRawArgs())[0];
             final boolean globalPermaBan = APIRequestUtil.isPermaGlobalBanned(handler, target);
-            source.sendMessage(ChatStyle.GRAY, "VolumetricBans", ChatStyle.RESET, " - ", ChatStyle.GOLD, "Statistics for " + target);
+            source.sendMessage(ChatStyle.GOLD, "VolumetricBans", ChatStyle.GRAY, " - Statistics for ", ChatStyle.BRIGHT_GREEN, target);
             source.sendMessage(ChatStyle.GRAY, "Is globally permabanned: " + globalPermaBan);
         } catch (final DataRetrievalException e) {
             throw new CommandException("Could not retrieve data for " + target);

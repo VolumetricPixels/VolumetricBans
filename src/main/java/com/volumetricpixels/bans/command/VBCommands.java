@@ -4,7 +4,9 @@ import org.spout.api.command.Command;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-/** Registration for /vb commands */
+/**
+ * Registration for /vb commands
+ */
 public class VBCommands {
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;

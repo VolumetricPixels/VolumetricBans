@@ -13,6 +13,10 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
+/**
+ * Sends small bits of data to the API servers to inform them that the server is
+ * online, along with some data. Also requests a response
+ */
 public final class UpdateRequester implements Runnable {
     /** 5 minutes (1000 millis / sec, 60 secs / min, 5 mins) */
     private static final int SLEEP_MILLIS = 1000 * 60 * 5;
@@ -32,6 +36,7 @@ public final class UpdateRequester implements Runnable {
             final Map<String, String> postData = new HashMap<String, String>();
             postData.put("action", "update");
             postData.put("amtOnline", "" + ((Server) plugin.getEngine()).getOnlinePlayers().length);
+
             try {
                 final JSONObject jo = arh.submitRequest(postData);
                 final Iterator<String> it = jo.keys();

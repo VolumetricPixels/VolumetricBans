@@ -8,7 +8,9 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-/** The /vb unban command */
+/**
+ * The /vb unban command
+ */
 public class VBUnbanCommand extends VBCommand {
     public VBUnbanCommand(final VolumetricBans plugin) {
         super(plugin, "unban");
@@ -17,13 +19,13 @@ public class VBUnbanCommand extends VBCommand {
     /** {@inheritDoc} */
     @Override
     public void processCommand(final CommandSource source, final Command cmd, final CommandContext args) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
+        for (final String perm : getPermissions())
+            if (!source.hasPermission(perm))
                 throw new CommandException("You don't have permission!");
-            }
-        }
+
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
         final String[] arguments = cmdHelper.getRawArgs(args.getRawArgs());
+
         try {
             final String target = arguments[0];
             plugin.getPunishmentManager().removeBansOnPlayer(target);

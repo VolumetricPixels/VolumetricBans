@@ -10,7 +10,9 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 import com.volumetricpixels.bans.util.TimeType;
 
-/** The /vb ban command */
+/**
+ * The /vb ban command
+ */
 public class VBBanCommand extends VBCommand {
     public VBBanCommand(final VolumetricBans plugin) {
         super(plugin, "ban");
@@ -19,13 +21,13 @@ public class VBBanCommand extends VBCommand {
     /** {@inheritDoc} */
     @Override
     public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
+        for (final String perm : getPermissions())
+            if (!source.hasPermission(perm))
                 throw new CommandException("You don't have permission!");
-            }
-        }
+
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
         final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
+
         try {
             boolean global = false;
             boolean temp = false;
@@ -54,24 +56,23 @@ public class VBBanCommand extends VBCommand {
                     global = true;
                     continue;
                 }
+
                 reason.append(argument);
-                if (i != args.length - 1) {
+                if (i != args.length - 1)
                     reason.append(" ");
-                }
             }
-            if (reason.toString().equals("")) {
-                if (!global) {
+
+            if (reason.toString().equals(""))
+                if (!global)
                     reason.append("You are banned from this server, see volumetricbans.net!");
-                } else {
+                else
                     throw new CommandException("Global bans must have reasons!");
-                }
-            }
+
             final PunishmentStorage sHandler = plugin.getStorageHandler();
-            if (temp) {
+            if (temp)
                 sHandler.getBans().add(new Ban(plugin, target, reason.toString(), source.getName(), time));
-            } else {
+            else
                 sHandler.getBans().add(new Ban(plugin, target, global, reason.toString(), source.getName()));
-            }
         } catch (final ArrayIndexOutOfBoundsException e) {
             throw new CommandException("Invalid syntax, /vb ban <player> [-t(ime) time] [-g(lobal)] [ban reason]\n" + "<> = Required argument, [] = Optional argument");
         }

@@ -24,13 +24,12 @@ public final class APIRequestUtil {
      */
     public static Map<String, Object> getMap(final JSONObject json) {
         final Map<String, Object> map = new HashMap<String, Object>();
-        for (final String name : JSONObject.getNames(json)) {
+        for (final String name : JSONObject.getNames(json))
             try {
                 map.put(name, json.get(name));
             } catch (final JSONException e) {
                 e.printStackTrace();
             }
-        }
         return map;
     }
 

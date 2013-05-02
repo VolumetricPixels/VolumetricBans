@@ -17,7 +17,10 @@ import org.json.JSONObject;
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 
-/** Handles JSON sent by the VolumetricBans servers */
+/**
+ * Submits requests to the VolumetricBans API servers, and parses the returned
+ * JSON data
+ */
 public final class APIRequestHandler {
     /** The VolumetricBans plugin */
     private final VolumetricBans plugin;
@@ -64,13 +67,14 @@ public final class APIRequestHandler {
             postMap.put("key", apiKey);
             urlReq = parsePostItems(postMap);
             postMap.clear();
-            if (!plugin.isPremium()) {
+
+            if (!plugin.isPremium())
                 json = doPerformRequest(urlReq);
-            }
         }
-        if (plugin.isPremium()) {
+
+        if (plugin.isPremium())
             json = doPerformRequest(urlReq);
-        }
+
         try {
             return new JSONObject(json);
         } catch (final JSONException e) {
@@ -101,10 +105,10 @@ public final class APIRequestHandler {
             osw.flush();
             final BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             final StringBuilder b = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
+            String line = null;
+            while ((line = r.readLine()) != null)
                 b.append(line);
-            }
+
             final String result = b.toString();
             // Separate try-catch so close failing doesn't disrupt request
             try {

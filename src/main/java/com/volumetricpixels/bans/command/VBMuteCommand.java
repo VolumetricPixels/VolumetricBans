@@ -9,7 +9,9 @@ import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.punishment.Mute;
 import com.volumetricpixels.bans.util.TimeType;
 
-/** The /vb mute command */
+/**
+ * The /vb mute command
+ */
 public class VBMuteCommand extends VBCommand {
     public VBMuteCommand(final VolumetricBans plugin) {
         super(plugin, "mute");
@@ -18,13 +20,13 @@ public class VBMuteCommand extends VBCommand {
     /** {@inheritDoc} */
     @Override
     public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
+        for (final String perm : getPermissions())
+            if (!source.hasPermission(perm))
                 throw new CommandException("You don't have permission!");
-            }
-        }
+
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
         final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
+
         try {
             long time = -1;
             TimeType tt = null;
@@ -47,10 +49,10 @@ public class VBMuteCommand extends VBCommand {
                     time = tt.toMinutes(l);
                     continue;
                 }
+
                 reason.append(argument);
-                if (i != args.length - 1) {
+                if (i != args.length - 1)
                     reason.append(" ");
-                }
             }
             plugin.getStorageHandler().getMutes().add(new Mute(plugin, target, reason.toString(), source.getName(), time));
         } catch (final ArrayIndexOutOfBoundsException e) {

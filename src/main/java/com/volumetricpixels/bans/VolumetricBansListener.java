@@ -53,8 +53,8 @@ public final class VolumetricBansListener implements Listener {
             checker = new PlayerCheckThread();
             threadPool = null;
         }
-
         cache = new SafePlayerCache();
+
         plugin.getEngine().getScheduler().scheduleAsyncTask(plugin, cache, true);
     }
 
@@ -150,7 +150,9 @@ public final class VolumetricBansListener implements Listener {
         }
     }
 
-    /** Checks global bans on players, and kicks accordingly */
+    /**
+     * Checks global bans on players, and kicks accordingly
+     */
     public final class PlayerChecker implements Runnable {
         private final String player;
 
@@ -176,8 +178,13 @@ public final class VolumetricBansListener implements Listener {
         }
     }
 
+    /**
+     * Caches non-globally banned players for 30 mins to reduce strain on
+     * servers (e.g people consistently try to join when they are banned)
+     */
     public final class SafePlayerCache implements Runnable {
-        private static final int SLEEP_MILLIS = 1000 * 60 * 20;
+        // 1000 = 1s * 60 = 1m * 30 = 30m
+        private static final int SLEEP_MILLIS = 1000 * 60 * 30;
 
         private final Map<String, Boolean> recent = new HashMap<String, Boolean>();
 

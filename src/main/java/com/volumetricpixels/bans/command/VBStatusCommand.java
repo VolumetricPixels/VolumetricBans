@@ -8,7 +8,9 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
-/** The /vb status command */
+/**
+ * The /vb status command
+ */
 public class VBStatusCommand extends VBCommand {
     public VBStatusCommand(final VolumetricBans plugin) {
         super(plugin, "status");
@@ -17,11 +19,10 @@ public class VBStatusCommand extends VBCommand {
     /** {@inheritDoc} */
     @Override
     public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
+        for (final String perm : getPermissions())
+            if (!source.hasPermission(perm))
                 throw new CommandException("You don't have permission!");
-            }
-        }
+
         source.sendMessage(ChatStyle.GRAY, "VolumetricBans is running in ", plugin.isOnlineMode() ? "online" : "offline", " mode");
     }
 }
