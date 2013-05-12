@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import lib.org.json.JSONException;
+import lib.org.json.JSONObject;
+
 import org.spout.api.Engine;
 import org.spout.api.Platform;
 import org.spout.api.Server;
@@ -15,14 +18,8 @@ import org.spout.api.scheduler.Scheduler;
 import org.spout.api.scheduler.Task;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.command.VBCommands;
-import com.volumetricpixels.bans.connection.APIRequestHandler;
-import com.volumetricpixels.bans.connection.BanSynchroniser;
-import com.volumetricpixels.bans.connection.UpdateRequester;
 import com.volumetricpixels.bans.event.VolumetricBansDisabledEvent;
 import com.volumetricpixels.bans.event.VolumetricBansEnabledEvent;
 import com.volumetricpixels.bans.exception.DataLoadException;
@@ -30,8 +27,11 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.exception.VolumetricBansInitialisationException;
 import com.volumetricpixels.bans.punishment.PunishmentManager;
-import com.volumetricpixels.bans.storage.FileManager;
+import com.volumetricpixels.bans.request.APIRequestHandler;
+import com.volumetricpixels.bans.request.BanSynchroniser;
+import com.volumetricpixels.bans.request.UpdateRequester;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
+import com.volumetricpixels.bans.storage.file.FileManager;
 
 /**
  * The main class for the VolumetricBans global banning system plugin for the
@@ -160,7 +160,7 @@ public final class VolumetricBans extends CommonPlugin {
             serverReqHandler = new APIRequestHandler(this, "server");
 
             onlineMode = config.getNode("online-mode").getBoolean(true);
-            if (onlineMode)
+            if (onlineMode) {
                 try {
                     // Check api key validity
                     final Map<String, String> postData = new HashMap<String, String>();
@@ -185,7 +185,7 @@ public final class VolumetricBans extends CommonPlugin {
                     getLogger().severe("Disabling all web-based functionality");
                     canConnectToServers = false;
                 }
-            else {
+            } else {
                 configurationUntouched = false;
                 getLogger().info("Running in offline mode! Online-only functionality is disabled for the current session");
             }
@@ -196,13 +196,14 @@ public final class VolumetricBans extends CommonPlugin {
                 configurationUntouched = false;
             }
 
-            if (configurationUntouched)
+            if (configurationUntouched) {
                 try {
                     // Save so default config is written
                     config.save();
                 } catch (final ConfigurationException e) {
                     e.printStackTrace();
                 }
+            }
 
             try {
                 storageHandler.loadBans();
@@ -221,8 +222,9 @@ public final class VolumetricBans extends CommonPlugin {
             cmdHelper = new VBCommandHelper(this);
             new VBCommands(this).register();
 
-            if (onlineMode && !canConnectToServers)
+            if (onlineMode && !canConnectToServers) {
                 onlineMode = false;
+            }
 
             if (onlineMode) {
                 final BanSynchroniser banSync = new BanSynchroniser(this);

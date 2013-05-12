@@ -3,14 +3,14 @@ package com.volumetricpixels.bans.storage;
 import java.io.File;
 import java.util.List;
 
-import org.json.JSONObject;
+import lib.org.json.JSONObject;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataLoadException;
 import com.volumetricpixels.bans.exception.StorageException;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
-import com.volumetricpixels.bans.util.PArrayList;
+import com.volumetricpixels.bans.storage.file.JSONFileHandler;
 
 /**
  * Handles storage of punishments (bans and mutes) in files by making use of
@@ -29,9 +29,9 @@ public final class PunishmentStorage {
     private final JSONFileHandler mjsh;
 
     /** PArrayList of stored bans */
-    private final PArrayList<Ban> bans;
+    private final EventArrayList<Ban> bans;
     /** PArrayList of stored mutes */
-    private final PArrayList<Mute> mutes;
+    private final EventArrayList<Mute> mutes;
 
     /**
      * Creates a new instance of PunishmentStorage with the given plugin
@@ -47,8 +47,8 @@ public final class PunishmentStorage {
         bjsh = new JSONFileHandler(banStorageFile);
         muteStorageFile = plugin.getFileManager().getMuteStorageFile();
         mjsh = new JSONFileHandler(muteStorageFile);
-        bans = new PArrayList<Ban>(plugin);
-        mutes = new PArrayList<Mute>(plugin);
+        bans = new EventArrayList<Ban>(plugin);
+        mutes = new EventArrayList<Mute>(plugin);
     }
 
     /**

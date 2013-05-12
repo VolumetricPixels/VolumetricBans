@@ -15,10 +15,10 @@ import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerChatEvent;
 import org.spout.api.event.player.PlayerLoginEvent;
 
-import com.volumetricpixels.bans.connection.APIRequestHandler;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.punishment.PunishmentManager;
-import com.volumetricpixels.bans.util.APIRequestUtil;
+import com.volumetricpixels.bans.request.APIRequestHandler;
+import com.volumetricpixels.bans.util.Utilities;
 
 /** Listens to various events for VolumetricBans */
 public final class VolumetricBansListener implements Listener {
@@ -128,7 +128,7 @@ public final class VolumetricBansListener implements Listener {
                             }
                             continue;
                         } else {
-                            final boolean banned = APIRequestUtil.isPermaGlobalBanned(arh, player);
+                            final boolean banned = Utilities.isPermaGlobalBanned(arh, player);
                             if (banned) {
                                 final Player p = plugin.getEngine().getPlayer(player, true);
                                 if (p != null) {
@@ -164,7 +164,7 @@ public final class VolumetricBansListener implements Listener {
         public void run() {
             if (player != null) {
                 try {
-                    if (APIRequestUtil.isPermaGlobalBanned(arh, player)) {
+                    if (Utilities.isPermaGlobalBanned(arh, player)) {
                         final Player p = plugin.getEngine().getPlayer(player, true);
                         if (p != null) {
                             p.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");

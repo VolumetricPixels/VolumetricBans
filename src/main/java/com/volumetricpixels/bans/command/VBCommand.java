@@ -37,7 +37,9 @@ public abstract class VBCommand implements CommandExecutor {
      */
     public final Command register(final Command parent) {
         if (primary == null)
+         {
             return null; // Don't register
+        }
 
         final Command cmd = parent.addSubCommand(plugin, primary);
         cmd.setExecutor(this);

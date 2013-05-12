@@ -30,8 +30,9 @@ public class VBCommandHelper {
     public VBCommandHelper(final VolumetricBans plugin) {
         vbansSubs = new LinkedList<String>();
 
-        for (final String s : plugin.getEngine().getRootCommand().getChild("vbans").getChildNames())
+        for (final String s : plugin.getEngine().getRootCommand().getChild("vbans").getChildNames()) {
             vbansSubs.add(s);
+        }
     }
 
     /**
@@ -50,7 +51,7 @@ public class VBCommandHelper {
         final int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
         int page = 1;
 
-        if (args.length > 0)
+        if (args.length > 0) {
             try {
                 page = Integer.parseInt(args[0]);
                 if (page > pages) {
@@ -59,11 +60,13 @@ public class VBCommandHelper {
             } catch (final NumberFormatException e) {
                 throw new CommandException("Invalid page number!");
             }
+        }
 
-        if (pages > 1)
+        if (pages > 1) {
             sender.sendMessage(ChatStyle.GOLD + "[Commands - Page 1/" + pages + "]");
-        else
+        } else {
             sender.sendMessage(ChatStyle.GOLD + "[Commands]");
+        }
 
         final int orig = 7 * (page - 1);
         for (int cmdNo = orig; cmdNo < orig + 7; cmdNo++) {
@@ -84,8 +87,9 @@ public class VBCommandHelper {
      */
     public String[] getRawArgs(final List<ChatSection> chatSections) {
         final String[] array = new String[chatSections.size()];
-        for (int i = 0; i < array.length; i++)
+        for (int i = 0; i < array.length; i++) {
             array[i] = chatSections.get(i).getPlainString();
+        }
         return array;
     }
 }
