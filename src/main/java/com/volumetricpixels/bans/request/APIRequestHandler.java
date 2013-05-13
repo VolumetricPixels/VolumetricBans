@@ -102,9 +102,11 @@ public final class APIRequestHandler {
             uc.setConnectTimeout(5500);
             uc.setReadTimeout(5500);
             uc.setDoOutput(true);
+
             final OutputStreamWriter osw = new OutputStreamWriter(uc.getOutputStream());
             osw.write(data);
             osw.flush();
+
             final BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             final StringBuilder b = new StringBuilder();
             String line = null;
@@ -113,11 +115,11 @@ public final class APIRequestHandler {
             }
 
             final String result = b.toString();
-            // Separate try-catch so close failing doesn't disrupt request
             try {
                 osw.close();
                 r.close();
             } catch (final Exception ignore) {
+                // Separate catch so fail to close doesn't disrupt request
             }
             return result;
         } catch (final Exception e) {

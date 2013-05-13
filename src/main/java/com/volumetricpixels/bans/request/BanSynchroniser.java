@@ -66,6 +66,7 @@ public final class BanSynchroniser implements Runnable {
                             lastList.add(Ban.fromJSONObject(plugin, curJObj));
                         }
                     } catch (final StorageException e) {
+                        e.printStackTrace();
                     } catch (final DataLoadException e) {
                         e.printStackTrace();
                     }
@@ -74,26 +75,17 @@ public final class BanSynchroniser implements Runnable {
 
             final List<Ban> list = plugin.getStorageHandler().getBans();
             for (final Ban ban : list) {
-                boolean found1 = false;
-                for (final Ban ban1 : lastList) {
-                    if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
-                        found1 = true;
+                boolean contains = false;
+                for (Ban b : lastList) {
+                    if (!list.contains(b)) {
+                        sendBan(ban, false);
+                    }
+                    if (ban.equals(b)) {
+                        contains = true;
                     }
                 }
-                if (!found1) {
+                if (!contains) {
                     sendBan(ban, true);
-                }
-            }
-            for (final Ban ban : lastList) {
-                boolean found = false;
-                for (final Ban ban1 : list) {
-                    if (ban.getPlayerName().equalsIgnoreCase(ban1.getPlayerName())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    sendBan(ban, false);
                 }
             }
 

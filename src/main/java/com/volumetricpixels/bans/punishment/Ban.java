@@ -245,6 +245,65 @@ public final class Ban implements Deletable {
         return new JSONObject(map);
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (admin == null ? 0 : admin.hashCode());
+        result = prime * result + (global ? 1231 : 1237);
+        result = prime * result + (int) (issued ^ issued >>> 32);
+        result = prime * result + (player == null ? 0 : player.hashCode());
+        result = prime * result + (reason == null ? 0 : reason.hashCode());
+        result = prime * result + (temporary ? 1231 : 1237);
+        result = prime * result + (int) (time ^ time >>> 32);
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || !(obj instanceof Ban)) {
+            return false;
+        }
+        final Ban other = (Ban) obj;
+        if (admin == null) {
+            if (other.admin != null) {
+                return false;
+            }
+        } else if (!admin.equals(other.admin)) {
+            return false;
+        }
+        if (global != other.global) {
+            return false;
+        }
+        if (issued != other.issued) {
+            return false;
+        }
+        if (player == null) {
+            if (other.player != null) {
+                return false;
+            }
+        } else if (!player.equals(other.player)) {
+            return false;
+        }
+        if (reason == null) {
+            if (other.reason != null) {
+                return false;
+            }
+        } else if (!reason.equals(other.reason)) {
+            return false;
+        }
+        if (temporary != other.temporary) {
+            return false;
+        }
+        if (time != other.time) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Creates a ban from a JSONObject
      * 
