@@ -50,7 +50,7 @@ public class VBMuteCommand extends VBCommand {
                     }
                     final String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
                     tt = TimeUnit.parse(unit);
-                    time = tt.toMinutes(l);
+                    time = (long) tt.toMinutes(l);
                     continue;
                 }
 

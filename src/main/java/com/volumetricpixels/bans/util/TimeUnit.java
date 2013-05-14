@@ -4,6 +4,8 @@ package com.volumetricpixels.bans.util;
  * Utility enum for time measurements, used in temp bans / mutes
  */
 public enum TimeUnit {
+    /** Represents seconds */
+    SECONDS,
     /** Represents minutes */
     MINUTES,
     /** Represents hours */
@@ -23,8 +25,10 @@ public enum TimeUnit {
      * 
      * @return The amount of minutes in the given amount of time
      */
-    public long toMinutes(final long l) {
+    public double toMinutes(final double l) {
         switch (this) {
+            case SECONDS:
+                return l / 60;
             case MINUTES:
                 return l;
             case HOURS:
@@ -45,14 +49,17 @@ public enum TimeUnit {
      * @return The enum value for the given TimeUnit string
      */
     public static TimeUnit parse(final String string) {
-        final String s = String.valueOf(string.toLowerCase().charAt(0));
-        if (s.equals("m")) {
-            return MINUTES;
-        } else if (s.equals("h")) {
-            return HOURS;
-        } else if (s.equals("d")) {
-            return DAYS;
+        switch (string.toLowerCase().charAt(0)) {
+            case 's':
+                return SECONDS;
+            case 'm':
+                return MINUTES;
+            case 'h':
+                return HOURS;
+            case 'd':
+                return DAYS;
+            default:
+                return null;
         }
-        return null;
     }
 }

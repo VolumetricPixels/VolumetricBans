@@ -53,7 +53,7 @@ public class VBBanCommand extends VBCommand {
                     }
                     final String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
                     tt = TimeUnit.parse(unit);
-                    time = tt.toMinutes(l);
+                    time = (long) tt.toMinutes(l);
                     temp = true;
                     continue;
                 } else if (!temp && argument.equals("g") || argument.equals("-g") || argument.equals("global") || argument.equals("-global")) {
