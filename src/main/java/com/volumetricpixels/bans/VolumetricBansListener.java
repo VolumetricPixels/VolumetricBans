@@ -66,17 +66,12 @@ public final class VolumetricBansListener implements Listener {
             player.kick(pm.getBansForPlayer(name)[0].getReason());
             event.setAllowed(false);
             plugin.getLogger().info("Prevented banned player '" + name + "' from logging in!");
-        } else {
-            if (plugin.isOnlineMode()) {
+        } else if (plugin.isOnlineMode()) {
                 if (plugin.isPremium()) {
                     if (cache.recent.containsKey(name)) {
-                        if (cache.recent.get(name)) {
-                            if (player != null) {
-                                player.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
-                                plugin.getLogger().info("Kicked globally permabanned player " + name + "!");
-                            }
-                        } else {
-                            return;
+                        if (cache.recent.get(name) && player != null) {
+                            player.kick(ChatStyle.RED, "You are permanently banned from VolumetricBans servers, see volumetricbans.net!");
+                            plugin.getLogger().info("Kicked globally permabanned player " + name + "!");
                         }
                     } else {
                         threadPool.submit(new PlayerChecker(name));
