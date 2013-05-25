@@ -27,10 +27,11 @@ public class VBToggleStateCommand extends VBCommand {
         }
 
         if (plugin.isOnlineMode()) {
-            plugin.setToOfflineMode();
+            plugin.setOnlineMode(false);
         } else {
-            plugin.setToOnlineMode();
+            plugin.setOnlineMode(true);
         }
-        source.sendMessage(ChatStyle.GRAY, "VolumetricBans is now running in ", plugin.isOnlineMode() ? "online" : "offline", " mode");
+        source.sendMessage(ChatStyle.GRAY, "VolumetricBans is now running in ", plugin.isOnlineMode() ? ChatStyle.BRIGHT_GREEN : ChatStyle.RED, plugin.getOnlineModeState(),
+                ChatStyle.GRAY, " mode");
     }
 }

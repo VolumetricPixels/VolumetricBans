@@ -183,10 +183,10 @@ public final class VolumetricBansListener implements Listener {
      * servers (e.g people consistently try to join when they are banned)
      */
     public final class SafePlayerCache implements Runnable {
-        // 1000 = 1s * 60 = 1m * 30 = 30m
-        private static final int SLEEP_MILLIS = 1000 * 60 * 30;
+        // 1000 = 1s * 60 = 1m * 60 = 1hr
+        private static final int SLEEP_MILLIS = 1000 * 60 * 60;
 
-        private final Map<String, Boolean> recent = new HashMap<String, Boolean>();
+        final Map<String, Boolean> recent = new HashMap<String, Boolean>();
 
         @Override
         public void run() {

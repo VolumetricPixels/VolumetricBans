@@ -87,7 +87,7 @@ public final class VolumetricBans extends CommonPlugin {
         try {
             doEnable();
         } catch (final VolumetricBansInitialisationException e) {
-            getLogger().log(Level.SEVERE, "Fatal initialisation exception! Disabling plugin!", e);
+            getLogger().log(Level.SEVERE, "Initialisation exception! Disabling plugin!", e);
             getEngine().getPluginManager().disablePlugin(this);
         }
     }
@@ -370,10 +370,22 @@ public final class VolumetricBans extends CommonPlugin {
     }
 
     /**
-     * Sets the plugin to offline mode
+     * Gets the current state of online mode as a readable string
+     * 
+     * @return "online" if the plugin is online mode, else "offline"
      */
-    public void setToOfflineMode() {
-        onlineMode = false;
+    public String getOnlineModeState() {
+        return onlineMode ? "on" : "off" + "line";
+    }
+
+    /**
+     * Sets the plugin to offline mode
+     * 
+     * @param online
+     *            Whether the new state should be online or offline
+     */
+    public void setOnlineMode(boolean online) {
+        onlineMode = online;
     }
 
     /**
@@ -382,17 +394,10 @@ public final class VolumetricBans extends CommonPlugin {
      * @param cause
      *            The cause of changing the plugin to offline mode
      */
-    public void setToOfflineMode(final DataRetrievalException cause) {
-        setToOfflineMode();
+    public void setOfflineMode(final DataRetrievalException cause) {
+        setOnlineMode(false);
         getLogger().warning("Changing to offline mode because of exception:");
         cause.printStackTrace();
-    }
-
-    /**
-     * Sets the plugin to online mode
-     */
-    public void setToOnlineMode() {
-        onlineMode = true;
     }
 
     /**
