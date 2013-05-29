@@ -1,6 +1,7 @@
 package com.volumetricpixels.bans.punishment;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -233,6 +234,7 @@ public final class Ban implements Deletable {
      * 
      * @return A JSONObject representing the ban
      */
+    @SuppressWarnings("deprecation")
     public JSONObject toJSONObject() {
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("player", player);
@@ -240,8 +242,13 @@ public final class Ban implements Deletable {
         map.put("global", global);
         map.put("reason", reason);
         map.put("issuer", admin);
-        map.put("time", time);
-        map.put("issued", issued);
+        Date date = new Date();
+        date.setTime(issued);
+        String s = date.toGMTString();
+        date.setTime(date.getTime() + time);
+        String a = date.toGMTString();
+        map.put("date", s);
+        map.put("end", a);
         return new JSONObject(map);
     }
 
@@ -317,16 +324,19 @@ public final class Ban implements Deletable {
      * @throws DataLoadException
      *             When there is a problem parsing the JSONObject
      */
+    @SuppressWarnings("deprecation")
     public static Ban fromJSONObject(final VolumetricBans plugin, final JSONObject jo) throws DataLoadException {
         try {
             final String player = jo.getString("player");
             final boolean temp = jo.getBoolean("temp");
             final boolean global = jo.getBoolean("global");
             final String reason = jo.getString("reason");
-            final String admin = jo.getString("admin");
-            final long time = jo.getLong("time");
-            final long issued = jo.getLong("issued");
-            return new Ban(plugin, player, reason, admin, time, issued, global, temp);
+            final String admin = jo.getString("issuer");
+            final String date = jo.getString("date");
+            final String end = jo.getString("end");
+            final long dateData = Date.parse(date) / 1000 / 60;
+            final long endData = Date.parse(end) / 1000 / 60;
+            return new Ban(plugin, player, reason, admin, endData - dateData, dateData, global, temp);
         } catch (final JSONException e) {
             throw new DataLoadException("Could not create a Ban object from given JSONObject", e);
         }
