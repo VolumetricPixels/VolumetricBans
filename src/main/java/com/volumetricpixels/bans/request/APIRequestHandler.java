@@ -29,7 +29,7 @@ public final class APIRequestHandler {
     /** Utility Map for requests */
     private final Map<String, String> postMap = new HashMap<String, String>();
     /** The address for the API server */
-    private final String apiServerHostName = "TODO";
+    private final String apiServerHostName = "vbans-dev.herokuapp.com";
 
     /**
      * Creates a new APIRequestHandler
@@ -64,12 +64,12 @@ public final class APIRequestHandler {
             postMap.clear();
 
             if (!plugin.isPremium()) {
-                json = doPerformRequest(action + "/" + urlReq);
+                json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
             }
         }
 
         if (plugin.isPremium()) {
-            json = doPerformRequest(urlReq);
+            json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
         }
 
         try {

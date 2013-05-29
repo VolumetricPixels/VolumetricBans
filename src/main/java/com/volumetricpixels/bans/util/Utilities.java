@@ -64,4 +64,11 @@ public final class Utilities {
             throw new DataRetrievalException("Could not check if player was permabanned globally!", e);
         }
     }
+
+    public static <A, B> Map<A, B> oneEntryMap(A key, B value) {
+        @SuppressWarnings("unchecked")
+        Map<A, B> map = new HashMap();
+        map.put(key, value);
+        return map;
+    }
 }
