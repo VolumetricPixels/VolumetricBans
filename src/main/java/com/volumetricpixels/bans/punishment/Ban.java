@@ -239,7 +239,7 @@ public final class Ban implements Deletable {
         map.put("temp", temporary);
         map.put("global", global);
         map.put("reason", reason);
-        map.put("admin", admin);
+        map.put("issuer", admin);
         map.put("time", time);
         map.put("issued", issued);
         return new JSONObject(map);
