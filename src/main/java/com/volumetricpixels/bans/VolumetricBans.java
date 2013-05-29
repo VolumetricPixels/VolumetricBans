@@ -46,8 +46,6 @@ public final class VolumetricBans extends CommonPlugin {
     private String apiKey = "";
     /** Whether the plugin is in online mode */
     private boolean onlineMode = true;
-    /** Whether global ban checking is strict */
-    private boolean strictGlobal = false;
     /** Whether we can connect to the VB servers */
     private boolean canConnectToServers = true;
     /** Whether the server is premium */
@@ -74,12 +72,6 @@ public final class VolumetricBans extends CommonPlugin {
     // APIRequestHandlers
     /** APIRequestHandler for general data requests */
     private APIRequestHandler dataReqHandler;
-    /** APIRequestHandler for player data requests */
-    private APIRequestHandler playerReqHandler;
-    /** APIRequestHandler for ban data requests / ban submission */
-    private APIRequestHandler banReqHandler;
-    /** APIRequestHandler for server data requests */
-    private APIRequestHandler serverReqHandler;
 
     /** {@inheritDoc} */
     @Override
@@ -154,10 +146,7 @@ public final class VolumetricBans extends CommonPlugin {
             }
 
             // Initialise request handlers
-            dataReqHandler = new APIRequestHandler(this, "data");
-            playerReqHandler = new APIRequestHandler(this, "players");
-            banReqHandler = new APIRequestHandler(this, "bans");
-            serverReqHandler = new APIRequestHandler(this, "server");
+            dataReqHandler = new APIRequestHandler(this);
 
             onlineMode = config.getNode("online-mode").getBoolean(true);
             if (onlineMode) {
@@ -188,12 +177,6 @@ public final class VolumetricBans extends CommonPlugin {
             } else {
                 configurationUntouched = false;
                 getLogger().info("Running in offline mode! Online-only functionality is disabled for the current session");
-            }
-
-            strictGlobal = config.getNode("strict-globals").getBoolean(false);
-            if (strictGlobal) {
-                getLogger().info("Running in strict global mode! This means that more players will be filtered from the server!");
-                configurationUntouched = false;
             }
 
             if (configurationUntouched) {
@@ -235,7 +218,7 @@ public final class VolumetricBans extends CommonPlugin {
                 final Map<String, String> postData = new HashMap<String, String>();
                 postData.put("action", "checkPremiumServer");
                 try {
-                    final JSONObject response = serverReqHandler.submitRequest(postData);
+                    final JSONObject response = dataReqHandler.submitRequest(postData);
                     premium = response.getBoolean("result");
                 } catch (final JSONException e) {
                     e.printStackTrace();
@@ -266,35 +249,8 @@ public final class VolumetricBans extends CommonPlugin {
      * 
      * @return The APIRequestHandler for data requests
      */
-    public APIRequestHandler getDataReqHandler() {
+    public APIRequestHandler getRequestHandler() {
         return dataReqHandler;
-    }
-
-    /**
-     * Gets the request handler for ban requests
-     * 
-     * @return The APIRequestHandler for ban requests
-     */
-    public APIRequestHandler getBanReqHandler() {
-        return banReqHandler;
-    }
-
-    /**
-     * Gets the request handler for server requests
-     * 
-     * @return The APIRequestHandler for server requests
-     */
-    public APIRequestHandler getServerReqHandler() {
-        return serverReqHandler;
-    }
-
-    /**
-     * Gets the request handler for player requests
-     * 
-     * @return The APIRequestHandler for player requests
-     */
-    public APIRequestHandler getPlayerReqHandler() {
-        return playerReqHandler;
     }
 
     /**
@@ -349,15 +305,6 @@ public final class VolumetricBans extends CommonPlugin {
      */
     public boolean isOnlineMode() {
         return onlineMode;
-    }
-
-    /**
-     * Gets whether the plugin is running in strict global mode
-     * 
-     * @return Whether the plugin is in strict global mode
-     */
-    public boolean isStrictGlobal() {
-        return strictGlobal;
     }
 
     /**

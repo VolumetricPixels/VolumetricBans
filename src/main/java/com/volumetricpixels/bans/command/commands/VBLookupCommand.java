@@ -20,7 +20,7 @@ public class VBLookupCommand extends VBCommand {
 
     public VBLookupCommand(final VolumetricBans plugin) {
         super(plugin, "lookup");
-        handler = plugin.getPlayerReqHandler();
+        handler = plugin.getRequestHandler();
     }
 
     /** {@inheritDoc} */

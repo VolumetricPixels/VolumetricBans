@@ -26,7 +26,7 @@ public final class UpdateRequester implements Runnable {
 
     public UpdateRequester(final VolumetricBans plugin) {
         this.plugin = plugin;
-        arh = plugin.getDataReqHandler();
+        arh = plugin.getRequestHandler();
     }
 
     @SuppressWarnings("unchecked")

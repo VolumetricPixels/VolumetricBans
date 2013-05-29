@@ -26,9 +26,7 @@ public final class APIRequestHandler {
     private final VolumetricBans plugin;
     /** The server API key */
     private final String apiKey;
-    /** The category of action this APIRequestHandler handles */
-    private final String actionCategory;
-    /** Util Map */
+    /** Utility Map for requests */
     private final Map<String, String> postMap = new HashMap<String, String>();
     /** The address for the API server */
     private final String apiServerHostName = "TODO";
@@ -38,13 +36,10 @@ public final class APIRequestHandler {
      * 
      * @param plugin
      *            The VolumetricBans plugin
-     * @param actionCategory
-     *            This APIRequestHandler's category
      */
-    public APIRequestHandler(final VolumetricBans plugin, final String actionCategory) {
+    public APIRequestHandler(final VolumetricBans plugin) {
         this.plugin = plugin;
         apiKey = plugin.getAPIKey();
-        this.actionCategory = actionCategory;
     }
 
     /**
@@ -63,8 +58,8 @@ public final class APIRequestHandler {
         String json = null;
         String action = postData.remove("action");
         synchronized (this) {
-            postMap.put("key", apiKey);
             postMap.putAll(postData);
+            postMap.put("key", apiKey);
             urlReq = parsePostItems(postMap);
             postMap.clear();
 
@@ -98,29 +93,28 @@ public final class APIRequestHandler {
     private String doPerformRequest(final String data) throws DataRetrievalException {
         try {
             final String action = data.split("/")[0];
-            final URL u = new URL(apiServerHostName + "/query/" + actionCategory + "/" + action + "/");
-            final URLConnection uc = u.openConnection();
-            uc.setConnectTimeout(5500);
-            uc.setReadTimeout(5500);
-            uc.setDoOutput(true);
+            final URL url = new URL(apiServerHostName + "/query/" + action);
+            final URLConnection urlConn = url.openConnection();
+            urlConn.setConnectTimeout(5500);
+            urlConn.setReadTimeout(5500);
+            urlConn.setDoOutput(true);
 
-            final OutputStreamWriter osw = new OutputStreamWriter(uc.getOutputStream());
-            osw.write(data);
-            osw.flush();
+            final OutputStreamWriter out = new OutputStreamWriter(urlConn.getOutputStream());
+            out.write(data);
+            out.flush();
 
-            final BufferedReader r = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-            final StringBuilder b = new StringBuilder();
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+            final StringBuilder builder = new StringBuilder();
             String line = null;
-            while ((line = r.readLine()) != null) {
-                b.append(line);
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
             }
 
-            final String result = b.toString();
+            final String result = builder.toString();
             try {
-                osw.close();
-                r.close();
+                out.close();
+                reader.close();
             } catch (final Exception ignore) {
-                // Separate catch so fail to close doesn't disrupt request
             }
             return result;
         } catch (final Exception e) {

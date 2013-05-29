@@ -43,7 +43,7 @@ public final class VolumetricBansListener implements Listener {
      */
     protected VolumetricBansListener(final VolumetricBans plugin) {
         this.plugin = plugin;
-        arh = plugin.getPlayerReqHandler();
+        arh = plugin.getRequestHandler();
         pm = plugin.getPunishmentManager();
 
         if (plugin.isPremium()) {

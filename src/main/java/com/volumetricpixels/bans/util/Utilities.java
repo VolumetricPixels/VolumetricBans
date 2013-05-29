@@ -1,5 +1,10 @@
 package com.volumetricpixels.bans.util;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +55,7 @@ public final class Utilities {
      */
     public static boolean isPermaGlobalBanned(final APIRequestHandler handler, final String playerName) throws DataRetrievalException {
         final Map<String, String> postData = new HashMap<String, String>();
-        postData.put("action", "checkPermanentGlobalBan");
-        postData.put("strictGlobal", handler.getPlugin().isStrictGlobal() ? "true" : "false");
+        postData.put("action", "isGlobalBanned");
         postData.put("playerName", playerName);
         final JSONObject response = handler.submitRequest(postData);
         try {
