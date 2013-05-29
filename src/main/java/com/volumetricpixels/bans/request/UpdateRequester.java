@@ -1,6 +1,7 @@
 package com.volumetricpixels.bans.request;
 
-import java.util.HashMap;
+import gnu.trove.map.hash.THashMap;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public final class UpdateRequester implements Runnable {
     @Override
     public void run() {
         while (true) {
-            final Map<String, String> postData = new HashMap<String, String>();
+            final Map<String, String> postData = new THashMap<String, String>();
             postData.put("action", "update");
             postData.put("amtOnline", "" + ((Server) plugin.getEngine()).getOnlinePlayers().length);
 

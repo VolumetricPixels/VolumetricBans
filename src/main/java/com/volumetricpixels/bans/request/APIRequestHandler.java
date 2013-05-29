@@ -1,5 +1,7 @@
 package com.volumetricpixels.bans.request;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -7,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -27,7 +28,7 @@ public final class APIRequestHandler {
     /** The server API key */
     private final String apiKey;
     /** Utility Map for requests */
-    private final Map<String, String> postMap = new HashMap<String, String>();
+    private final Map<String, String> postMap = new THashMap<String, String>();
     /** The address for the API server */
     private final String apiServerHostName = "vbans-dev.herokuapp.com";
 
@@ -56,7 +57,7 @@ public final class APIRequestHandler {
     public JSONObject submitRequest(final Map<String, String> postData) throws DataRetrievalException {
         String urlReq = null;
         String json = null;
-        String action = postData.remove("action");
+        final String action = postData.remove("action");
         synchronized (this) {
             postMap.putAll(postData);
             postMap.put("key", apiKey);

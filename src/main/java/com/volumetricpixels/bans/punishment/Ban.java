@@ -1,8 +1,9 @@
 package com.volumetricpixels.bans.punishment;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import lib.org.json.JSONException;
@@ -236,17 +237,17 @@ public final class Ban implements Deletable {
      */
     @SuppressWarnings("deprecation")
     public JSONObject toJSONObject() {
-        final Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new THashMap<String, Object>();
         map.put("player", player);
         map.put("temp", temporary);
         map.put("global", global);
         map.put("reason", reason);
         map.put("issuer", admin);
-        Date date = new Date();
+        final Date date = new Date();
         date.setTime(issued);
-        String s = date.toGMTString();
+        final String s = date.toGMTString();
         date.setTime(date.getTime() + time);
-        String a = date.toGMTString();
+        final String a = date.toGMTString();
         map.put("date", s);
         map.put("end", a);
         return new JSONObject(map);

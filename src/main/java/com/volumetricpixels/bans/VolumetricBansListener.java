@@ -1,6 +1,7 @@
 package com.volumetricpixels.bans;
 
-import java.util.HashMap;
+import gnu.trove.map.hash.THashMap;
+
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -180,7 +181,7 @@ public final class VolumetricBansListener implements Listener {
         // 1000 = 1s * 60 = 1m * 60 = 1hr
         private static final int SLEEP_MILLIS = 1000 * 60 * 60;
 
-        final Map<String, Boolean> recent = new HashMap<String, Boolean>();
+        final Map<String, Boolean> recent = new THashMap<String, Boolean>();
 
         @Override
         public void run() {

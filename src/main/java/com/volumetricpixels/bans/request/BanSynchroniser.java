@@ -1,9 +1,10 @@
 package com.volumetricpixels.bans.request;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public final class BanSynchroniser implements Runnable {
             final List<Ban> list = plugin.getStorageHandler().getBans();
             for (final Ban ban : list) {
                 boolean contains = false;
-                for (Ban b : lastList) {
+                for (final Ban b : lastList) {
                     if (!list.contains(b)) {
                         sendBan(ban, false);
                     }
@@ -99,7 +100,7 @@ public final class BanSynchroniser implements Runnable {
 
     private void sendBan(final Ban ban, final boolean add) {
         try {
-            final Map<String, String> post = new HashMap<String, String>();
+            final Map<String, String> post = new THashMap<String, String>();
             post.put("action", "ban");
             post.put("ban", ban.toJSONObject().toString());
             post.put("add", Boolean.toString(add));

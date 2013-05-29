@@ -1,6 +1,7 @@
 package com.volumetricpixels.bans;
 
-import java.util.HashMap;
+import gnu.trove.map.hash.THashMap;
+
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -153,7 +154,7 @@ public final class VolumetricBans extends CommonPlugin {
             if (onlineMode) {
                 try {
                     // Check api key validity
-                    final Map<String, String> postData = new HashMap<String, String>();
+                    final Map<String, String> postData = new THashMap<String, String>();
                     postData.put("action", "checkValidity");
                     JSONObject jO;
                     try {
@@ -213,19 +214,19 @@ public final class VolumetricBans extends CommonPlugin {
             if (onlineMode) {
                 boolean validAPIKey = true;
                 try {
-                    JSONObject jobj = dataReqHandler.submitRequest(Utilities.oneEntryMap("key", apiKey));
-                    String error = jobj.getString("error");
+                    final JSONObject jobj = dataReqHandler.submitRequest(Utilities.oneEntryMap("key", apiKey));
+                    final String error = jobj.getString("error");
                     if (error.toLowerCase().contains("invalid api key")) {
                         validAPIKey = false;
                         getLogger().severe("Your API key is invalid!");
                         getLogger().severe("Running in offline mode!");
                     }
-                } catch (DataRetrievalException e) {
+                } catch (final DataRetrievalException e) {
                     e.printStackTrace();
                     getLogger().severe("Could not check if API key is valid!");
                     getLogger().severe("Running in offline mode");
                     validAPIKey = false;
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     e.printStackTrace();
                     getLogger().severe("Could not check if API key is valid!");
                     getLogger().severe("Running in offline mode");
@@ -238,7 +239,7 @@ public final class VolumetricBans extends CommonPlugin {
                     final UpdateRequester updateReq = new UpdateRequester(this);
                     updateReqTask = scheduler.scheduleAsyncTask(this, updateReq);
 
-                    final Map<String, String> postData = new HashMap<String, String>();
+                    final Map<String, String> postData = new THashMap<String, String>();
                     postData.put("action", "checkPremiumServer");
                     try {
                         final JSONObject response = dataReqHandler.submitRequest(postData);
@@ -357,7 +358,7 @@ public final class VolumetricBans extends CommonPlugin {
      * @param online
      *            Whether the new state should be online or offline
      */
-    public void setOnlineMode(boolean online) {
+    public void setOnlineMode(final boolean online) {
         onlineMode = online;
     }
 

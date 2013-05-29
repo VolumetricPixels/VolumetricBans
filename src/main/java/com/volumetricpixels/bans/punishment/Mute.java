@@ -1,7 +1,8 @@
 package com.volumetricpixels.bans.punishment;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 
 import lib.org.json.JSONException;
@@ -180,7 +181,7 @@ public final class Mute implements Deletable {
      * @return A JSONObject created from this Mute object
      */
     public JSONObject toJSONObject() {
-        final Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new THashMap<String, Object>();
         map.put("player", player);
         map.put("reason", reason);
         map.put("admin", admin);
