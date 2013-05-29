@@ -2,6 +2,9 @@ package com.volumetricpixels.bans.punishment;
 
 import gnu.trove.map.hash.THashMap;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -23,6 +26,8 @@ import com.volumetricpixels.bans.storage.DeletableTimer;
 public final class Ban implements Deletable {
     /** Calendar instance */
     private static final Calendar c = Calendar.getInstance();
+    /** DateFormat instance */
+    private static final DateFormat df = new SimpleDateFormat("d mon yyyy hh:mm:ss GMT");
 
     /** VolumetricBans plugin, for timers and shit */
     private final VolumetricBans plugin;
@@ -235,7 +240,6 @@ public final class Ban implements Deletable {
      * 
      * @return A JSONObject representing the ban
      */
-    @SuppressWarnings("deprecation")
     public JSONObject toJSONObject() {
         final Map<String, Object> map = new THashMap<String, Object>();
         map.put("player", player);
@@ -245,9 +249,9 @@ public final class Ban implements Deletable {
         map.put("issuer", admin);
         final Date date = new Date();
         date.setTime(issued);
-        final String s = date.toGMTString();
-        date.setTime(date.getTime() + time);
-        final String a = date.toGMTString();
+        final String s = df.format(date);
+        date.setTime(date.getTime() + (time * 1000 * 60));
+        final String a = df.format(date);
         map.put("date", s);
         map.put("end", a);
         return new JSONObject(map);
@@ -335,11 +339,13 @@ public final class Ban implements Deletable {
             final String admin = jo.getString("issuer");
             final String date = jo.getString("date");
             final String end = jo.getString("end");
-            final long dateData = Date.parse(date) / 1000 / 60;
-            final long endData = Date.parse(end) / 1000 / 60;
+            final long dateData = df.parse(date).getTime() / 1000 / 60;
+            final long endData = df.parse(end).getTime() / 1000 / 60;
             return new Ban(plugin, player, reason, admin, endData - dateData, dateData, global, temp);
         } catch (final JSONException e) {
             throw new DataLoadException("Could not create a Ban object from given JSONObject", e);
+        } catch (ParseException e) {
+            throw new DataLoadException("Could not parse time!");
         }
     }
 }
