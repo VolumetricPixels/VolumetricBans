@@ -61,15 +61,15 @@ public final class APIRequestHandler {
     public JSONObject submitRequest(final Map<String, String> postData) throws DataRetrievalException {
         String urlReq = null;
         String json = null;
+        String action = postData.remove("action");
         synchronized (this) {
-            postMap.put("actionType", actionCategory);
-            postMap.putAll(postData);
             postMap.put("key", apiKey);
+            postMap.putAll(postData);
             urlReq = parsePostItems(postMap);
             postMap.clear();
 
             if (!plugin.isPremium()) {
-                json = doPerformRequest(urlReq);
+                json = doPerformRequest(action + "/" + urlReq);
             }
         }
 
@@ -97,7 +97,8 @@ public final class APIRequestHandler {
      */
     private String doPerformRequest(final String data) throws DataRetrievalException {
         try {
-            final URL u = new URL(apiServerHostName + "/api/" + actionCategory);
+            final String action = data.split("/")[0];
+            final URL u = new URL(apiServerHostName + "/query/" + actionCategory + "/" + action + "/");
             final URLConnection uc = u.openConnection();
             uc.setConnectTimeout(5500);
             uc.setReadTimeout(5500);
