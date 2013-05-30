@@ -33,7 +33,7 @@ public class VBMuteCommand extends VBCommand {
         }
 
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
+        cmdHelper.getRawArgs(context.getRawArgs());
 
         try {
             final String target = context.getString(0);
@@ -58,7 +58,7 @@ public class VBMuteCommand extends VBCommand {
                     time = Long.parseLong(timeStr.substring(0, timeStr.length() - 2));
                     unit = TimeUnit.parse(String.valueOf(timeStr.charAt(timeStr.length() - 1)));
                     time = (long) unit.toMinutes(time);
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     success = false;
                 }
                 if (unit == null) {
@@ -73,11 +73,11 @@ public class VBMuteCommand extends VBCommand {
 
             if (reason == null || reason.equals("")) {
                 if (temp) {
-                    Date date = new Date(Calendar.getInstance().getTimeInMillis());
+                    final Date date = new Date(Calendar.getInstance().getTimeInMillis());
                     date.setTime(date.getTime() + unit.toMillis(time));
-                    reason = ("You are temporarily muted until " + Ban.df.format(date));
+                    reason = "You are temporarily muted until " + Ban.df.format(date);
                 } else {
-                    reason = ("You are muted!");
+                    reason = "You are muted!";
                 }
             }
 

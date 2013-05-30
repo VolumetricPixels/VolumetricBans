@@ -32,7 +32,7 @@ public class VBBanCommand extends VBCommand {
             }
         }
 
-        final VBCommandHelper cmdHelper = plugin.getCommandHelper();
+        plugin.getCommandHelper();
 
         try {
             final String target = context.getString(0);
@@ -62,7 +62,7 @@ public class VBBanCommand extends VBCommand {
                     time = Long.parseLong(timeStr.substring(0, timeStr.length() - 2));
                     unit = TimeUnit.parse(String.valueOf(timeStr.charAt(timeStr.length() - 1)));
                     time = (long) unit.toMinutes(time);
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     success = false;
                 }
                 if (unit == null) {
@@ -78,11 +78,11 @@ public class VBBanCommand extends VBCommand {
             if (reason == null || reason.equals("")) {
                 if (!global) {
                     if (temp) {
-                        Date date = new Date(Calendar.getInstance().getTimeInMillis());
+                        final Date date = new Date(Calendar.getInstance().getTimeInMillis());
                         date.setTime(date.getTime() + unit.toMillis(time));
-                        reason = ("You are temporarily banned from this server until " + Ban.df.format(date));
+                        reason = "You are temporarily banned from this server until " + Ban.df.format(date);
                     } else {
-                        reason = ("You are banned from this server, see volumetricbans.net!");
+                        reason = "You are banned from this server, see volumetricbans.net!";
                     }
                 } else {
                     throw new CommandException("Global bans must have reasons!");

@@ -251,7 +251,7 @@ public final class Ban implements Deletable {
         final Date date = new Date();
         date.setTime(issued);
         final String s = df.format(date);
-        date.setTime(date.getTime() + (time * 1000 * 60));
+        date.setTime(date.getTime() + time * 1000 * 60);
         final String a = df.format(date);
         map.put("date", s);
         map.put("end", a);
@@ -344,7 +344,7 @@ public final class Ban implements Deletable {
             return new Ban(plugin, player, reason, admin, endData - dateData, dateData, global, temp);
         } catch (final JSONException e) {
             throw new DataLoadException("Could not create a Ban object from given JSONObject", e);
-        } catch (ParseException e) {
+        } catch (final ParseException e) {
             throw new DataLoadException("Could not parse time!");
         }
     }

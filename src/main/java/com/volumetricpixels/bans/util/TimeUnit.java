@@ -48,7 +48,7 @@ public enum TimeUnit {
      * 
      * @return The amount of milliseconds in the given amount of time
      */
-    public long toMillis(long time) {
+    public long toMillis(final long time) {
         switch (this) {
             case SECONDS:
                 return time * 1000;

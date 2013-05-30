@@ -63,8 +63,7 @@ public final class Utilities {
 
     public static <A, B> Map<A, B> oneEntryMap(final A key, final B value) {
         @SuppressWarnings("unchecked")
-        final
-        Map<A, B> map = new THashMap();
+        final Map<A, B> map = new THashMap();
         map.put(key, value);
         return map;
     }
