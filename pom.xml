@@ -38,6 +38,7 @@
 			<artifactId>spoutapi</artifactId>
 			<version>dev-SNAPSHOT</version>
 			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
