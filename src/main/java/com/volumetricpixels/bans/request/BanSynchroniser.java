@@ -101,9 +101,13 @@ public final class BanSynchroniser implements Runnable {
     private void sendBan(final Ban ban, final boolean add) {
         try {
             final Map<String, String> post = new THashMap<String, String>();
-            post.put("action", "ban");
-            post.put("ban", ban.toJSONObject().toString());
-            post.put("add", Boolean.toString(add));
+            if (add) {
+                post.put("action", "ban");
+                post.put("ban", ban.toJSONObject().toString());
+            } else {
+                post.put("action", "unban");
+                post.put("player", ban.getPlayerName());
+            }
             arh.submitRequest(post);
         } catch (final DataRetrievalException e) {
             e.printStackTrace();
