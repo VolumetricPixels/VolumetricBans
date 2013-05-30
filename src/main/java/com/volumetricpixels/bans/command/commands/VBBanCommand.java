@@ -1,5 +1,8 @@
 package com.volumetricpixels.bans.command.commands;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
@@ -30,46 +33,57 @@ public class VBBanCommand extends VBCommand {
         }
 
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
 
         try {
-            boolean global = false;
+            final String target = context.getString(0);
+            if (target == null) {
+                throw new CommandException("You must specify a target!");
+            }
+            final String timeStr = context.getFlagString('t');
+            final String globalStr = context.getFlagString('g');
+            int initialIndex = 1;
+            if (timeStr != null) {
+                initialIndex++;
+            }
+            if (globalStr != null) {
+                initialIndex++;
+            }
+
+            String reason = context.getJoinedString(initialIndex).getPlainString();
+            final boolean global = globalStr.equals("yes") || Boolean.parseBoolean(globalStr);
+
             boolean temp = false;
-            long time = 0;
-            TimeUnit tt = null;
-            final StringBuilder reason = new StringBuilder();
+            long time = -1;
+            TimeUnit unit = null;
 
-            final String target = args[0];
-            for (int i = 1; i < args.length; i++) {
-                final String argument = args[i].toLowerCase();
-                if (!global && argument.equals("t") || argument.equals("-t") || argument.equals("time") || argument.equals("-time")) {
-                    String timeArg = args[++i];
-                    long l = 0;
-                    try {
-                        l = Long.parseLong(timeArg.substring(0, timeArg.length() - 1));
-                    } catch (final NumberFormatException e) {
-                        l = 6;
-                        timeArg = "6h";
-                    }
-                    final String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
-                    tt = TimeUnit.parse(unit);
-                    time = (long) tt.toMinutes(l);
-                    temp = true;
-                    continue;
-                } else if (!temp && argument.equals("g") || argument.equals("-g") || argument.equals("global") || argument.equals("-global")) {
-                    global = true;
-                    continue;
+            if (timeStr != null) {
+                boolean success = true;
+                try {
+                    time = Long.parseLong(timeStr.substring(0, timeStr.length() - 2));
+                    unit = TimeUnit.parse(String.valueOf(timeStr.charAt(timeStr.length() - 1)));
+                    time = (long) unit.toMinutes(time);
+                } catch (NumberFormatException e) {
+                    success = false;
                 }
-
-                reason.append(argument);
-                if (i != args.length - 1) {
-                    reason.append(" ");
+                if (unit == null) {
+                    success = false;
+                }
+                if (!success) {
+                    throw new CommandException("Invalid time given!");
+                } else {
+                    temp = true;
                 }
             }
 
-            if (reason.toString().equals("")) {
+            if (reason == null || reason.equals("")) {
                 if (!global) {
-                    reason.append("You are banned from this server, see volumetricbans.net!");
+                    if (temp) {
+                        Date date = new Date(Calendar.getInstance().getTimeInMillis());
+                        date.setTime(date.getTime() + unit.toMillis(time));
+                        reason = ("You are temporarily banned from this server until " + Ban.df.format(date));
+                    } else {
+                        reason = ("You are banned from this server, see volumetricbans.net!");
+                    }
                 } else {
                     throw new CommandException("Global bans must have reasons!");
                 }
@@ -82,7 +96,7 @@ public class VBBanCommand extends VBCommand {
                 sHandler.getBans().add(new Ban(plugin, target, global, reason.toString(), source.getName()));
             }
         } catch (final ArrayIndexOutOfBoundsException e) {
-            throw new CommandException("Invalid syntax, /vb ban <player> [-t(ime) time] [-g(lobal)] [ban reason]\n" + "<> = Required argument, [] = Optional argument");
+            throw new CommandException("Invalid syntax, /vb ban <player> [-t time] [-g] [ban reason]\n" + "<> = Required argument, [] = Optional argument");
         }
     }
 }

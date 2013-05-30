@@ -24,10 +24,11 @@ import com.volumetricpixels.bans.storage.DeletableTimer;
  * Represents a Ban
  */
 public final class Ban implements Deletable {
+    /** DateFormat instance */
+    public static final DateFormat df = new SimpleDateFormat("d mon yyyy hh:mm:ss GMT");
+
     /** Calendar instance */
     private static final Calendar c = Calendar.getInstance();
-    /** DateFormat instance */
-    private static final DateFormat df = new SimpleDateFormat("d mon yyyy hh:mm:ss GMT");
 
     /** VolumetricBans plugin, for timers and shit */
     private final VolumetricBans plugin;
@@ -329,7 +330,6 @@ public final class Ban implements Deletable {
      * @throws DataLoadException
      *             When there is a problem parsing the JSONObject
      */
-    @SuppressWarnings("deprecation")
     public static Ban fromJSONObject(final VolumetricBans plugin, final JSONObject jo) throws DataLoadException {
         try {
             final String player = jo.getString("player");

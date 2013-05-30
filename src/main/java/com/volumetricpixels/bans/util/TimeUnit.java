@@ -41,6 +41,29 @@ public enum TimeUnit {
     }
 
     /**
+     * Converts the given amount of time to milliseconds
+     * 
+     * @param time
+     *            The amount of time in this TimeUnit
+     * 
+     * @return The amount of milliseconds in the given amount of time
+     */
+    public long toMillis(long time) {
+        switch (this) {
+            case SECONDS:
+                return time * 1000;
+            case MINUTES:
+                return time * 60 * 1000;
+            case HOURS:
+                return time * 60 * 60 * 1000;
+            case DAYS:
+                return time * 24 * 60 * 60 * 1000;
+            default:
+                return time;
+        }
+    }
+
+    /**
      * Parses a TimeUnit from a string
      * 
      * @param string

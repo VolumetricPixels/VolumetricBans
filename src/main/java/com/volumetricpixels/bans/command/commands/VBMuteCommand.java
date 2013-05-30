@@ -1,5 +1,8 @@
 package com.volumetricpixels.bans.command.commands;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
@@ -8,6 +11,7 @@ import org.spout.api.exception.CommandException;
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.command.VBCommand;
 import com.volumetricpixels.bans.command.VBCommandHelper;
+import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.punishment.Mute;
 import com.volumetricpixels.bans.util.TimeUnit;
 
@@ -32,33 +36,51 @@ public class VBMuteCommand extends VBCommand {
         final String[] args = cmdHelper.getRawArgs(context.getRawArgs());
 
         try {
+            final String target = context.getString(0);
+            if (target == null) {
+                throw new CommandException("You must specify a target!");
+            }
+            final String timeStr = context.getFlagString('t');
+            int initialIndex = 1;
+            if (timeStr != null) {
+                initialIndex++;
+            }
+
+            String reason = context.getJoinedString(initialIndex).getPlainString();
+
+            boolean temp = false;
             long time = -1;
-            TimeUnit tt = null;
-            final StringBuilder reason = new StringBuilder();
+            TimeUnit unit = null;
 
-            final String target = args[0];
-            for (int i = 1; i < args.length; i++) {
-                final String argument = args[i].toLowerCase();
-                if (argument.equals("t") || argument.equals("-t") || argument.equals("time") || argument.equals("-time")) {
-                    String timeArg = args[++i];
-                    long l = 0;
-                    try {
-                        l = Long.parseLong(timeArg.substring(0, timeArg.length() - 1));
-                    } catch (final NumberFormatException e) {
-                        l = 6;
-                        timeArg = "6h";
-                    }
-                    final String unit = Character.toString(timeArg.charAt(timeArg.length() - 1));
-                    tt = TimeUnit.parse(unit);
-                    time = (long) tt.toMinutes(l);
-                    continue;
+            if (timeStr != null) {
+                boolean success = true;
+                try {
+                    time = Long.parseLong(timeStr.substring(0, timeStr.length() - 2));
+                    unit = TimeUnit.parse(String.valueOf(timeStr.charAt(timeStr.length() - 1)));
+                    time = (long) unit.toMinutes(time);
+                } catch (NumberFormatException e) {
+                    success = false;
                 }
-
-                reason.append(argument);
-                if (i != args.length - 1) {
-                    reason.append(" ");
+                if (unit == null) {
+                    success = false;
+                }
+                if (!success) {
+                    throw new CommandException("Invalid time given!");
+                } else {
+                    temp = true;
                 }
             }
+
+            if (reason == null || reason.equals("")) {
+                if (temp) {
+                    Date date = new Date(Calendar.getInstance().getTimeInMillis());
+                    date.setTime(date.getTime() + unit.toMillis(time));
+                    reason = ("You are temporarily muted until " + Ban.df.format(date));
+                } else {
+                    reason = ("You are muted!");
+                }
+            }
+
             plugin.getStorageHandler().getMutes().add(new Mute(plugin, target, reason.toString(), source.getName(), time));
         } catch (final ArrayIndexOutOfBoundsException e) {
             throw new CommandException("Invalid syntax, /vb mute <player> [-t(ime) time] [mute reason]\n" + "<> = Required argument, [] = Optional argument");
