@@ -32,7 +32,7 @@ public class VBLookupCommand extends VBCommand {
             }
         }
 
-        final String target = plugin.getCommandHelper().getRawArgs(args.getRawArgs())[0];
+        final String target = args.getString(0);
         try {
             final boolean globalPermaBan = Utilities.isPermaGlobalBanned(handler, target);
             source.sendMessage(ChatStyle.GOLD, "VolumetricBans", ChatStyle.GRAY, " - Statistics for ", ChatStyle.BRIGHT_GREEN, target);

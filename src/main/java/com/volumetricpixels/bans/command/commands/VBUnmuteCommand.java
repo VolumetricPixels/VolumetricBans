@@ -27,11 +27,8 @@ public class VBUnmuteCommand extends VBCommand {
             }
         }
 
-        final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        final String[] arguments = cmdHelper.getRawArgs(args.getRawArgs());
-
         try {
-            final String target = arguments[0];
+            final String target = args.getString(0);
             plugin.getPunishmentManager().removeMutesOnPlayer(target);
             source.sendMessage(ChatStyle.GRAY, "Unmuted " + target);
         } catch (final ArrayIndexOutOfBoundsException e) {

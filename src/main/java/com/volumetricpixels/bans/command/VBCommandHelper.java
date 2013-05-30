@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.spout.api.chat.ChatSection;
 import org.spout.api.chat.style.ChatStyle;
+import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
@@ -46,15 +47,15 @@ public class VBCommandHelper {
      * @throws CommandException
      *             When there is a lack of good input
      */
-    public void sendVBHelp(final CommandSource sender, final String[] args) throws CommandException {
+    public void sendVBHelp(final CommandSource sender, final CommandContext args) throws CommandException {
         final int numCommands = vbansSubs.size();
         final int pages = (int) Math.ceil(numCommands / COMMANDS_PER_PAGE);
         int page = 1;
 
-        if (args.length > 0) {
+        if (args.length() > 0) {
             try {
-                page = Integer.parseInt(args[0]);
-                if (page > pages) {
+                page = args.getInteger(0);
+                if (page > pages || page < 0) {
                     throw new CommandException("Invalid page number!");
                 }
             } catch (final NumberFormatException e) {
@@ -75,21 +76,5 @@ public class VBCommandHelper {
             list.add("/vb " + vbansSubs.get(cmdNo));
             sender.sendMessage(list);
         }
-    }
-
-    /**
-     * Gets a raw String[] of args from a List of ChatSections
-     * 
-     * @param chatSections
-     *            The List of ChatSections to turn into raw args
-     * 
-     * @return The raw String[] for a List of ChatSections
-     */
-    public String[] getRawArgs(final List<ChatSection> chatSections) {
-        final String[] array = new String[chatSections.size()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = chatSections.get(i).getPlainString();
-        }
-        return array;
     }
 }

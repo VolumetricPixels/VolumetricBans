@@ -32,8 +32,6 @@ public class VBBanCommand extends VBCommand {
             }
         }
 
-        plugin.getCommandHelper();
-
         try {
             final String target = context.getString(0);
             if (target == null) {

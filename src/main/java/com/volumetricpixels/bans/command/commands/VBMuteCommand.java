@@ -32,9 +32,6 @@ public class VBMuteCommand extends VBCommand {
             }
         }
 
-        final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        cmdHelper.getRawArgs(context.getRawArgs());
-
         try {
             final String target = context.getString(0);
             if (target == null) {

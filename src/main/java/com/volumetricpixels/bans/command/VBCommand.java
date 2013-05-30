@@ -36,8 +36,7 @@ public abstract class VBCommand implements CommandExecutor {
      * @return A Command object representing this command
      */
     public final Command register(final Command parent) {
-        if (primary == null)
-        {
+        if (primary == null) {
             return null; // Don't register
         }
 

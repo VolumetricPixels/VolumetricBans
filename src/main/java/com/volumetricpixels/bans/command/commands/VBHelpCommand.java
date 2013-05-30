@@ -27,6 +27,6 @@ public class VBHelpCommand extends VBCommand {
         }
 
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        cmdHelper.sendVBHelp(source, cmdHelper.getRawArgs(context.getRawArgs()));
+        cmdHelper.sendVBHelp(source, context);
     }
 }
