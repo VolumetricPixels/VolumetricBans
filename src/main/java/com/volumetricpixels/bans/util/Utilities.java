@@ -51,7 +51,7 @@ public final class Utilities {
      */
     public static boolean isPermaGlobalBanned(final APIRequestHandler handler, final String playerName) throws DataRetrievalException {
         final Map<String, String> postData = new THashMap<String, String>();
-        postData.put("action", "isGlobalBanned");
+        postData.put("action", "isBanned");
         postData.put("playerName", playerName);
         final JSONObject response = handler.submitRequest(postData);
         try {
