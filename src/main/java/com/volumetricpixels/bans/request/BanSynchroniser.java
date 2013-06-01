@@ -49,10 +49,11 @@ public final class BanSynchroniser implements Runnable {
      */
     @Override
     public void run() {
+        final File lastListFile = plugin.getFileManager().getBanSyncFile();
+        final JSONFileHandler j = new JSONFileHandler(lastListFile);
         while (true) {
             if (lastList == null) {
                 lastList = new ArrayList<Ban>();
-                final File lastListFile = plugin.getFileManager().getBanSyncFile();
                 if (!lastListFile.exists()) {
                     try {
                         lastListFile.createNewFile();
@@ -60,12 +61,13 @@ public final class BanSynchroniser implements Runnable {
                         e.printStackTrace();
                     }
                 } else {
-                    final JSONFileHandler j = new JSONFileHandler(lastListFile);
                     JSONObject curJObj = null;
                     try {
+                        j.startReading();
                         while ((curJObj = j.read()) != null) {
                             lastList.add(Ban.fromJSONObject(plugin, curJObj));
                         }
+                        j.stopReading();
                     } catch (final StorageException e) {
                         e.printStackTrace();
                     } catch (final DataLoadException e) {
@@ -96,6 +98,16 @@ public final class BanSynchroniser implements Runnable {
                 if (!contains) {
                     sendBan(ban, true);
                 }
+            }
+
+            try {
+                j.startWriting();
+                for (final Ban ban : list) {
+                    j.write(ban.toJSONObject());
+                }
+                j.stopWriting();
+            } catch (final StorageException e) {
+                e.printStackTrace();
             }
 
             try {
