@@ -76,8 +76,16 @@ public final class BanSynchroniser implements Runnable {
 
             final List<Ban> list = plugin.getStorageHandler().getBans();
             for (final Ban ban : list) {
+                if (!ban.isGlobal()) {
+                    continue;
+                }
+
                 boolean contains = false;
-                for (final Ban b : lastList) {
+                a: for (final Ban b : lastList) {
+                    if (!b.isGlobal()) {
+                        continue a;
+                    }
+
                     if (!list.contains(b)) {
                         sendBan(ban, false);
                     }
