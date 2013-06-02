@@ -73,7 +73,7 @@ public class VBCommandHelper {
         for (int cmdNo = orig; cmdNo < orig + 7; cmdNo++) {
             final List<Object> list = new ArrayList<Object>();
             list.add(ChatStyle.CYAN);
-            list.add("/vb " + vbansSubs.get(cmdNo));
+            list.add("/vb " + vbansSubs.get(cmdNo) + "\n");
             sender.sendMessage(list);
         }
     }
