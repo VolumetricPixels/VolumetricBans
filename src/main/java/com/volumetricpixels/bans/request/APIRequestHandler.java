@@ -64,14 +64,14 @@ public final class APIRequestHandler {
             urlReq = parsePostItems(postMap);
             postMap.clear();
 
-            if (!plugin.isPremium()) {
-                json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
-            }
+//          if (!plugin.isPremium()) {
+//              json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
+//          }
         }
 
-        if (plugin.isPremium()) {
-            json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
-        }
+//      if (plugin.isPremium()) {
+        json = doPerformRequest((action != null ? action + "/" : "") + urlReq);
+//      }
 
         try {
             return new JSONObject(json);

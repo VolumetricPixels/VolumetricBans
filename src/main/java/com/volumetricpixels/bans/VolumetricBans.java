@@ -30,7 +30,6 @@ import com.volumetricpixels.bans.exception.VolumetricBansInitialisationException
 import com.volumetricpixels.bans.punishment.PunishmentManager;
 import com.volumetricpixels.bans.request.APIRequestHandler;
 import com.volumetricpixels.bans.request.BanSynchroniser;
-import com.volumetricpixels.bans.request.UpdateRequester;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 import com.volumetricpixels.bans.storage.file.FileManager;
 import com.volumetricpixels.bans.util.Utilities;
@@ -236,23 +235,21 @@ public final class VolumetricBans extends CommonPlugin {
                 if (validAPIKey) {
                     final BanSynchroniser banSync = new BanSynchroniser(this);
                     banSyncTask = scheduler.scheduleAsyncTask(this, banSync);
-                    final UpdateRequester updateReq = new UpdateRequester(this);
-                    updateReqTask = scheduler.scheduleAsyncTask(this, updateReq);
 
-                    final Map<String, String> postData = new THashMap<String, String>();
-                    postData.put("action", "checkPremiumServer");
-                    try {
-                        final JSONObject response = dataReqHandler.submitRequest(postData);
-                        premium = response.getBoolean("result");
-                    } catch (final JSONException e) {
-                        e.printStackTrace();
-                        getLogger().warning("Could not check if server is premium!");
-                        getLogger().warning("If your server is premium, you will not have premium features until you restart");
-                    } catch (final DataRetrievalException e) {
-                        e.printStackTrace();
-                        getLogger().warning("Could not check if server is premium!");
-                        getLogger().warning("If your server is premium, you will not have premium features until you restart");
-                    }
+//                  final Map<String, String> postData = new THashMap<String, String>();
+//                  postData.put("action", "isPremium");
+//                  try {
+//                      final JSONObject response = dataReqHandler.submitRequest(postData);
+//                      premium = response.getBoolean("result");
+//                  } catch (final JSONException e) {
+//                      e.printStackTrace();
+//                      getLogger().warning("Could not check if server is premium!");
+//                      getLogger().warning("If your server is premium, you will not have premium features until you restart");
+//                  } catch (final DataRetrievalException e) {
+//                      e.printStackTrace();
+//                      getLogger().warning("Could not check if server is premium!");
+//                      getLogger().warning("If your server is premium, you will not have premium features until you restart");
+//                  }
                 } else {
                     onlineMode = false;
                 }
