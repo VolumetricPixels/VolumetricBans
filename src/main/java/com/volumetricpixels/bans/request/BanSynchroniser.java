@@ -18,8 +18,8 @@ import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.storage.file.JSONFileHandler;
 
 /**
- * Synchronises bans with the server every ~10 minutes (differs slightly because
- * of time taken to synchronise)
+ * Synchronises global bans with the server every ~10 minutes (differs slightly
+ * because of time taken to synchronise)
  */
 public final class BanSynchroniser implements Runnable {
     /** 10 minutes (1000 millis / sec, 60 secs / min, 10 mins) */
@@ -45,7 +45,8 @@ public final class BanSynchroniser implements Runnable {
     }
 
     /**
-     * Runs the ban synchronisation
+     * Runs the ban synchronisation task in a loop, with 10 minutes between
+     * loops
      */
     @Override
     public void run() {

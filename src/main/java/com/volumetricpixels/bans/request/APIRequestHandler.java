@@ -20,7 +20,8 @@ import com.volumetricpixels.bans.exception.DataRetrievalException;
 
 /**
  * Submits requests to the VolumetricBans API servers, and parses the returned
- * JSON data
+ * JSON data into JSONObjects. Used for all web API calls in the VolumetricBans
+ * plugin
  */
 public final class APIRequestHandler {
     /** The VolumetricBans plugin */
@@ -36,7 +37,7 @@ public final class APIRequestHandler {
      * Creates a new APIRequestHandler
      * 
      * @param plugin
-     *            The VolumetricBans plugin
+     *            The VolumetricBans plugin object
      */
     public APIRequestHandler(final VolumetricBans plugin) {
         this.plugin = plugin;
@@ -44,12 +45,13 @@ public final class APIRequestHandler {
     }
 
     /**
-     * Retrieves JSON data from the server
+     * Sends data to the server and returns what the server sends back in the
+     * form of a JSONObject
      * 
      * @param postData
      *            The post data to submit
      * 
-     * @return A JSONObject parsed from data the server sent
+     * @return A JSONObject parsed from data the server returned
      * 
      * @throws DataRetrievalException
      *             When we fail to retrieve data
@@ -81,7 +83,8 @@ public final class APIRequestHandler {
     }
 
     /**
-     * Performs an API request
+     * Internal method, sends data to the server and reads / returns the JSON
+     * response as a string
      * 
      * @param data
      *            Post data to submit
@@ -124,7 +127,20 @@ public final class APIRequestHandler {
     }
 
     /**
-     * Parses a Map of post items into a UTF-8 string
+     * Parses a Map of post items into a UTF-8 encoded string. Calling this
+     * method using the following code:
+     * 
+     * <pre>
+     * map.put(&quot;key&quot;, &quot;value&quot;);
+     * map.put(&quot;two&quot;, &quot;three&quot;);
+     * parsePostItems(map);
+     * </pre>
+     * 
+     * Would return the following, encoded in UTF-8:
+     * 
+     * <pre>
+     * key=value&two=three
+     * </pre>
      * 
      * @param postData
      *            A Map of data to parse
@@ -153,9 +169,10 @@ public final class APIRequestHandler {
     }
 
     /**
-     * Gets the VolumetricBans plugin
+     * Gets the VolumetricBans plugin instance that was supplied when this
+     * APIRequestHandler instance was created via a constructor
      * 
-     * @return The VolumetricBans plugin
+     * @return The VolumetricBans plugin instance
      */
     public VolumetricBans getPlugin() {
         return plugin;
