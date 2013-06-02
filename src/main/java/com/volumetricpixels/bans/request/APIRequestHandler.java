@@ -31,7 +31,7 @@ public final class APIRequestHandler {
     /** Utility Map for requests */
     private final Map<String, String> postMap = new THashMap<String, String>();
     /** The address for the API server */
-    private final String apiServerHostName = "vbans-dev.herokuapp.com";
+    private final String apiServerHostName = VolumetricBans.WEBSITE_URL;
 
     /**
      * Creates a new APIRequestHandler

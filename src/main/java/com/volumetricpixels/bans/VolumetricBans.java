@@ -41,6 +41,8 @@ import com.volumetricpixels.bans.util.Utilities;
 public final class VolumetricBans extends CommonPlugin {
     /** The PluginLogger prefix (tag) */
     public static final String LOGGER_TAG = "[VolumetricBans] ";
+    /** The website URL */
+    public static final String WEBSITE_URL = "vbans-dev.herokuapp.com";
 
     // Config info
     /** The server's API key */
@@ -128,6 +130,8 @@ public final class VolumetricBans extends CommonPlugin {
 
             final YamlConfiguration config = new YamlConfiguration(fileSystem.getConfigFile());
             config.setWritesDefaults(true);
+            config.setPathSeparator(".");
+            config.setHeader(Utilities.genConfigHeader(this));
 
             try {
                 config.load();

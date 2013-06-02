@@ -2,11 +2,14 @@ package com.volumetricpixels.bans.util;
 
 import gnu.trove.map.hash.THashMap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import lib.org.json.JSONException;
 import lib.org.json.JSONObject;
 
+import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.exception.DataRetrievalException;
 import com.volumetricpixels.bans.request.APIRequestHandler;
 
@@ -66,5 +69,15 @@ public final class Utilities {
         final Map<A, B> map = new THashMap();
         map.put(key, value);
         return map;
+    }
+
+    public static String[] genConfigHeader(VolumetricBans vb) {
+        List<String> lines = new ArrayList<String>();
+        String version = vb.getDescription().getVersion();
+        lines.add("VolumetricBans " + version + " - " + VolumetricBans.WEBSITE_URL);
+        lines.add("Developed by VolumetricPixels - http://volumetricpixels.com");
+        lines.add("");
+        lines.add("Configuration File (" + version + ")");
+        return lines.toArray(new String[lines.size()]);
     }
 }
