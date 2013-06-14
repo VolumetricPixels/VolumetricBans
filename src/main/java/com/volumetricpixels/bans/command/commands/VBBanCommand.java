@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.spout.api.command.Command;
-import org.spout.api.command.CommandContext;
+import org.spout.api.command.CommandArguments;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
@@ -25,13 +25,7 @@ public class VBBanCommand extends VBCommand {
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
-                throw new CommandException("You don't have permission!");
-            }
-        }
-
+    public void execute(final CommandSource source, final Command cmd, final CommandArguments context) throws CommandException {
         try {
             final String target = context.getString(0);
             if (target == null) {
@@ -47,7 +41,7 @@ public class VBBanCommand extends VBCommand {
                 initialIndex++;
             }
 
-            String reason = context.getJoinedString(initialIndex).getPlainString();
+            String reason = context.getJoinedString(initialIndex);
             final boolean global = globalStr.equals("yes") || Boolean.parseBoolean(globalStr);
 
             boolean temp = false;

@@ -1,7 +1,7 @@
 package com.volumetricpixels.bans.command.commands;
 
 import org.spout.api.command.Command;
-import org.spout.api.command.CommandContext;
+import org.spout.api.command.CommandArguments;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
@@ -19,13 +19,7 @@ public class VBHelpCommand extends VBCommand {
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(final CommandSource source, final Command cmd, final CommandContext context) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
-                throw new CommandException("You don't have permission!");
-            }
-        }
-
+    public void execute(final CommandSource source, final Command cmd, final CommandArguments context) throws CommandException {
         final VBCommandHelper cmdHelper = plugin.getCommandHelper();
         cmdHelper.sendVBHelp(source, context);
     }

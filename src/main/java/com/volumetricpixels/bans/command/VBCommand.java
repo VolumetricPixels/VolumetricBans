@@ -1,7 +1,7 @@
 package com.volumetricpixels.bans.command;
 
 import org.spout.api.command.Command;
-import org.spout.api.command.CommandExecutor;
+import org.spout.api.command.Executor;
 
 import com.volumetricpixels.bans.VolumetricBans;
 
@@ -9,7 +9,7 @@ import com.volumetricpixels.bans.VolumetricBans;
  * Represents a command that can be run in VolumetricBans. Helps out with
  * command registration
  */
-public abstract class VBCommand implements CommandExecutor {
+public abstract class VBCommand implements Executor {
     /** The VolumetricBans plugin */
     protected final VolumetricBans plugin;
 
@@ -40,12 +40,11 @@ public abstract class VBCommand implements CommandExecutor {
             return null; // Don't register
         }
 
-        final Command cmd = parent.addSubCommand(plugin, primary);
+        final Command cmd = parent.getChild(primary);
         cmd.setExecutor(this);
         cmd.addAlias(getAliases());
-        cmd.setPermissions(true, getPermissions());
+        cmd.setPermission(getPermission());
         setupCommand(cmd);
-        cmd.closeSubCommand();
         return cmd;
     }
 
@@ -63,8 +62,8 @@ public abstract class VBCommand implements CommandExecutor {
      * 
      * @return A String[] of permissions for this command
      */
-    protected String[] getPermissions() {
-        return new String[] { "volumetricbans.admin." + primary };
+    protected String getPermission() {
+        return "volumetricbans.admin." + primary;
     }
 
     /**
@@ -74,6 +73,6 @@ public abstract class VBCommand implements CommandExecutor {
      *            The command to set up
      */
     public void setupCommand(final Command cmd) {
-        cmd.setArgBounds(0, -1);
+        cmd.setArgumentBounds(0, -1);
     }
 }

@@ -3,7 +3,7 @@ version: ${project.version}
 main: com.volumetricpixels.bans.VolumetricBans
 
 author: VolumetricPixels
-authors: [DziNeIT, AlbireoX]
+authors: [AlbireoX, DziNeIT, kitskub]
 description: ${project.description}
             
 platform: BOTH

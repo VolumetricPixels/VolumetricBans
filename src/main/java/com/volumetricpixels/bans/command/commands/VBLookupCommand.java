@@ -1,8 +1,7 @@
 package com.volumetricpixels.bans.command.commands;
 
-import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.Command;
-import org.spout.api.command.CommandContext;
+import org.spout.api.command.CommandArguments;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
@@ -25,18 +24,12 @@ public class VBLookupCommand extends VBCommand {
 
     /** {@inheritDoc} */
     @Override
-    public void processCommand(final CommandSource source, final Command cmd, final CommandContext args) throws CommandException {
-        for (final String perm : getPermissions()) {
-            if (!source.hasPermission(perm)) {
-                throw new CommandException("You don't have permission!");
-            }
-        }
-
+    public void execute(final CommandSource source, final Command cmd, final CommandArguments args) throws CommandException {
         final String target = args.getString(0);
         try {
             final boolean globalPermaBan = Utilities.isPermaGlobalBanned(handler, target);
-            source.sendMessage(ChatStyle.GOLD, "VolumetricBans", ChatStyle.GRAY, " - Statistics for ", ChatStyle.BRIGHT_GREEN, target);
-            source.sendMessage(ChatStyle.GRAY, "Is globally permabanned: " + globalPermaBan);
+            source.sendMessage(target);
+            source.sendMessage("Is globally permabanned: " + globalPermaBan);
         } catch (final DataRetrievalException e) {
             throw new CommandException("Could not retrieve data for " + target);
         } catch (final ArrayIndexOutOfBoundsException e) {
