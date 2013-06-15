@@ -31,7 +31,7 @@ public final class VolumetricBansListener implements Listener {
 	/** The checking thread pool */
 	private final ExecutorService threadPool;
 	/** Player checker for non-premium services */
-	private final PlayerCheckThread checker;
+//	private final PlayerCheckThread checker;
 	/** Cache of safe and banned players */
 	private final SafePlayerCache cache;
 
@@ -48,7 +48,7 @@ public final class VolumetricBansListener implements Listener {
 
 //      if (plugin.isPremium()) {
 		threadPool = Executors.newFixedThreadPool(5);
-		checker = null;
+//		checker = null;
 //      } else {
 //          checker = new PlayerCheckThread();
 //          threadPool = null;
@@ -103,56 +103,56 @@ public final class VolumetricBansListener implements Listener {
 		return threadPool;
 	}
 
-	/**
-	 * Checks players for global bans
-	 */
-	public final class PlayerCheckThread extends Thread {
-		private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
-
-		@Override
-		public void run() {
-			while (!isInterrupted()) {
-				try {
-					final String player = queue.take();
-					try {
-						if (cache.recent.containsKey(player)) {
-							if (cache.recent.get(player)) {
-								final Player p = plugin.getEngine().getPlayer(
-										player, true);
-								if (p != null) {
-									p.kick("You are globally banned from VolumetricBans servers, see volumetricbans.net!");
-									plugin.getLogger().info(
-											"Kicked globally permabanned player "
-													+ player + "!");
-								}
-							}
-							continue;
-						} else {
-							final boolean banned = Utilities
-									.isPermaGlobalBanned(arh, player);
-							if (banned) {
-								final Player p = plugin.getEngine().getPlayer(
-										player, true);
-								if (p != null) {
-									p.kick("You are globally banned from VolumetricBans servers, see volumetricbans.net!");
-									plugin.getLogger().info(
-											"Kicked globally permabanned player "
-													+ player + "!");
-								}
-								cache.recent.put(player, true);
-							} else {
-								cache.recent.put(player, false);
-							}
-						}
-					} catch (final DataRetrievalException e) {
-						e.printStackTrace();
-					}
-				} catch (final InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+//	/**
+//	 * Checks players for global bans
+//	 */
+//	public final class PlayerCheckThread extends Thread {
+//		private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
+//
+//		@Override
+//		public void run() {
+//			while (!isInterrupted()) {
+//				try {
+//					final String player = queue.take();
+//					try {
+//						if (cache.recent.containsKey(player)) {
+//							if (cache.recent.get(player)) {
+//								final Player p = plugin.getEngine().getPlayer(
+//										player, true);
+//								if (p != null) {
+//									p.kick("You are globally banned from VolumetricBans servers, see volumetricbans.net!");
+//									plugin.getLogger().info(
+//											"Kicked globally permabanned player "
+//													+ player + "!");
+//								}
+//							}
+//							continue;
+//						} else {
+//							final boolean banned = Utilities
+//									.isPermaGlobalBanned(arh, player);
+//							if (banned) {
+//								final Player p = plugin.getEngine().getPlayer(
+//										player, true);
+//								if (p != null) {
+//									p.kick("You are globally banned from VolumetricBans servers, see volumetricbans.net!");
+//									plugin.getLogger().info(
+//											"Kicked globally permabanned player "
+//													+ player + "!");
+//								}
+//								cache.recent.put(player, true);
+//							} else {
+//								cache.recent.put(player, false);
+//							}
+//						}
+//					} catch (final DataRetrievalException e) {
+//						e.printStackTrace();
+//					}
+//				} catch (final InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * Checks global bans on players, and kicks accordingly
