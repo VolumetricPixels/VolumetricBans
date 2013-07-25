@@ -12,13 +12,15 @@ import com.volumetricpixels.bans.command.VBCommand;
  * The /vb version command
  */
 public class VBVersionCommand extends VBCommand {
-    public VBVersionCommand(final VolumetricBans plugin) {
-        super(plugin, "version");
-    }
+	public VBVersionCommand(final VolumetricBans plugin) {
+		super(plugin, "version");
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void execute(final CommandSource source, final Command cmd, final CommandArguments args) throws CommandException {
-        source.sendMessage("Running VolumetricBans version " + plugin.getDescription().getVersion());
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void execute(final CommandSource source, final Command cmd,
+			final CommandArguments args) throws CommandException {
+		source.sendMessage("Running VolumetricBans version "
+				+ plugin.getDescription().getVersion());
+	}
 }

@@ -12,13 +12,15 @@ import com.volumetricpixels.bans.command.VBCommand;
  * The /vb status command
  */
 public class VBStatusCommand extends VBCommand {
-    public VBStatusCommand(final VolumetricBans plugin) {
-        super(plugin, "status");
-    }
+	public VBStatusCommand(final VolumetricBans plugin) {
+		super(plugin, "status");
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void execute(final CommandSource source, final Command cmd, final CommandArguments context) throws CommandException {
-        source.sendMessage("Running in " + plugin.getOnlineModeState() + " mode");
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void execute(final CommandSource source, final Command cmd,
+			final CommandArguments context) throws CommandException {
+		source.sendMessage("Running in " + plugin.getOnlineModeState()
+				+ " mode");
+	}
 }

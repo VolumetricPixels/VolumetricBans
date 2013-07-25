@@ -1,6 +1,5 @@
 package com.volumetricpixels.bans.command;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -7,7 +7,6 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.command.VBCommand;
-import com.volumetricpixels.bans.command.VBCommandHelper;
 
 /**
  * The /vb unban command

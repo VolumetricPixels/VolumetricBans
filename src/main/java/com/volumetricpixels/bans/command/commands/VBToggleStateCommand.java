@@ -25,6 +25,7 @@ public class VBToggleStateCommand extends VBCommand {
 		} else {
 			plugin.setOnlineMode(true);
 		}
-		source.sendMessage("Now running in" + plugin.getOnlineModeState() + " mode");
+		source.sendMessage("Now running in" + plugin.getOnlineModeState()
+				+ " mode");
 	}
 }

@@ -5,9 +5,6 @@ import gnu.trove.map.hash.THashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import lib.org.json.JSONException;
-import lib.org.json.JSONObject;
-
 import org.spout.api.Engine;
 import org.spout.api.Platform;
 import org.spout.api.Server;
@@ -18,6 +15,9 @@ import org.spout.api.scheduler.Task;
 
 import org.spout.cereal.config.ConfigurationException;
 import org.spout.cereal.config.yaml.YamlConfiguration;
+
+import lib.org.json.JSONException;
+import lib.org.json.JSONObject;
 
 import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.command.VBCommands;
@@ -52,7 +52,7 @@ public final class VolumetricBans extends Plugin {
 	/** Whether we can connect to the VB servers */
 	private boolean canConnectToServers = true;
 	/** Whether the server is premium */
-	private boolean premium = false;
+	private final boolean premium = false;
 
 	// General plugin objects
 	/** Keeps track of files used by the plugin */

@@ -13,14 +13,15 @@ import com.volumetricpixels.bans.command.VBCommandHelper;
  * The /vb help command
  */
 public class VBHelpCommand extends VBCommand {
-    public VBHelpCommand(final VolumetricBans plugin) {
-        super(plugin, "help");
-    }
+	public VBHelpCommand(final VolumetricBans plugin) {
+		super(plugin, "help");
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void execute(final CommandSource source, final Command cmd, final CommandArguments context) throws CommandException {
-        final VBCommandHelper cmdHelper = plugin.getCommandHelper();
-        cmdHelper.sendVBHelp(source, context);
-    }
+	/** {@inheritDoc} */
+	@Override
+	public void execute(final CommandSource source, final Command cmd,
+			final CommandArguments context) throws CommandException {
+		final VBCommandHelper cmdHelper = plugin.getCommandHelper();
+		cmdHelper.sendVBHelp(source, context);
+	}
 }

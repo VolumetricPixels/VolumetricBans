@@ -3,7 +3,15 @@ package com.volumetricpixels.bans.command;
 import org.spout.api.command.Command;
 
 import com.volumetricpixels.bans.VolumetricBans;
-import com.volumetricpixels.bans.command.commands.*;
+import com.volumetricpixels.bans.command.commands.VBBanCommand;
+import com.volumetricpixels.bans.command.commands.VBHelpCommand;
+import com.volumetricpixels.bans.command.commands.VBLookupCommand;
+import com.volumetricpixels.bans.command.commands.VBMuteCommand;
+import com.volumetricpixels.bans.command.commands.VBStatusCommand;
+import com.volumetricpixels.bans.command.commands.VBToggleStateCommand;
+import com.volumetricpixels.bans.command.commands.VBUnbanCommand;
+import com.volumetricpixels.bans.command.commands.VBUnmuteCommand;
+import com.volumetricpixels.bans.command.commands.VBVersionCommand;
 
 /**
  * Registration for /vb commands

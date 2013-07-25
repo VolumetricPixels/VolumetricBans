@@ -10,7 +10,6 @@ import org.spout.api.exception.CommandException;
 
 import com.volumetricpixels.bans.VolumetricBans;
 import com.volumetricpixels.bans.command.VBCommand;
-import com.volumetricpixels.bans.command.VBCommandHelper;
 import com.volumetricpixels.bans.punishment.Ban;
 import com.volumetricpixels.bans.storage.PunishmentStorage;
 import com.volumetricpixels.bans.util.TimeUnit;

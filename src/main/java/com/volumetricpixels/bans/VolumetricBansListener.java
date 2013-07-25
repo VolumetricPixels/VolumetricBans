@@ -3,10 +3,8 @@ package com.volumetricpixels.bans;
 import gnu.trove.map.hash.THashMap;
 
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.spout.api.Server;
 import org.spout.api.entity.Player;
