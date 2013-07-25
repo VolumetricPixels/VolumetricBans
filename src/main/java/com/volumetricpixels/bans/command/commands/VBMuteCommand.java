@@ -27,7 +27,7 @@ public class VBMuteCommand extends VBCommand {
     @Override
     public void execute(final CommandSource source, final Command cmd, final CommandArguments context) throws CommandException {
         try {
-            final String target = context.getString(0);
+            final String target = context.get().get(0);
             if (target == null) {
                 throw new CommandException("You must specify a target!");
             }

@@ -21,7 +21,7 @@ public class VBUnmuteCommand extends VBCommand {
 	public void execute(final CommandSource source, final Command cmd,
 			final CommandArguments args) throws CommandException {
 		try {
-			final String target = args.getString(0);
+			final String target = args.get().get(0);
 			plugin.getPunishmentManager().removeMutesOnPlayer(target);
 			source.sendMessage("Unmuted " + target);
 		} catch (final ArrayIndexOutOfBoundsException e) {

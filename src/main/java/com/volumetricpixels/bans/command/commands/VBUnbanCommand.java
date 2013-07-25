@@ -22,7 +22,7 @@ public class VBUnbanCommand extends VBCommand {
 	public void execute(final CommandSource source, final Command cmd,
 			final CommandArguments args) throws CommandException {
 		try {
-			final String target = args.getString(0);
+			final String target = args.get().get(0);
 			plugin.getPunishmentManager().removeBansOnPlayer(target);
 			source.sendMessage("Unbanned " + target);
 		} catch (final ArrayIndexOutOfBoundsException e) {

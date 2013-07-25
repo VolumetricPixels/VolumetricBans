@@ -55,7 +55,7 @@ public class VBCommandHelper {
 
 		if (args.length() > 0) {
 			try {
-				page = args.getInteger(0);
+				page = Integer.parseInt(args.get().get(0));
 				if (page > pages || page < 0) {
 					throw new CommandException("Invalid page number!");
 				}

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.spout.api.Server;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
@@ -169,8 +170,8 @@ public final class VolumetricBansListener implements Listener {
 			if (player != null) {
 				try {
 					if (Utilities.isPermaGlobalBanned(arh, player)) {
-						final Player p = plugin.getEngine().getPlayer(player,
-								true);
+						final Player p = ((Server) plugin.getEngine())
+								.getPlayer(player, true);
 						if (p != null) {
 							p.kick("You are globally banned from VolumetricBans servers, see volumetricbans.net!");
 							plugin.getLogger().info(
