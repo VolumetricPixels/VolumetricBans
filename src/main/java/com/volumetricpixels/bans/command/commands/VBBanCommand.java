@@ -2,6 +2,7 @@ package com.volumetricpixels.bans.command.commands;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandArguments;
@@ -27,23 +28,23 @@ public class VBBanCommand extends VBCommand {
 	public void execute(final CommandSource source, final Command cmd,
 			final CommandArguments context) throws CommandException {
 		try {
-			final String target = context.get().get(0);
+			List<String> allArgs = context.get();
+			final String target = allArgs.get(0);
 			if (target == null) {
 				throw new CommandException("You must specify a target!");
 			}
-			final String timeStr = context.getFlagString('t');
-			final String globalStr = context.getFlagString('g');
+			final String timeStr = context.getString("t");
+			final boolean global = context.flags().hasFlag("g");
 			int initialIndex = 1;
 			if (timeStr != null) {
 				initialIndex++;
 			}
-			if (globalStr != null) {
+			if (global) {
 				initialIndex++;
 			}
 
-			String reason = context.getJoinedString(initialIndex);
-			final boolean global = globalStr.equals("yes")
-					|| Boolean.parseBoolean(globalStr);
+			String reason = context.popRemainingStrings(allArgs
+					.get(initialIndex - 1));
 
 			boolean temp = false;
 			long time = -1;
